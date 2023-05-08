@@ -2,3 +2,8 @@
 title: "Deep Learning"
 author: "Christian Sühl"
 ---
+
+BDML fertig stellen
+Gucken, ob beide Webseiten online gehen
+Gucken, ob das Password für beide funktioniert
+Beide Formulare neu ausfüllen
