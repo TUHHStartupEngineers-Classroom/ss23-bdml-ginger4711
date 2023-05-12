@@ -1,4 +1,0 @@
----
-title: "Maschine Learning Fundamentals"
-author: "Christian Sühl"
----

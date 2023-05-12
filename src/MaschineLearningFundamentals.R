@@ -254,17 +254,17 @@ cluster_trends_tbl <- customer_trends_tbl %>%
   left_join(umap_kmeans_3_results_tbl) %>%
   ### continued in pipe part 2 ###
   
-?quantile
-customer_trends_tbl %>%
-  pull(PRICE) %>%
-  quantile(probs = c(0, 0.33, 0.66, 1))
+# ?quantile
+#customer_trends_tbl %>%
+#  pull(PRICE) %>%
+#  quantile(probs = c(0, 0.33, 0.66, 1))
 
-# pipe part 2
-mutate(price_bin = case_when(
-  PRICE <= 2.77 ~ "low",
-  PRICE <= 4.05 ~ "medium",
-  TRUE ~ "high"
-))  %>%
+  # pipe part 2
+  mutate(price_bin = case_when(
+    PRICE <= 2.77 ~ "low",
+    PRICE <= 4.05 ~ "medium",
+    TRUE ~ "high"
+  ))  %>%
   
   # pipe part 3
   select(.cluster, UPC, DESCRIPTION, contains("PRICE"), 

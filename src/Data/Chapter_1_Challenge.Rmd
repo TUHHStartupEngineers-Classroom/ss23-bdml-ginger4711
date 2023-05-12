@@ -119,7 +119,16 @@ Your first task is to convert to a tibble named `sp_500_daily_returns_tbl` by pe
 
 ```{r}
 # Apply your data transformation skills!
-
+sp_500_daily_returns_tbl <- sp_500_prices_tbl %>% #Take sp_500_prices_tbl
+                            select(symbol,date,adjusted) %>% #Select symbol, date and adjusted
+                            filter(date > "2018-01-01") %>% #Filter for newer then 2018
+                            group_by(symbol) %>%
+                            mutate(lag = lag(adjusted)) %>% #Compute lagged adjusted
+                            ungroup() %>%
+                            filter(!is.na(lag)) %>% #Filter for not a number
+                            mutate(pct_return = (adjusted - lag) / lag) %>% #Compute pct_return
+                            select(symbol,date,pct_return) %>% #Select symobl,date and pct_return
+                            as_tibble() #Convert to tibble
 # Output: sp_500_daily_returns_tbl
 ```
 
@@ -143,7 +152,8 @@ Now that we have the daily returns (percentage change from one day to the next),
 
 ```{r}
 # Convert to User-Item Format
-
+stock_date_matrix_tbl <- sp_500_daily_returns_tbl %>%
+                         pivot_wider(names_from = date, values_from = pct_return, values_fill = 0)
 # Output: stock_date_matrix_tbl
 ```
 
@@ -156,6 +166,7 @@ Next, we'll perform __K-Means clustering__.
 We're going to import the correct results first (just in case you were not able to complete the last step).
 ```{r}
 stock_date_matrix_tbl <- read_rds("stock_date_matrix_tbl.rds")
+stock_date_matrix_tbl
 ```
 
 Beginning with the `stock_date_matrix_tbl`, perform the following operations:
@@ -166,14 +177,17 @@ Beginning with the `stock_date_matrix_tbl`, perform the following operations:
 
 ```{r}
 # Create kmeans_obj for 4 centers
-
+kmeans_obj <- stock_date_matrix_tbl %>%
+              select(-symbol) %>% #Drop the symbol column
+              kmeans(centers=4,nstart=20)
 ```
 
 Use `glance()` to get the `tot.withinss`. 
 
 ```{r}
 # Apply glance() to get the tot.withinss
-
+tot_withinss <- glance(kmeans_obj)$tot.withinss
+tot_withinss
 ```
 
 ## Step 4 - Find the optimal value of K
@@ -200,8 +214,9 @@ Apply the `kmeans_mapper()` and `glance()` functions iteratively using `purrr`.
 
 ```{r}
 # Use purrr to map
-
-
+k_means_mapped_tbl <- tibble(centers=1:30) %>% #Create a tibble with centers from 1 to 30
+                      mutate(k_means = map(centers,kmeans_mapper)) %>% #Compute k_means column
+                      mutate(glance = map(k_means,glance)) #Add glance column
 # Output: k_means_mapped_tbl 
 ```
 
@@ -214,9 +229,12 @@ Next, let's visualize the "tot.withinss" from the glance output as a ___Scree Pl
 
 ```{r}
 # Visualize Scree Plot
-
-
-
+k_means_mapped_tbl %>% unnest(glance) %>%#Unnest the glance column
+                       ggplot(aes(x=centers,y=tot.withinss)) +
+                       geom_point() +
+                       geom_line() +
+                       ggtitle("Scree Plot") +
+                       theme_dark()
 ```
 
 We can see that the Scree Plot becomes linear (constant rate of change) between 5 and 10 centers for K.
@@ -239,7 +257,9 @@ First, let's apply the `umap()` function to the `stock_date_matrix_tbl`, which c
 - Use the `umap()` function storing the output as `umap_results`
 ```{r}
 # Apply UMAP
-
+umap_results <- stock_date_matrix_tbl  %>%
+                select(-symbol) %>% #De-select the `symbol` column
+                umap()
 # Store results as: umap_results 
 ```
 
@@ -252,7 +272,8 @@ Next, we want to combine the `layout` from the `umap_results` with the `symbol` 
 
 ```{r}
 # Convert umap results to tibble with symbols
-
+umap_results_tbl <- umap_results$layout %>% as_tibble() #Convert from a `matrix` data type to a `tibble`
+                    bind_cols(stock_date_matrix_tbl$symbol) #Bind with symbol column from the stock_date_matrix_tbl
 # Output: umap_results_tbl
 ```
 
@@ -264,7 +285,8 @@ Finally, let's make a quick visualization of the `umap_results_tbl`.
 
 ```{r}
 # Visualize UMAP results
-
+umap_results_tbl %>% ggplot(aes(x=V1,y=V2)) +
+                     geom_point(alpha=0.5)
 ```
 
 We can now see that we have some clusters. However, we still need to combine the K-Means clusters and the UMAP 2D representation. 
@@ -287,7 +309,8 @@ Have a look at the business case to recall how that works.
 
 ```{r}
 # Get the k_means_obj from the 10th center
-
+k_means_obj <- k_means_mapped_tbl %>%
+               filter(centers == 10)
 # Store as k_means_obj
 ```
 
@@ -302,8 +325,11 @@ Next, we'll combine the clusters from the `k_means_obj` with the `umap_results_t
 
 ```{r}
 # Use your dplyr & broom skills to combine the k_means_obj with the umap_results_tbl
-
-
+umap_kmeans_results_tbl <- k_means_obj %>% #Begin with the `k_means_obj`
+                           bind_cols(stock_date_matrix_tbl) %>% #Augment
+                           select(symbol,k_means) %>% #Select columns
+                           left_join(umap_results_tbl,by="symbol") %>%
+                           left_join(sp_500_index_tbl %>% select(symbol, company, sector), by = "symbol")
 # Output: umap_kmeans_results_tbl 
 ```
 
@@ -316,8 +342,10 @@ Plot the K-Means and UMAP results.
 
 ```{r}
 # Visualize the combined K-Means and UMAP results
-
-
+umap_kmeans_results_tbl %>% ggplot(aes(x = V1, y = V2, color = factor(k_means))) +
+                            geom_point(alpha = 0.5) +
+                            ggtitle("K-Means and UMAP results") +
+                            scale_color_manual(values = palette_light() %>% rep(3))
 ```
 
 Congratulations! You are done with the 1st challenge!

@@ -15,7 +15,7 @@ website:
       - text: "Journal"
         menu: 
           - text: "01 Maschine Learning Fundamentals"
-            file: content/01_journal/01_maschine_learning_fundamentals.qmd
+            file: src/Data/Chapter_1_Challenge.Rmd
           - text: "02 Supervised ML Regression"
             file: content/01_journal/02_supervised_ML_regression.qmd
           - text: "03 Automated Maschine Learning with H2O"
