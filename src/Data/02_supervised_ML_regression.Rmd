@@ -1,0 +1,110 @@
+---
+title: "Supervised ML Regression"
+author: "Christian Sühl"
+---
+
+
+```{r}
+# Standard
+library(tidyverse)
+
+# Modeling
+library(parsnip)
+
+# Preprocessing & Sampling
+library(recipes)
+library(rsample)
+
+# Modeling Error Metrics
+library(yardstick)
+
+# Plotting Decision Trees
+library(rpart.plot)
+```
+
+```{r}
+# Modeling ----------------------------------------------------------------
+bike_orderlines_tbl <- readRDS("bike_orderlines.rds")
+glimpse(bike_orderlines_tbl)
+
+model_sales_tbl <- bike_orderlines_tbl %>%
+  select(total_price, model, category_2, frame_material) %>%
+  
+  group_by(model, category_2, frame_material) %>%
+  summarise(total_sales = sum(total_price)) %>%
+  ungroup() %>%
+  
+  arrange(desc(total_sales))
+
+model_sales_tbl %>%
+  mutate(category_2 = as_factor(category_2) %>% 
+           fct_reorder(total_sales, .fun = max) %>% 
+           fct_rev()) %>%
+  
+  ggplot(aes(frame_material, total_sales)) +
+  geom_violin() +
+  geom_jitter(width = 0.1, alpha = 0.5, color = "#2c3e50") +
+  #coord_flip() +
+  facet_wrap(~ category_2) +
+  scale_y_continuous(labels = scales::dollar_format(scale = 1e-6, suffix = "M", accuracy = 0.1)) +
+  tidyquant::theme_tq() +
+  labs(
+    title = "Total Sales for Each Model",
+    x = "Frame Material", y = "Revenue"
+  )
+
+  bike_features_tbl <- readRDS("bike_features_tbl.rds")
+  glimpse(bike_features_tbl)
+```
+
+```{r}
+# Create a recipe object
+bike_recipe <- recipe(total_sales ~ frame_material + category_2, data = model_sales_tbl) %>%
+  step_rm(frame_material,category_2) %>%
+  step_dummy(one_hot = T) %>%
+  #step_center(all_nominal()) %>%
+  #step_scale(all_nominal()) %>%
+  prep()
+```
+
+
+```{r}
+# run both following commands at the same time
+set.seed(seed = 1113)
+split_obj <- rsample::initial_split(bike_features_tbl, prop   = 0.80, 
+                                                       strata = "category_2")
+
+# Check if testing contains all category_2 values
+split_obj %>% training() %>% distinct(category_2)
+split_obj %>% testing() %>% distinct(category_2)
+
+# Assign training and test data
+train_tbl <- training(split_obj)
+test_tbl  <- testing(split_obj)
+
+train_transformed_tbl <- bake(bike_recipe, new_data = train_tbl)
+test_transformed_tbl <- bake(bike_recipe, new_data = test_tbl)
+```
+
+```{r}
+model_01_linear_lm_simple <- linear_reg(mode = "regression") %>%
+    set_engine("lm")
+```
+
+```{r}
+library(workflows)
+
+workflow <- workflow() %>% 
+  add_recipe(bike_recipe) %>% 
+  add_model(model_01_linear_lm_simple)
+
+
+fitted_workflow <- fit(workflow, data = train_transformed_tbl)
+
+model %>%
+    predict(new_data = test_transformed_tbl) %>%
+
+    bind_cols(test_tbl %>% select(price)) %>%
+    yardstick::metrics(truth = price, estimate = .pred)
+```
+
