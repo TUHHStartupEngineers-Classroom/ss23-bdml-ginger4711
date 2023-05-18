@@ -17,7 +17,7 @@ website:
           - text: "01 Maschine Learning Fundamentals"
             file: src/Data/Chapter_1_Challenge.Rmd
           - text: "02 Supervised ML Regression"
-            file: src/Data/02_supervised_ML_regression.qmd
+            file: src/Data/02_supervised_ML_regression.Rmd
           - text: "03 Automated Maschine Learning with H2O"
             file: content/01_journal/03_automated_maschine_learning_with_H2O.qmd
           - text: "04 Performance Measures"

@@ -53,25 +53,32 @@ model_sales_tbl %>%
     x = "Frame Material", y = "Revenue"
   )
 
-  bike_features_tbl <- readRDS("bike_features_tbl.rds")
-  glimpse(bike_features_tbl)
+bike_features_tbl <- readRDS("bike_features_tbl.rds")
+glimpse(bike_features_tbl)
+  
+  # 2.0 TRAINING & TEST SETS ----
+bike_features_tbl <- bike_features_tbl %>% 
+  
+  mutate(id = row_number()) %>% 
+  
+  select(id, everything(), -url)
+  
 ```
 
 ```{r}
 # Create a recipe object
-bike_recipe <- recipe(total_sales ~ frame_material + category_2, data = model_sales_tbl) %>%
-  step_rm(frame_material,category_2) %>%
-  step_dummy(one_hot = T) %>%
-  #step_center(all_nominal()) %>%
-  #step_scale(all_nominal()) %>%
+bike_recipe <- recipe(price ~ frame_material + category_2 + model, data = bike_orderlines_tbl) %>%
+  step_dummy(all_nominal(),-frame_material,-category_2,-model,one_hot = T) %>%
   prep()
 ```
 
 
 ```{r}
+bike_orderlines_tbl %>% distinct(category_2)
+
 # run both following commands at the same time
 set.seed(seed = 1113)
-split_obj <- rsample::initial_split(bike_features_tbl, prop   = 0.80, 
+split_obj <- rsample::initial_split(bike_orderlines_tbl, prop   = 0.80, 
                                                        strata = "category_2")
 
 # Check if testing contains all category_2 values
@@ -81,6 +88,10 @@ split_obj %>% testing() %>% distinct(category_2)
 # Assign training and test data
 train_tbl <- training(split_obj)
 test_tbl  <- testing(split_obj)
+
+# We have to remove spaces and dashes from the column names
+train_tbl <- train_tbl %>% set_names(str_replace_all(names(train_tbl), " |-", "_"))
+test_tbl  <- test_tbl  %>% set_names(str_replace_all(names(test_tbl),  " |-", "_"))
 
 train_transformed_tbl <- bake(bike_recipe, new_data = train_tbl)
 test_transformed_tbl <- bake(bike_recipe, new_data = test_tbl)
@@ -94,17 +105,18 @@ model_01_linear_lm_simple <- linear_reg(mode = "regression") %>%
 ```{r}
 library(workflows)
 
-workflow <- workflow() %>% 
-  add_recipe(bike_recipe) %>% 
-  add_model(model_01_linear_lm_simple)
+workflow <- workflow(preprocessor = NULL, spec = NULL) %>% 
+  workflows::add_recipe(bike_recipe) %>% 
+  workflows::add_model(model_01_linear_lm_simple)
 
+wf_recipe <- workflow(bike_recipe, model_01_linear_lm_simple)
+fit(wf_recipe, train_transformed_tbl)
 
-fitted_workflow <- fit(workflow, data = train_transformed_tbl)
+lm_fit <- fit(workflow, train_transformed_tbl)
 
-model %>%
-    predict(new_data = test_transformed_tbl) %>%
-
-    bind_cols(test_tbl %>% select(price)) %>%
-    yardstick::metrics(truth = price, estimate = .pred)
+metrics <- lm_fit %>%
+           predict(new_data = test_transformed_tbl) %>%
+           bind_cols(test_transformed_tbl %>% select(price)) %>%
+           yardstick::metrics(truth = price, estimate = .pred) %>% print()
 ```
 
