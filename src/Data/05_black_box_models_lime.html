@@ -21,6 +21,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -43,6 +106,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -165,8 +231,1254 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="business-case" class="level1">
+<h1>Business case</h1>
+<div class="cell" data-hash="05_black_box_models_lime_cache/html/unnamed-chunk-1_3d15a8c137c1cf88ab513917861de801">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># LIME FEATURE EXPLANATION ----</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Setup ----</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Libraries </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(h2o)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+----------------------------------------------------------------------
+
+Your next step is to start H2O:
+    &gt; h2o.init()
+
+For H2O package documentation, ask for help:
+    &gt; ??h2o
+
+After starting H2O, you can use the Web UI at http://localhost:54321
+For more information visit https://docs.h2o.ai
+
+----------------------------------------------------------------------</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'h2o'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    cor, sd, var</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    %*%, %in%, &amp;&amp;, ||, apply, as.factor, as.numeric, colnames,
+    colnames&lt;-, ifelse, is.character, is.factor, is.numeric, log,
+    log10, log1p, log2, round, signif, trunc</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(recipes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: dplyr</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'recipes'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    step</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+v forcats   1.0.0     v readr     2.1.4
+v ggplot2   3.4.2     v stringr   1.5.0
+v lubridate 1.9.2     v tibble    3.2.1
+v purrr     1.0.1     v tidyr     1.3.0</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x lubridate::day()   masks h2o::day()
+x dplyr::filter()    masks stats::filter()
+x stringr::fixed()   masks recipes::fixed()
+x lubridate::hour()  masks h2o::hour()
+x dplyr::lag()       masks stats::lag()
+x lubridate::month() masks h2o::month()
+x lubridate::week()  masks h2o::week()
+x lubridate::year()  masks h2o::year()
+i Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: PerformanceAnalytics
+Loading required package: xts
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
 
 
+######################### Warning from 'xts' package ##########################
+#                                                                             #
+# The dplyr lag() function breaks how base R's lag() function is supposed to  #
+# work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #
+# source() into this session won't work correctly.                            #
+#                                                                             #
+# Use stats::lag() to make sure you're not using dplyr::lag(), or you can add #
+# conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop           #
+# dplyr from breaking base R's lag() function.                                #
+#                                                                             #
+# Code in packages is not affected. It's protected by R's namespace mechanism #
+# Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #
+#                                                                             #
+###############################################################################
+
+Attaching package: 'xts'
+
+The following objects are masked from 'package:dplyr':
+
+    first, last
+
+
+Attaching package: 'PerformanceAnalytics'
+
+The following object is masked from 'package:graphics':
+
+    legend
+
+Loading required package: quantmod
+Loading required package: TTR
+Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lime)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lime'
+
+The following object is masked from 'package:dplyr':
+
+    explain</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsample)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>employee_attrition_tbl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datasets-1067-1925-WA_Fn-UseC_-HR-Employee-Attrition.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1470 Columns: 35
+-- Column specification --------------------------------------------------------
+Delimiter: ","
+chr  (9): Attrition, BusinessTravel, Department, EducationField, Gender, Job...
+dbl (26): Age, DailyRate, DistanceFromHome, Education, EmployeeCount, Employ...
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>definitions_raw_tbl    <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data_definitions.xlsx"</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+* `` -&gt; `...1`
+* `` -&gt; `...2`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>process_hr_data_readable <span class="ot">&lt;-</span> <span class="cf">function</span>(data, definitions_tbl) {</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  definitions_list <span class="ot">&lt;-</span> definitions_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(...<span class="dv">1</span>, <span class="at">.direction =</span> <span class="st">"down"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(...<span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(...<span class="dv">2</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"key"</span>, <span class="st">"value"</span>), <span class="at">sep =</span> <span class="st">" '"</span>, <span class="at">remove =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">column_name =</span> ...<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">key =</span> <span class="fu">as.numeric</span>(key)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">value =</span> value <span class="sc">%&gt;%</span> <span class="fu">str_replace</span>(<span class="at">pattern =</span> <span class="st">"'"</span>, <span class="at">replacement =</span> <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">split</span>(.<span class="sc">$</span>column_name) <span class="sc">%&gt;%</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">select</span>(., <span class="sc">-</span>column_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">mutate</span>(., <span class="at">value =</span> <span class="fu">as_factor</span>(value))) </span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(definitions_list)) {</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    list_name <span class="ot">&lt;-</span> <span class="fu">names</span>(definitions_list)[i]</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colnames</span>(definitions_list[[i]]) <span class="ot">&lt;-</span> <span class="fu">c</span>(list_name, <span class="fu">paste0</span>(list_name, <span class="st">"_value"</span>))</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  data_merged_tbl <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">HR_Data =</span> data) <span class="sc">%&gt;%</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">append</span>(definitions_list, <span class="at">after =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">reduce</span>(left_join) <span class="sc">%&gt;%</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span><span class="fu">one_of</span>(<span class="fu">names</span>(definitions_list))) <span class="sc">%&gt;%</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_names</span>(<span class="fu">str_replace_all</span>(<span class="fu">names</span>(.), <span class="at">pattern =</span> <span class="st">"_value"</span>, </span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>                              <span class="at">replacement =</span> <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="fu">sort</span>(<span class="fu">names</span>(.))) <span class="sc">%&gt;%</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate_if</span>(is.character, as.factor) <span class="sc">%&gt;%</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">BusinessTravel =</span> BusinessTravel <span class="sc">%&gt;%</span> <span class="fu">fct_relevel</span>(<span class="st">"Non-Travel"</span>, </span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">"Travel_Rarely"</span>, </span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a>                                                      <span class="st">"Travel_Frequently"</span>),</span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">MaritalStatus  =</span> MaritalStatus <span class="sc">%&gt;%</span> <span class="fu">fct_relevel</span>(<span class="st">"Single"</span>, </span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a>                                                     <span class="st">"Married"</span>, </span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a>                                                     <span class="st">"Divorced"</span>)</span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-36"><a href="#cb24-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(data_merged_tbl)</span>
+<span id="cb24-37"><a href="#cb24-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-38"><a href="#cb24-38" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-39"><a href="#cb24-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-40"><a href="#cb24-40" aria-hidden="true" tabindex="-1"></a>employee_attrition_readable_tbl <span class="ot">&lt;-</span> <span class="fu">process_hr_data_readable</span>(employee_attrition_tbl, definitions_raw_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Education)`
+Joining with `by = join_by(EnvironmentSatisfaction)`
+Joining with `by = join_by(JobInvolvement)`
+Joining with `by = join_by(JobSatisfaction)`
+Joining with `by = join_by(PerformanceRating)`
+Joining with `by = join_by(RelationshipSatisfaction)`
+Joining with `by = join_by(WorkLifeBalance)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split into test and train</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="at">seed =</span> <span class="dv">1113</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>split_obj <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">initial_split</span>(employee_attrition_readable_tbl, <span class="at">prop =</span> <span class="fl">0.85</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign training and test data</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>train_readable_tbl <span class="ot">&lt;-</span> <span class="fu">training</span>(split_obj)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>test_readable_tbl  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_obj)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ML Preprocessing Recipe </span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>recipe_obj <span class="ot">&lt;-</span> <span class="fu">recipe</span>(Attrition <span class="sc">~</span> ., <span class="at">data =</span> train_readable_tbl) <span class="sc">%&gt;%</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>                <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>                <span class="fu">step_mutate_at</span>(<span class="fu">c</span>(<span class="st">"JobLevel"</span>, <span class="st">"StockOptionLevel"</span>), <span class="at">fn =</span> as.factor) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>                <span class="fu">prep</span>()</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>recipe_obj</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+-- Recipe ----------------------------------------------------------------------
+
+-- Inputs 
+Number of variables by role
+outcome:    1
+predictor: 34
+
+-- Training information 
+Training data contained 1249 data points and no incomplete rows.
+
+-- Operations 
+* Zero variance filter removed: EmployeeCount, Over18, StandardHours | Trained
+* Variable mutation for: JobLevel, StockOptionLevel | Trained</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>train_tbl <span class="ot">&lt;-</span> <span class="fu">bake</span>(recipe_obj, <span class="at">new_data =</span> train_readable_tbl)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>test_tbl  <span class="ot">&lt;-</span> <span class="fu">bake</span>(recipe_obj, <span class="at">new_data =</span> test_readable_tbl)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Models ----</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">h2o.init</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Connection successful!
+
+R is connected to the H2O cluster: 
+    H2O cluster uptime:         7 hours 15 minutes 
+    H2O cluster timezone:       Europe/Berlin 
+    H2O data parsing timezone:  UTC 
+    H2O cluster version:        3.40.0.1 
+    H2O cluster version age:    3 months and 12 days 
+    H2O cluster name:           H2O_started_from_R_Chris_yuh446 
+    H2O cluster total nodes:    1 
+    H2O cluster total memory:   2.16 GB 
+    H2O cluster total cores:    12 
+    H2O cluster allowed cores:  12 
+    H2O cluster healthy:        TRUE 
+    H2O Connection ip:          localhost 
+    H2O Connection port:        54321 
+    H2O Connection proxy:       NA 
+    H2O Internal Security:      FALSE 
+    R Version:                  R version 4.0.5 (2021-03-31) </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in h2o.clusterInfo(): 
+Your H2O cluster version is (3 months and 12 days) old. There may be a newer version available.
+Please download and install the latest version from: https://h2o-release.s3.amazonaws.com/h2o/latest_stable.html</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>automl_leader <span class="ot">&lt;-</span> <span class="fu">h2o.loadModel</span>(<span class="st">"04_Modeling/h20_models/DRF_1_AutoML_28_20230520_183822"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>automl_leader</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model Details:
+==============
+
+H2OBinomialModel: drf
+Model ID:  DRF_1_AutoML_28_20230520_183822 
+Model Summary: 
+  number_of_trees number_of_internal_trees model_size_in_bytes min_depth
+1              46                       46               66692        11
+  max_depth mean_depth min_leaves max_leaves mean_leaves
+1        17   13.32609         88        129   110.36957
+
+
+H2OBinomialMetrics: drf
+** Reported on training data. **
+** Metrics reported on Out-Of-Bag training samples **
+
+MSE:  0.1091607
+RMSE:  0.3303948
+LogLoss:  0.6215371
+Mean Per-Class Error:  0.2860322
+AUC:  0.7497888
+AUCPR:  0.3857798
+Gini:  0.4995777
+R^2:  0.1228901
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error       Rate
+No     735 174 0.191419   =174/909
+Yes     59  96 0.380645    =59/155
+Totals 794 270 0.218985  =233/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.227273   0.451765  65
+2                       max f2  0.187500   0.541922  74
+3                 max f0point5  0.320000   0.444596  46
+4                 max accuracy  0.538462   0.859962  16
+5                max precision  0.800000   1.000000   0
+6                   max recall  0.000000   1.000000 116
+7              max specificity  0.800000   1.000000   0
+8             max absolute_mcc  0.300000   0.347232  51
+9   max min_per_class_accuracy  0.181818   0.690323  76
+10 max mean_per_class_accuracy  0.227273   0.713968  65
+11                     max tns  0.800000 909.000000   0
+12                     max fns  0.800000 154.000000   0
+13                     max fps  0.000000 909.000000 116
+14                     max tps  0.000000 155.000000 116
+15                     max tnr  0.800000   1.000000   0
+16                     max fnr  0.800000   0.993548   0
+17                     max fpr  0.000000   1.000000 116
+18                     max tpr  0.000000   1.000000 116
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: drf
+** Reported on validation data. **
+
+MSE:  0.1271733
+RMSE:  0.3566136
+LogLoss:  0.4095014
+Mean Per-Class Error:  0.2429288
+AUC:  0.7916219
+AUCPR:  0.5760425
+Gini:  0.5832438
+R^2:  0.220819
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error     Rate
+No     122  25 0.170068  =25/147
+Yes     12  26 0.315789   =12/38
+Totals 134  51 0.200000  =37/185
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.260870   0.584270  18
+2                       max f2  0.173913   0.657895  22
+3                 max f0point5  0.347826   0.601266  14
+4                 max accuracy  0.347826   0.837838  14
+5                max precision  0.782609   1.000000   0
+6                   max recall  0.043478   1.000000  28
+7              max specificity  0.782609   1.000000   0
+8             max absolute_mcc  0.347826   0.466001  14
+9   max min_per_class_accuracy  0.195652   0.734694  21
+10 max mean_per_class_accuracy  0.260870   0.757071  18
+11                     max tns  0.782609 147.000000   0
+12                     max fns  0.782609  37.000000   0
+13                     max fps  0.000000 147.000000  30
+14                     max tps  0.043478  38.000000  28
+15                     max tnr  0.782609   1.000000   0
+16                     max fnr  0.782609   0.973684   0
+17                     max fpr  0.000000   1.000000  30
+18                     max tpr  0.043478   1.000000  28
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: drf
+** Reported on cross-validation data. **
+** 5-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
+
+MSE:  0.1072195
+RMSE:  0.3274439
+LogLoss:  0.450539
+Mean Per-Class Error:  0.3141701
+AUC:  0.7388303
+AUCPR:  0.4193506
+Gini:  0.4776607
+R^2:  0.1384876
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error       Rate
+No     807 102 0.112211   =102/909
+Yes     80  75 0.516129    =80/155
+Totals 887 177 0.171053  =182/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.266667   0.451807  30
+2                       max f2  0.160000   0.528338  40
+3                 max f0point5  0.433333   0.478873  17
+4                 max accuracy  0.433333   0.871241  17
+5                max precision  0.760000   1.000000   0
+6                   max recall  0.000000   1.000000  52
+7              max specificity  0.760000   1.000000   0
+8             max absolute_mcc  0.266667   0.352083  30
+9   max min_per_class_accuracy  0.160000   0.657866  40
+10 max mean_per_class_accuracy  0.240000   0.689159  33
+11                     max tns  0.760000 909.000000   0
+12                     max fns  0.760000 154.000000   0
+13                     max fps  0.000000 909.000000  52
+14                     max tps  0.000000 155.000000  52
+15                     max tnr  0.760000   1.000000   0
+16                     max fnr  0.760000   0.993548   0
+17                     max fpr  0.000000   1.000000  52
+18                     max tpr  0.000000   1.000000  52
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+Cross-Validation Metrics Summary: 
+                             mean       sd cv_1_valid cv_2_valid cv_3_valid
+accuracy                 0.843046 0.021398   0.816901   0.863850   0.826291
+auc                      0.738616 0.047452   0.739412   0.777769   0.752875
+err                      0.156954 0.021398   0.183099   0.136150   0.173709
+err_count               33.400000 4.560702  39.000000  29.000000  37.000000
+f0point5                 0.471185 0.059526   0.396825   0.559701   0.467033
+f1                       0.464520 0.041745   0.434783   0.508475   0.478873
+f2                       0.467599 0.071645   0.480769   0.465839   0.491329
+lift_top_group           4.651961 1.529051   4.896552   4.698529   4.176471
+logloss                  0.450165 0.137775   0.353070   0.365467   0.376165
+max_per_class_error      0.525282 0.100763   0.482759   0.558824   0.500000
+mcc                      0.382730 0.042299   0.334891   0.438458   0.375354
+mean_per_class_accuracy  0.690725 0.034587   0.690686   0.692655   0.694134
+mean_per_class_error     0.309275 0.034587   0.309314   0.307345   0.305866
+mse                      0.106708 0.006655   0.104813   0.109384   0.112639
+pr_auc                   0.426490 0.059228   0.361906   0.486945   0.470138
+precision                0.482214 0.093549   0.375000   0.600000   0.459459
+r2                       0.139951 0.032814   0.108833   0.184581   0.160314
+recall                   0.474718 0.100763   0.517241   0.441176   0.500000
+rmse                     0.326531 0.010325   0.323749   0.330732   0.335618
+specificity              0.906732 0.040756   0.864130   0.944134   0.888268
+                        cv_4_valid cv_5_valid
+accuracy                  0.863850   0.844340
+auc                       0.657657   0.765365
+err                       0.136150   0.155660
+err_count                29.000000  33.000000
+f0point5                  0.485437   0.446927
+f1                        0.408163   0.492308
+f2                        0.352113   0.547945
+lift_top_group            6.870968   2.617284
+logloss                   0.680863   0.475258
+max_per_class_error       0.677419   0.407407
+mcc                       0.353250   0.411700
+mean_per_class_accuracy   0.639312   0.736837
+mean_per_class_error      0.360688   0.263163
+mse                       0.110725   0.095979
+pr_auc                    0.448680   0.364780
+precision                 0.555556   0.421053
+r2                        0.109628   0.136398
+recall                    0.322581   0.592593
+rmse                      0.332753   0.309805
+specificity               0.956044   0.881081</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. LIME ----</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.1 Making Predictions ----</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>predictions_tbl <span class="ot">&lt;-</span> automl_leader <span class="sc">%&gt;%</span> </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">h2o.predict</span>(<span class="at">newdata =</span> <span class="fu">as.h2o</span>(test_tbl)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_cols</span>(</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>        test_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(Attrition, EmployeeNumber)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `as.tibble()` was deprecated in tibble 2.0.0.
+i Please use `as_tibble()` instead.
+i The signature and semantics have changed, see `?as_tibble`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%
+
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>predictions_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 221 x 5
+   predict    No    Yes Attrition EmployeeNumber
+   &lt;fct&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
+ 1 Yes     0.478 0.522  No                    10
+ 2 No      0.891 0.109  No                    16
+ 3 No      0.804 0.196  No                    30
+ 4 No      0.913 0.0870 Yes                   31
+ 5 No      0.957 0.0435 No                    40
+ 6 Yes     0.717 0.283  Yes                   42
+ 7 No      0.957 0.0435 No                    46
+ 8 Yes     0.609 0.391  Yes                   55
+ 9 Yes     0.630 0.370  Yes                   64
+10 No      1     0      No                    77
+# i 211 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.2 Single Explanation ----</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>explainer <span class="ot">&lt;-</span> train_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>Attrition) <span class="sc">%&gt;%</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lime</span>(</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">model           =</span> automl_leader,</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">bin_continuous  =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_bins          =</span> <span class="dv">4</span>,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">quantile_bins   =</span> <span class="cn">TRUE</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>explainer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$model
+Model Details:
+==============
+
+H2OBinomialModel: drf
+Model ID:  DRF_1_AutoML_28_20230520_183822 
+Model Summary: 
+  number_of_trees number_of_internal_trees model_size_in_bytes min_depth
+1              46                       46               66692        11
+  max_depth mean_depth min_leaves max_leaves mean_leaves
+1        17   13.32609         88        129   110.36957
+
+
+H2OBinomialMetrics: drf
+** Reported on training data. **
+** Metrics reported on Out-Of-Bag training samples **
+
+MSE:  0.1091607
+RMSE:  0.3303948
+LogLoss:  0.6215371
+Mean Per-Class Error:  0.2860322
+AUC:  0.7497888
+AUCPR:  0.3857798
+Gini:  0.4995777
+R^2:  0.1228901
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error       Rate
+No     735 174 0.191419   =174/909
+Yes     59  96 0.380645    =59/155
+Totals 794 270 0.218985  =233/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.227273   0.451765  65
+2                       max f2  0.187500   0.541922  74
+3                 max f0point5  0.320000   0.444596  46
+4                 max accuracy  0.538462   0.859962  16
+5                max precision  0.800000   1.000000   0
+6                   max recall  0.000000   1.000000 116
+7              max specificity  0.800000   1.000000   0
+8             max absolute_mcc  0.300000   0.347232  51
+9   max min_per_class_accuracy  0.181818   0.690323  76
+10 max mean_per_class_accuracy  0.227273   0.713968  65
+11                     max tns  0.800000 909.000000   0
+12                     max fns  0.800000 154.000000   0
+13                     max fps  0.000000 909.000000 116
+14                     max tps  0.000000 155.000000 116
+15                     max tnr  0.800000   1.000000   0
+16                     max fnr  0.800000   0.993548   0
+17                     max fpr  0.000000   1.000000 116
+18                     max tpr  0.000000   1.000000 116
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: drf
+** Reported on validation data. **
+
+MSE:  0.1271733
+RMSE:  0.3566136
+LogLoss:  0.4095014
+Mean Per-Class Error:  0.2429288
+AUC:  0.7916219
+AUCPR:  0.5760425
+Gini:  0.5832438
+R^2:  0.220819
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error     Rate
+No     122  25 0.170068  =25/147
+Yes     12  26 0.315789   =12/38
+Totals 134  51 0.200000  =37/185
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.260870   0.584270  18
+2                       max f2  0.173913   0.657895  22
+3                 max f0point5  0.347826   0.601266  14
+4                 max accuracy  0.347826   0.837838  14
+5                max precision  0.782609   1.000000   0
+6                   max recall  0.043478   1.000000  28
+7              max specificity  0.782609   1.000000   0
+8             max absolute_mcc  0.347826   0.466001  14
+9   max min_per_class_accuracy  0.195652   0.734694  21
+10 max mean_per_class_accuracy  0.260870   0.757071  18
+11                     max tns  0.782609 147.000000   0
+12                     max fns  0.782609  37.000000   0
+13                     max fps  0.000000 147.000000  30
+14                     max tps  0.043478  38.000000  28
+15                     max tnr  0.782609   1.000000   0
+16                     max fnr  0.782609   0.973684   0
+17                     max fpr  0.000000   1.000000  30
+18                     max tpr  0.043478   1.000000  28
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: drf
+** Reported on cross-validation data. **
+** 5-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
+
+MSE:  0.1072195
+RMSE:  0.3274439
+LogLoss:  0.450539
+Mean Per-Class Error:  0.3141701
+AUC:  0.7388303
+AUCPR:  0.4193506
+Gini:  0.4776607
+R^2:  0.1384876
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error       Rate
+No     807 102 0.112211   =102/909
+Yes     80  75 0.516129    =80/155
+Totals 887 177 0.171053  =182/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.266667   0.451807  30
+2                       max f2  0.160000   0.528338  40
+3                 max f0point5  0.433333   0.478873  17
+4                 max accuracy  0.433333   0.871241  17
+5                max precision  0.760000   1.000000   0
+6                   max recall  0.000000   1.000000  52
+7              max specificity  0.760000   1.000000   0
+8             max absolute_mcc  0.266667   0.352083  30
+9   max min_per_class_accuracy  0.160000   0.657866  40
+10 max mean_per_class_accuracy  0.240000   0.689159  33
+11                     max tns  0.760000 909.000000   0
+12                     max fns  0.760000 154.000000   0
+13                     max fps  0.000000 909.000000  52
+14                     max tps  0.000000 155.000000  52
+15                     max tnr  0.760000   1.000000   0
+16                     max fnr  0.760000   0.993548   0
+17                     max fpr  0.000000   1.000000  52
+18                     max tpr  0.000000   1.000000  52
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+Cross-Validation Metrics Summary: 
+                             mean       sd cv_1_valid cv_2_valid cv_3_valid
+accuracy                 0.843046 0.021398   0.816901   0.863850   0.826291
+auc                      0.738616 0.047452   0.739412   0.777769   0.752875
+err                      0.156954 0.021398   0.183099   0.136150   0.173709
+err_count               33.400000 4.560702  39.000000  29.000000  37.000000
+f0point5                 0.471185 0.059526   0.396825   0.559701   0.467033
+f1                       0.464520 0.041745   0.434783   0.508475   0.478873
+f2                       0.467599 0.071645   0.480769   0.465839   0.491329
+lift_top_group           4.651961 1.529051   4.896552   4.698529   4.176471
+logloss                  0.450165 0.137775   0.353070   0.365467   0.376165
+max_per_class_error      0.525282 0.100763   0.482759   0.558824   0.500000
+mcc                      0.382730 0.042299   0.334891   0.438458   0.375354
+mean_per_class_accuracy  0.690725 0.034587   0.690686   0.692655   0.694134
+mean_per_class_error     0.309275 0.034587   0.309314   0.307345   0.305866
+mse                      0.106708 0.006655   0.104813   0.109384   0.112639
+pr_auc                   0.426490 0.059228   0.361906   0.486945   0.470138
+precision                0.482214 0.093549   0.375000   0.600000   0.459459
+r2                       0.139951 0.032814   0.108833   0.184581   0.160314
+recall                   0.474718 0.100763   0.517241   0.441176   0.500000
+rmse                     0.326531 0.010325   0.323749   0.330732   0.335618
+specificity              0.906732 0.040756   0.864130   0.944134   0.888268
+                        cv_4_valid cv_5_valid
+accuracy                  0.863850   0.844340
+auc                       0.657657   0.765365
+err                       0.136150   0.155660
+err_count                29.000000  33.000000
+f0point5                  0.485437   0.446927
+f1                        0.408163   0.492308
+f2                        0.352113   0.547945
+lift_top_group            6.870968   2.617284
+logloss                   0.680863   0.475258
+max_per_class_error       0.677419   0.407407
+mcc                       0.353250   0.411700
+mean_per_class_accuracy   0.639312   0.736837
+mean_per_class_error      0.360688   0.263163
+mse                       0.110725   0.095979
+pr_auc                    0.448680   0.364780
+precision                 0.555556   0.421053
+r2                        0.109628   0.136398
+recall                    0.322581   0.592593
+rmse                      0.332753   0.309805
+specificity               0.956044   0.881081
+
+$preprocess
+function (x) 
+x
+&lt;bytecode: 0x0000000029a14d08&gt;
+&lt;environment: 0x0000000029a0b348&gt;
+
+$bin_continuous
+[1] TRUE
+
+$n_bins
+[1] 4
+
+$quantile_bins
+[1] TRUE
+
+$use_density
+[1] TRUE
+
+$feature_type
+                     Age           BusinessTravel                DailyRate 
+               "numeric"                 "factor"                "numeric" 
+              Department         DistanceFromHome                Education 
+                "factor"                "numeric"                 "factor" 
+          EducationField           EmployeeNumber  EnvironmentSatisfaction 
+                "factor"                "numeric"                 "factor" 
+                  Gender               HourlyRate           JobInvolvement 
+                "factor"                "numeric"                 "factor" 
+                JobLevel                  JobRole          JobSatisfaction 
+                "factor"                 "factor"                 "factor" 
+           MaritalStatus            MonthlyIncome              MonthlyRate 
+                "factor"                "numeric"                "numeric" 
+      NumCompaniesWorked                 OverTime        PercentSalaryHike 
+               "numeric"                 "factor"                "numeric" 
+       PerformanceRating RelationshipSatisfaction         StockOptionLevel 
+                "factor"                 "factor"                 "factor" 
+       TotalWorkingYears    TrainingTimesLastYear          WorkLifeBalance 
+               "numeric"                "numeric"                 "factor" 
+          YearsAtCompany       YearsInCurrentRole  YearsSinceLastPromotion 
+               "numeric"                "numeric"                "numeric" 
+    YearsWithCurrManager 
+               "numeric" 
+
+$bin_cuts
+$bin_cuts$Age
+  0%  25%  50%  75% 100% 
+  18   30   36   43   60 
+
+$bin_cuts$BusinessTravel
+NULL
+
+$bin_cuts$DailyRate
+  0%  25%  50%  75% 100% 
+ 102  465  797 1147 1499 
+
+$bin_cuts$Department
+NULL
+
+$bin_cuts$DistanceFromHome
+  0%  25%  50%  75% 100% 
+   1    2    7   14   29 
+
+$bin_cuts$Education
+NULL
+
+$bin_cuts$EducationField
+NULL
+
+$bin_cuts$EmployeeNumber
+  0%  25%  50%  75% 100% 
+   1  511 1040 1573 2065 
+
+$bin_cuts$EnvironmentSatisfaction
+NULL
+
+$bin_cuts$Gender
+NULL
+
+$bin_cuts$HourlyRate
+  0%  25%  50%  75% 100% 
+  30   49   66   83  100 
+
+$bin_cuts$JobInvolvement
+NULL
+
+$bin_cuts$JobLevel
+NULL
+
+$bin_cuts$JobRole
+NULL
+
+$bin_cuts$JobSatisfaction
+NULL
+
+$bin_cuts$MaritalStatus
+NULL
+
+$bin_cuts$MonthlyIncome
+   0%   25%   50%   75%  100% 
+ 1051  2929  4908  8474 19999 
+
+$bin_cuts$MonthlyRate
+   0%   25%   50%   75%  100% 
+ 2094  8423 14470 20689 26968 
+
+$bin_cuts$NumCompaniesWorked
+  0%  25%  50%  75% 100% 
+   0    1    2    4    9 
+
+$bin_cuts$OverTime
+NULL
+
+$bin_cuts$PercentSalaryHike
+  0%  25%  50%  75% 100% 
+  11   12   14   18   25 
+
+$bin_cuts$PerformanceRating
+NULL
+
+$bin_cuts$RelationshipSatisfaction
+NULL
+
+$bin_cuts$StockOptionLevel
+NULL
+
+$bin_cuts$TotalWorkingYears
+  0%  25%  50%  75% 100% 
+   0    6   10   15   38 
+
+$bin_cuts$TrainingTimesLastYear
+  0%  25%  50% 100% 
+   0    2    3    6 
+
+$bin_cuts$WorkLifeBalance
+NULL
+
+$bin_cuts$YearsAtCompany
+  0%  25%  50%  75% 100% 
+   0    3    5    9   37 
+
+$bin_cuts$YearsInCurrentRole
+  0%  25%  50%  75% 100% 
+   0    2    3    7   18 
+
+$bin_cuts$YearsSinceLastPromotion
+  0%  50%  75% 100% 
+   0    1    2   15 
+
+$bin_cuts$YearsWithCurrManager
+  0%  25%  50%  75% 100% 
+   0    2    3    7   17 
+
+
+$feature_distribution
+$feature_distribution$Age
+
+        1         2         3         4 
+0.2602082 0.2834267 0.2217774 0.2345877 
+
+$feature_distribution$BusinessTravel
+
+       Non-Travel     Travel_Rarely Travel_Frequently 
+        0.1000801         0.7181745         0.1817454 
+
+$feature_distribution$DailyRate
+
+        1         2         3         4 
+0.2514011 0.2489992 0.2497998 0.2497998 
+
+$feature_distribution$Department
+
+       Human Resources Research &amp; Development                  Sales 
+            0.04323459             0.65092074             0.30584468 
+
+$feature_distribution$DistanceFromHome
+
+        1         2         3         4 
+0.2954363 0.2369896 0.2241793 0.2433947 
+
+$feature_distribution$Education
+
+Below College       College      Bachelor        Master        Doctor 
+   0.11689351    0.18895116    0.38510809    0.27461970    0.03442754 
+
+$feature_distribution$EducationField
+
+ Human Resources    Life Sciences        Marketing          Medical 
+      0.01761409       0.41793435       0.10888711       0.31144916 
+           Other Technical Degree 
+      0.05444355       0.08967174 
+
+$feature_distribution$EmployeeNumber
+
+        1         2         3         4 
+0.2506005 0.2497998 0.2497998 0.2497998 
+
+$feature_distribution$EnvironmentSatisfaction
+
+      Low    Medium      High Very High 
+0.1913531 0.1961569 0.3018415 0.3106485 
+
+$feature_distribution$Gender
+
+   Female      Male 
+0.4123299 0.5876701 
+
+$feature_distribution$HourlyRate
+
+        1         2         3         4 
+0.2618094 0.2473979 0.2449960 0.2457966 
+
+$feature_distribution$JobInvolvement
+
+       Low     Medium       High  Very High 
+0.05684548 0.25780624 0.58927142 0.09607686 
+
+$feature_distribution$JobLevel
+
+         1          2          3          4          5 
+0.36829464 0.36509207 0.14651721 0.07526021 0.04483587 
+
+$feature_distribution$JobRole
+
+Healthcare Representative           Human Resources     Laboratory Technician 
+               0.08646918                0.03682946                0.18174540 
+                  Manager    Manufacturing Director         Research Director 
+               0.06885508                0.09927942                0.05924740 
+       Research Scientist           Sales Executive      Sales Representative 
+               0.18654924                0.22337870                0.05764612 
+
+$feature_distribution$JobSatisfaction
+
+      Low    Medium      High Very High 
+0.1873499 0.1985588 0.3018415 0.3122498 
+
+$feature_distribution$MaritalStatus
+
+   Single   Married  Divorced 
+0.3306645 0.4571657 0.2121697 
+
+$feature_distribution$MonthlyIncome
+
+        1         2         3         4 
+0.2506005 0.2497998 0.2497998 0.2497998 
+
+$feature_distribution$MonthlyRate
+
+        1         2         3         4 
+0.2506005 0.2497998 0.2497998 0.2497998 
+
+$feature_distribution$NumCompaniesWorked
+
+         1          2          3          4 
+0.48118495 0.09927942 0.20496397 0.21457166 
+
+$feature_distribution$OverTime
+
+       No       Yes 
+0.7165733 0.2834267 
+
+$feature_distribution$PercentSalaryHike
+
+        1         2         3         4 
+0.2866293 0.2738191 0.2289832 0.2105685 
+
+$feature_distribution$PerformanceRating
+
+        Low        Good   Excellent Outstanding 
+  0.0000000   0.0000000   0.8414732   0.1585268 
+
+$feature_distribution$RelationshipSatisfaction
+
+      Low    Medium      High Very High 
+0.1889512 0.2161729 0.3018415 0.2930344 
+
+$feature_distribution$StockOptionLevel
+
+         0          1          2          3 
+0.43554844 0.40592474 0.10168135 0.05684548 
+
+$feature_distribution$TotalWorkingYears
+
+        1         2         3         4 
+0.3050440 0.3306645 0.1224980 0.2417934 
+
+$feature_distribution$TrainingTimesLastYear
+
+        1         2         3 
+0.4603683 0.3306645 0.2089672 
+
+$feature_distribution$WorkLifeBalance
+
+       Bad       Good     Better       Best 
+0.05204163 0.22497998 0.61889512 0.10408327 
+
+$feature_distribution$YearsAtCompany
+
+        1         2         3         4 
+0.3226581 0.2137710 0.2217774 0.2417934 
+
+$feature_distribution$YearsInCurrentRole
+
+         1          2          3          4 
+0.46757406 0.08726982 0.27542034 0.16973579 
+
+$feature_distribution$YearsSinceLastPromotion
+
+        1         2         3 
+0.6413131 0.1120897 0.2465973 
+
+$feature_distribution$YearsWithCurrManager
+
+         1          2          3          4 
+0.46357086 0.09767814 0.25300240 0.18574860 
+
+
+attr(,"class")
+[1] "data_frame_explainer" "explainer"            "list"                </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>explanation <span class="ot">&lt;-</span> test_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>Attrition) <span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    lime<span class="sc">::</span><span class="fu">explain</span>(</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Pass our explainer object</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">explainer =</span> explainer,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Because it is a binary classification model: 1</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_labels   =</span> <span class="dv">1</span>,</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># number of features to be returned</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_features =</span> <span class="dv">8</span>,</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># number of localized linear models</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_permutations =</span> <span class="dv">5000</span>,</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Let's start with 1</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">kernel_width   =</span> <span class="dv">1</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%
+
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>explanation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 x 13
+  model_type    case  label label_prob model_r2 model_intercept model_prediction
+  &lt;chr&gt;         &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+1 classificati~ 1     Yes        0.522    0.333           0.132            0.408
+2 classificati~ 1     Yes        0.522    0.333           0.132            0.408
+3 classificati~ 1     Yes        0.522    0.333           0.132            0.408
+4 classificati~ 1     Yes        0.522    0.333           0.132            0.408
+5 classificati~ 1     Yes        0.522    0.333           0.132            0.408
+6 classificati~ 1     Yes        0.522    0.333           0.132            0.408
+7 classificati~ 1     Yes        0.522    0.333           0.132            0.408
+8 classificati~ 1     Yes        0.522    0.333           0.132            0.408
+# i 6 more variables: feature &lt;chr&gt;, feature_value &lt;dbl&gt;, feature_weight &lt;dbl&gt;,
+#   feature_desc &lt;chr&gt;, data &lt;list&gt;, prediction &lt;list&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>explanation <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(feature<span class="sc">:</span>prediction) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 x 6
+  feature    feature_value feature_weight feature_desc data         prediction  
+  &lt;chr&gt;              &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;        &lt;list&gt;       &lt;list&gt;      
+1 OverTime               2         0.110  OverTime = ~ &lt;named list&gt; &lt;named list&gt;
+2 MonthlyIn~          2670         0.0460 MonthlyInco~ &lt;named list&gt; &lt;named list&gt;
+3 JobSatisf~             1         0.0385 JobSatisfac~ &lt;named list&gt; &lt;named list&gt;
+4 JobRole                3         0.0284 JobRole = L~ &lt;named list&gt; &lt;named list&gt;
+5 YearsAtCo~             1         0.0265 YearsAtComp~ &lt;named list&gt; &lt;named list&gt;
+6 StockOpti~             4         0.0245 StockOption~ &lt;named list&gt; &lt;named list&gt;
+7 JobLevel               1         0.0237 JobLevel = 1 &lt;named list&gt; &lt;named list&gt;
+8 BusinessT~             2        -0.0210 BusinessTra~ &lt;named list&gt; &lt;named list&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">plot_features</span>(<span class="at">explanation =</span> explanation, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.3 Multiple Explanations ----</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>explanation <span class="ot">&lt;-</span> test_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>Attrition) <span class="sc">%&gt;%</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    lime<span class="sc">::</span><span class="fu">explain</span>(</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">explainer =</span> explainer,</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_labels   =</span> <span class="dv">1</span>,</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_features =</span> <span class="dv">8</span>,</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_permutations =</span> <span class="dv">5000</span>,</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">kernel_width   =</span> <span class="fl">0.5</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%
+
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>explanation <span class="sc">%&gt;%</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 160 x 13
+   model_type   case  label label_prob model_r2 model_intercept model_prediction
+   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+ 1 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 2 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 3 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 4 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 5 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 6 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 7 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 8 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 9 classificat~ 2     No         0.891    0.329           0.747            0.782
+10 classificat~ 2     No         0.891    0.329           0.747            0.782
+# i 150 more rows
+# i 6 more variables: feature &lt;chr&gt;, feature_value &lt;dbl&gt;, feature_weight &lt;dbl&gt;,
+#   feature_desc &lt;chr&gt;, data &lt;list&gt;, prediction &lt;list&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_features</span>(explanation, <span class="at">ncol =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="05_black_box_models_lime_files/figure-html/unnamed-chunk-1-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="05_black_box_models_lime_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_explanations</span>(explanation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="05_black_box_models_lime_files/figure-html/unnamed-chunk-1-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="05_black_box_models_lime_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="challenge" class="level1">
+<h1>Challenge</h1>
+<section id="part-1" class="level2">
+<h2 class="anchored" data-anchor-id="part-1">Part 1</h2>
+<div class="cell" data-hash="05_black_box_models_lime_cache/html/unnamed-chunk-2_f0553d0bc02de8234ef879fa73eac230">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>explanation <span class="sc">%&gt;%</span> <span class="fu">as.tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `as.tibble()` was deprecated in tibble 2.0.0.
+i Please use `as_tibble()` instead.
+i The signature and semantics have changed, see `?as_tibble`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 160 x 13
+   model_type   case  label label_prob model_r2 model_intercept model_prediction
+   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+ 1 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 2 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 3 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 4 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 5 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 6 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 7 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 8 classificat~ 1     Yes        0.522    0.321           0.134            0.392
+ 9 classificat~ 2     No         0.891    0.329           0.747            0.782
+10 classificat~ 2     No         0.891    0.329           0.747            0.782
+# i 150 more rows
+# i 6 more variables: feature &lt;chr&gt;, feature_value &lt;dbl&gt;, feature_weight &lt;dbl&gt;,
+#   feature_desc &lt;chr&gt;, data &lt;list&gt;, prediction &lt;list&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>explanation <span class="sc">%&gt;%</span> <span class="fu">filter</span>(case <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">plot_features</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="05_black_box_models_lime_files/figure-html/unnamed-chunk-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="05_black_box_models_lime_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># My version</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>explanation <span class="sc">%&gt;%</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(case <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(feature,<span class="fu">abs</span>(feature_weight)),<span class="at">y =</span> feature_weight,<span class="at">fill =</span> feature_weight <span class="sc">&lt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>(<span class="at">just =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>( <span class="at">title =</span> <span class="fu">paste0</span>(</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Case: "</span>,<span class="st">"1"</span>,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Label: "</span>,<span class="fu">filter</span>(explanation,case <span class="sc">==</span> <span class="dv">1</span>)[<span class="dv">1</span>,]<span class="sc">$</span>label,<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Probability: "</span>,<span class="fu">filter</span>(explanation,case <span class="sc">==</span> <span class="dv">1</span>)[<span class="dv">1</span>,]<span class="sc">$</span>label_prob<span class="sc">%&gt;%</span><span class="fu">round</span>(<span class="dv">2</span>),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Explanation Fit: "</span>,<span class="fu">filter</span>(explanation,case <span class="sc">==</span> <span class="dv">1</span>)[<span class="dv">1</span>,]<span class="sc">$</span>model_r2<span class="sc">%&gt;%</span><span class="fu">round</span>(<span class="dv">2</span>),<span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Feature"</span>,</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Weight"</span>,</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">""</span></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">labels=</span>explanation <span class="sc">%&gt;%</span> <span class="fu">filter</span>(case <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">abs</span>(feature_weight)) <span class="sc">%&gt;%</span> .<span class="sc">$</span>feature_desc) <span class="sc">+</span></span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a>          <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a>          <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">"#EBEBEB"</span>),</span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a>          <span class="at">panel.grid.minor.x =</span> <span class="fu">element_line</span>(<span class="at">color=</span><span class="st">"#EBEBEB"</span>)</span>
+<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"#4682B4"</span>, <span class="st">"#B22222"</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"Supports"</span>,<span class="st">"Contradics"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="05_black_box_models_lime_files/figure-html/unnamed-chunk-2-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="05_black_box_models_lime_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="part-2" class="level2">
+<h2 class="anchored" data-anchor-id="part-2">Part 2</h2>
+<div class="cell" data-hash="05_black_box_models_lime_cache/html/unnamed-chunk-3_b9d9e96287db840c18d14a1420c6958d">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_explanations</span>(explanation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="05_black_box_models_lime_files/figure-html/unnamed-chunk-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="05_black_box_models_lime_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># My version</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>explanation <span class="sc">%&gt;%</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> case,<span class="at">y =</span> <span class="fu">fct_reorder</span>(feature,<span class="fu">abs</span>(label_prob)),<span class="at">fill =</span> feature_weight)) <span class="sc">+</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>label) <span class="sc">+</span> </span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_tile</span>() <span class="sc">+</span> </span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Case"</span>,</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Feature"</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_discrete</span>(<span class="at">labels=</span>explanation<span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">abs</span>(label_prob)) <span class="sc">%&gt;%</span> .<span class="sc">$</span>feature_desc) <span class="sc">+</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> <span class="dv">1</span>)</span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">'Feature </span><span class="sc">\n</span><span class="st"> weight'</span>, <span class="at">low =</span> <span class="st">'#B9362F'</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">'#4B85B6'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="05_black_box_models_lime_files/figure-html/unnamed-chunk-3-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="05_black_box_models_lime_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -418,6 +1730,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"loop":true,"openEffect":"zoom","descPosition":"bottom","selector":".lightbox","closeEffect":"zoom"});</script>
 
 
 
