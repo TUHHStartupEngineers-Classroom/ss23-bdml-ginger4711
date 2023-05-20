@@ -1,4 +1,8 @@
 ---
 title: "Explaining Black-Box Models With LIME"
 author: "Christian Sühl"
+output:
+  html_document:
+    toc: TRUE
+    theme: united
 ---
