@@ -19,13 +19,13 @@ website:
           - text: "02 Supervised ML Regression"
             file: src/Data/02_supervised_ML_regression.Rmd
           - text: "03 Automated Maschine Learning with H2O"
-            file: content/01_journal/03_automated_maschine_learning_with_H2O.qmd
+            file: src/Data/03_automated_maschine_learning_with_H2O.Rmd
           - text: "04 Performance Measures"
-            file: content/01_journal/04_performance_measures.qmd
+            file: src/Data/01_journal/04_performance_measures.Rmd
           - text: "05 Explaining Black-Box Models With LIME"
-            file: content/01_journal/05_black_box_models_lime.qmd
+            file: src/Data/01_journal/05_black_box_models_lime.Rmd
           - text: "06 Deep Learning"
-            file: content/01_journal/06_deep_learning.qmd
+            file: src/Data/01_journal/06_deep_learning.Rmd
       - text: "Class notes"
         file: content/02_notes/05_class_notes.qmd
       - text: "Links"

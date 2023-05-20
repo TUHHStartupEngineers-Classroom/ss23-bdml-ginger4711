@@ -67,9 +67,9 @@ bike_features_tbl <- bike_features_tbl %>%
 
 ```{r}
 # Create a recipe object
-bike_recipe <- recipe(price ~ frame_material + category_2 + model, data = bike_orderlines_tbl) %>%
-  step_dummy(all_nominal(),-frame_material,-category_2,-model,one_hot = T) %>%
-  prep()
+bike_recipe <- recipe(price ~ frame_material + category_2 + model, data = bike_orderlines_tbl) %>% #Predict price from frame_material, category_2 and model
+  step_dummy(all_nominal(),-frame_material,-category_2,-model,one_hot = T) %>% #Remove all others
+  prep() #Estimate the required parameters
 ```
 
 
@@ -93,30 +93,28 @@ test_tbl  <- testing(split_obj)
 train_tbl <- train_tbl %>% set_names(str_replace_all(names(train_tbl), " |-", "_"))
 test_tbl  <- test_tbl  %>% set_names(str_replace_all(names(test_tbl),  " |-", "_"))
 
-train_transformed_tbl <- bake(bike_recipe, new_data = train_tbl)
-test_transformed_tbl <- bake(bike_recipe, new_data = test_tbl)
+train_transformed_tbl <- bake(bike_recipe, new_data = train_tbl) #Create training data set
+test_transformed_tbl <- bake(bike_recipe, new_data = test_tbl) #Create testing data set
 ```
 
 ```{r}
-model_01_linear_lm_simple <- linear_reg(mode = "regression") %>%
+model_01_linear_lm_simple <- linear_reg(mode = "regression") %>% #Create linear regression model
     set_engine("lm")
 ```
 
 ```{r}
 library(workflows)
 
+#Creating workflow
 workflow <- workflow(preprocessor = NULL, spec = NULL) %>% 
-  workflows::add_recipe(bike_recipe) %>% 
-  workflows::add_model(model_01_linear_lm_simple)
+  workflows::add_recipe(bike_recipe) %>% #Adding recipe
+  workflows::add_model(model_01_linear_lm_simple) #Adding model
 
-wf_recipe <- workflow(bike_recipe, model_01_linear_lm_simple)
-fit(wf_recipe, train_transformed_tbl)
+fitted_workflow <- fit(workflow, train_transformed_tbl) #Estimate model parameters from training set
 
-lm_fit <- fit(workflow, train_transformed_tbl)
-
-metrics <- lm_fit %>%
-           predict(new_data = test_transformed_tbl) %>%
+metrics <- fitted_workflow %>%
+           predict(new_data = test_transformed_tbl) %>% #Predict from test data set
            bind_cols(test_transformed_tbl %>% select(price)) %>%
-           yardstick::metrics(truth = price, estimate = .pred) %>% print()
+           yardstick::metrics(truth = price, estimate = .pred) %>% print() #Print yardstick metrics
 ```
 

@@ -166,19 +166,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="dropdown-text">02 Supervised ML Regression</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/03_automated_maschine_learning_with_H2O.html">
+    <a class="dropdown-item" href="../../src/Data/03_automated_maschine_learning_with_H2O.html">
  <span class="dropdown-text">03 Automated Maschine Learning with H2O</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/04_performance_measures.html">
+    <a class="dropdown-item" href="../../src/Data/01_journal/04_performance_measures.Rmd">
  <span class="dropdown-text">04 Performance Measures</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/05_black_box_models_lime.html">
+    <a class="dropdown-item" href="../../src/Data/01_journal/05_black_box_models_lime.Rmd">
  <span class="dropdown-text">05 Explaining Black-Box Models With LIME</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../content/01_journal/06_deep_learning.html">
+    <a class="dropdown-item" href="../../src/Data/01_journal/06_deep_learning.Rmd">
  <span class="dropdown-text">06 Deep Learning</span></a>
   </li>  
     </ul>
@@ -443,13 +443,13 @@ $ `Brake Rotor`               &lt;list&gt; "Shimano RT800", "SRAM Centerline X",
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, <span class="fu">everything</span>(), <span class="sc">-</span>url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="02_supervised_ML_regression_cache/html/unnamed-chunk-3_ee8e6ab84e5c22fd92f87f20f4a9e47d">
+<div class="cell" data-hash="02_supervised_ML_regression_cache/html/unnamed-chunk-3_378e40cac6ec10e447732cb5d4bd1763">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a recipe object</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>bike_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(price <span class="sc">~</span> frame_material <span class="sc">+</span> category_2 <span class="sc">+</span> model, <span class="at">data =</span> bike_orderlines_tbl) <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal</span>(),<span class="sc">-</span>frame_material,<span class="sc">-</span>category_2,<span class="sc">-</span>model,<span class="at">one_hot =</span> T) <span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>bike_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(price <span class="sc">~</span> frame_material <span class="sc">+</span> category_2 <span class="sc">+</span> model, <span class="at">data =</span> bike_orderlines_tbl) <span class="sc">%&gt;%</span> <span class="co">#Predict price from frame_material, category_2 and model</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal</span>(),<span class="sc">-</span>frame_material,<span class="sc">-</span>category_2,<span class="sc">-</span>model,<span class="at">one_hot =</span> T) <span class="sc">%&gt;%</span> <span class="co">#Remove all others</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>() <span class="co">#Estimate the required parameters</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="02_supervised_ML_regression_cache/html/unnamed-chunk-4_c03d609fefab3690eaf0a448045023c7">
+<div class="cell" data-hash="02_supervised_ML_regression_cache/html/unnamed-chunk-4_55de74544867be8fde66f45b79d15e94">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>bike_orderlines_tbl <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(category_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 20 x 1
@@ -541,93 +541,27 @@ $ `Brake Rotor`               &lt;list&gt; "Shimano RT800", "SRAM Centerline X",
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>train_tbl <span class="ot">&lt;-</span> train_tbl <span class="sc">%&gt;%</span> <span class="fu">set_names</span>(<span class="fu">str_replace_all</span>(<span class="fu">names</span>(train_tbl), <span class="st">" |-"</span>, <span class="st">"_"</span>))</span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>test_tbl  <span class="ot">&lt;-</span> test_tbl  <span class="sc">%&gt;%</span> <span class="fu">set_names</span>(<span class="fu">str_replace_all</span>(<span class="fu">names</span>(test_tbl),  <span class="st">" |-"</span>, <span class="st">"_"</span>))</span>
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>train_transformed_tbl <span class="ot">&lt;-</span> <span class="fu">bake</span>(bike_recipe, <span class="at">new_data =</span> train_tbl)</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>test_transformed_tbl <span class="ot">&lt;-</span> <span class="fu">bake</span>(bike_recipe, <span class="at">new_data =</span> test_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>train_transformed_tbl <span class="ot">&lt;-</span> <span class="fu">bake</span>(bike_recipe, <span class="at">new_data =</span> train_tbl) <span class="co">#Create training data set</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>test_transformed_tbl <span class="ot">&lt;-</span> <span class="fu">bake</span>(bike_recipe, <span class="at">new_data =</span> test_tbl) <span class="co">#Create testing data set</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="02_supervised_ML_regression_cache/html/unnamed-chunk-5_32518798714230fc80f5d0b5995d6976">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>model_01_linear_lm_simple <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
+<div class="cell" data-hash="02_supervised_ML_regression_cache/html/unnamed-chunk-5_c36fda8543fd0697cbd9891c17b4065b">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>model_01_linear_lm_simple <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">%&gt;%</span> <span class="co">#Create linear regression model</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_engine</span>(<span class="st">"lm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="02_supervised_ML_regression_cache/html/unnamed-chunk-6_97937e4870e89eb502ac61eb8d622dc6">
+<div class="cell" data-hash="02_supervised_ML_regression_cache/html/unnamed-chunk-6_7d53fdd68e6e70cc7f038f3b9cbf2451">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(workflows)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>workflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>(<span class="at">preprocessor =</span> <span class="cn">NULL</span>, <span class="at">spec =</span> <span class="cn">NULL</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">add_recipe</span>(bike_recipe) <span class="sc">%&gt;%</span> </span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">add_model</span>(model_01_linear_lm_simple)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>wf_recipe <span class="ot">&lt;-</span> <span class="fu">workflow</span>(bike_recipe, model_01_linear_lm_simple)</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="fu">fit</span>(wf_recipe, train_transformed_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>== Workflow [trained] ==========================================================
-Preprocessor: Recipe
-Model: linear_reg()
-
--- Preprocessor ----------------------------------------------------------------
-1 Recipe Step
-
-* step_dummy()
-
--- Model -----------------------------------------------------------------------
-
-Call:
-stats::lm(formula = ..y ~ ., data = data)
-
-Coefficients:
-                                (Intercept)  
-                                  2.139e+03  
-                       frame_materialcarbon  
-                                  1.950e+03  
-                         category_2All-Road  
-                                  6.900e+02  
-                             category_2City  
-                                 -2.140e+03  
-                    category_2Cross-Country  
-                                  1.470e+03  
-                       category_2Cyclocross  
-                                  3.000e+02  
-                        category_2Dirt Jump  
-                                 -3.900e+02  
-                         category_2Downhill  
-                                  4.900e+02  
-                           category_2E-City  
-                                  7.800e+02  
-                        category_2E-Fitness  
-                                  1.470e+03  
-                         category_2E-Gravel  
-                                  1.760e+03  
-                       category_2E-Mountain  
-                                 -2.000e+02  
-                           category_2E-Road  
-                                  7.800e+02  
-                       category_2E-Trekking  
-                                  2.730e+03  
-                        category_2Endurance  
-                                 -8.700e+02  
-                           category_2Enduro  
-                                  5.900e+02  
-                        category_2Fat Bikes  
-                                 -1.460e+03  
-                             category_2Race  
-                                 -1.460e+03  
-                          category_2Touring  
-                                 -1.240e+03  
-                            category_2Trail  
-                                 -1.900e+02  
-                   category_2Triathlon Bike  
-                                  7.900e+02  
-                      modelAeroad CF SL 8.0  
-                                  2.000e+02  
-                  modelAeroad CF SL 8.0 Di2  
-
-...
-and 446 more lines.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>lm_fit <span class="ot">&lt;-</span> <span class="fu">fit</span>(workflow, train_transformed_tbl)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> lm_fit <span class="sc">%&gt;%</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">predict</span>(<span class="at">new_data =</span> test_transformed_tbl) <span class="sc">%&gt;%</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">bind_cols</span>(test_transformed_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(price)) <span class="sc">%&gt;%</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>           yardstick<span class="sc">::</span><span class="fu">metrics</span>(<span class="at">truth =</span> price, <span class="at">estimate =</span> .pred) <span class="sc">%&gt;%</span> <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating workflow</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>workflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>(<span class="at">preprocessor =</span> <span class="cn">NULL</span>, <span class="at">spec =</span> <span class="cn">NULL</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">add_recipe</span>(bike_recipe) <span class="sc">%&gt;%</span> <span class="co">#Adding recipe</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  workflows<span class="sc">::</span><span class="fu">add_model</span>(model_01_linear_lm_simple) <span class="co">#Adding model</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>fitted_workflow <span class="ot">&lt;-</span> <span class="fu">fit</span>(workflow, train_transformed_tbl) <span class="co">#Estimate model parameters from training set</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> fitted_workflow <span class="sc">%&gt;%</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">predict</span>(<span class="at">new_data =</span> test_transformed_tbl) <span class="sc">%&gt;%</span> <span class="co">#Predict from test data set</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>           <span class="fu">bind_cols</span>(test_transformed_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(price)) <span class="sc">%&gt;%</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>           yardstick<span class="sc">::</span><span class="fu">metrics</span>(<span class="at">truth =</span> price, <span class="at">estimate =</span> .pred) <span class="sc">%&gt;%</span> <span class="fu">print</span>() <span class="co">#Print yardstick metrics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in predict.lm(object = object$fit, newdata = new_data, type =
 "response"): prediction from a rank-deficient fit may be misleading</code></pre>
@@ -894,7 +828,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox","openEffect":"zoom","loop":true});</script>
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","selector":".lightbox","loop":true,"descPosition":"bottom","closeEffect":"zoom"});</script>
 
 
 

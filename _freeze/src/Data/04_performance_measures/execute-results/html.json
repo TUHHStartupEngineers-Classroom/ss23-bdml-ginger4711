@@ -1,0 +1,14 @@
+{
+  "hash": "b2ddcf46f112b3268fcbed1c74ae05e3",
+  "result": {
+    "markdown": "---\ntitle: \"Performance Measures\"\nauthor: \"Christian Sühl\"\n---\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

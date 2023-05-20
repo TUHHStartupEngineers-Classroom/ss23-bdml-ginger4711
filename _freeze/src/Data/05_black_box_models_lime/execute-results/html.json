@@ -1,0 +1,14 @@
+{
+  "hash": "ce00b1d5ab896c30c5eda98e271c5968",
+  "result": {
+    "markdown": "---\ntitle: \"Explaining Black-Box Models With LIME\"\nauthor: \"Christian Sühl\"\n---\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

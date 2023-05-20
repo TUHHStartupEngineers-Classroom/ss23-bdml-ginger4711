@@ -1,0 +1,14 @@
+{
+  "hash": "ab6612c8b84e2ee5a7cf4a59d2738db2",
+  "result": {
+    "markdown": "---\ntitle: \"Deep Learning\"\nauthor: \"Christian Sühl\"\n---\n\n\nBDML fertig stellen\nGucken, ob beide Webseiten online gehen\nGucken, ob das Password für beide funktioniert\nBeide Formulare neu ausfüllen",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
