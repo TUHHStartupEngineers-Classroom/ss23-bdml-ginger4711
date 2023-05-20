@@ -170,15 +170,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  <span class="dropdown-text">03 Automated Maschine Learning with H2O</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../src/Data/01_journal/04_performance_measures.Rmd">
+    <a class="dropdown-item" href="../../src/Data/04_performance_measures.html">
  <span class="dropdown-text">04 Performance Measures</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../src/Data/01_journal/05_black_box_models_lime.Rmd">
+    <a class="dropdown-item" href="../../src/Data/05_black_box_models_lime.html">
  <span class="dropdown-text">05 Explaining Black-Box Models With LIME</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../src/Data/01_journal/06_deep_learning.Rmd">
+    <a class="dropdown-item" href="../../src/Data/06_deep_learning.html">
  <span class="dropdown-text">06 Deep Learning</span></a>
   </li>  
     </ul>
@@ -231,6 +231,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<section id="business-case-part-i" class="level1">
+<h1>Business case (Part I)</h1>
 <div class="cell" data-hash="03_automated_maschine_learning_with_H2O_cache/html/unnamed-chunk-1_636aba6abe71246c91a744f8c9bf1786">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(h2o)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -1775,9 +1777,2489 @@ Warning in cor(x, y): Standardabweichung ist Null</code></pre>
 </div>
 </div>
 </div>
-<p>#Challenge ## Question 1 ### What can you deduce about the interaction between Monthly Income and Attrition?</p>
+</section>
+<section id="challenge-part-i" class="level1">
+<h1>Challenge (Part I)</h1>
+<section id="question-1-what-can-you-deduce-about-the-interaction-between-monthly-income-and-attrition" class="level2">
+<h2 class="anchored" data-anchor-id="question-1-what-can-you-deduce-about-the-interaction-between-monthly-income-and-attrition">Question 1 | What can you deduce about the interaction between Monthly Income and Attrition?</h2>
+<p>There is a big spike of people having attrition at the low end of the monthly income spectrum far greater than people having no attrition with low monthly income. This indicates that monthly income has a relatively strong affect on attrition.</p>
+</section>
+<section id="question-2-what-can-you-deduce-about-the-interaction-between-percent-salary-hike-and-attrition" class="level2">
+<h2 class="anchored" data-anchor-id="question-2-what-can-you-deduce-about-the-interaction-between-percent-salary-hike-and-attrition">Question 2 | What can you deduce about the interaction between Percent Salary Hike and Attrition?</h2>
+<p>The attrition graph depending on the percent salary hike is nearly identical for people with attrition and without. Meaning a percent salary hike has very little effect on attrition.</p>
+</section>
+<section id="question-3-what-can-you-deduce-about-the-interaction-between-stock-option-level-and-attrition" class="level2">
+<h2 class="anchored" data-anchor-id="question-3-what-can-you-deduce-about-the-interaction-between-stock-option-level-and-attrition">Question 3 | What can you deduce about the interaction between Stock Option Level and Attrition?</h2>
+<p>The attrition vs.&nbsp;stock option level graph shows that people having a stock option level of 1 or to a lesser extend 2 are much less likely to have high attrition, meaning there could be a positive effect between the stock option level and attrition for the employer.</p>
+</section>
+<section id="question-4-what-can-you-deduce-about-the-interaction-between-environment-satisfaction-and-attrition" class="level2">
+<h2 class="anchored" data-anchor-id="question-4-what-can-you-deduce-about-the-interaction-between-environment-satisfaction-and-attrition">Question 4 | What can you deduce about the interaction between Environment Satisfaction and Attrition?</h2>
+<p>First of all, the satisfaction levels of the survey seemed to be clumped in certain levels which is likely the result of some kind of numerical scale being used for this survey (Rate from 1 to 4 for example). Considering that, there is an upward trend in the number of people having no attrition with higher satisfaction.</p>
+</section>
+<section id="question-5-what-can-you-deduce-about-the-interaction-between-work-life-balance-and-attrition" class="level2">
+<h2 class="anchored" data-anchor-id="question-5-what-can-you-deduce-about-the-interaction-between-work-life-balance-and-attrition">Question 5 | What can you deduce about the interaction between Work Life Balance and Attrition</h2>
+<p>The work life balance seems to indicate a stronger connection with attrition, with people rating their work life balance more positively having less attrition.</p>
+</section>
+<section id="question-6-what-can-you-deduce-about-the-interaction-between-job-involvement-and-attrition" class="level2">
+<h2 class="anchored" data-anchor-id="question-6-what-can-you-deduce-about-the-interaction-between-job-involvement-and-attrition">Question 6 | What Can you deduce about the interaction between Job Involvement and Attrition?</h2>
+<p>People that are more involved in the job are less likely to have attrition.</p>
+</section>
+<section id="question-7-what-can-you-deduce-about-the-interaction-between-over-time-and-attrition" class="level2">
+<h2 class="anchored" data-anchor-id="question-7-what-can-you-deduce-about-the-interaction-between-over-time-and-attrition">Question 7 | What can you deduce about the interaction between Over Time and Attrition?</h2>
+<p>Roughly the same amount of people that have attrition do and do not perform overtime. But as a percentage, the people doing overtime are much more likely to have attrition.</p>
+</section>
+<section id="question-8-what-can-you-deduce-about-the-interaction-between-training-times-last-year-and-attrition" class="level2">
+<h2 class="anchored" data-anchor-id="question-8-what-can-you-deduce-about-the-interaction-between-training-times-last-year-and-attrition">Question 8 | What can you deduce about the interaction between Training Times Last Year and Attrition</h2>
+<p>There is a slight trend, that more training time results in less attrition but as far as I can tell very minor.</p>
+</section>
+<section id="question-9-what-can-you-deduce-about-the-interaction-between-years-at-company-and-attrition" class="level2">
+<h2 class="anchored" data-anchor-id="question-9-what-can-you-deduce-about-the-interaction-between-years-at-company-and-attrition">Question 9 | What can you deduce about the interaction between Years At Company and Attrition</h2>
+<p>Regarding years at the company for very new people the attrition is much higher than for those that are very long with the company.<br>
+Crucially those that stay long have very low attrition, since most likely those with high attrition left at some point, so the data is inherently somewhat skewed.</p>
+</section>
+<section id="question-10-what-can-you-deduce-about-the-interaction-between-years-since-last-promotion-and-attrition" class="level2">
+<h2 class="anchored" data-anchor-id="question-10-what-can-you-deduce-about-the-interaction-between-years-since-last-promotion-and-attrition">Question 10 | What can you deduce about the interaction between Years Since Last Promotion and Attrition?</h2>
+<p>Years since last promotion seem to have a rather small affect on attrition but the small bump in attrition if people are longer with the company is noteworthy, meaning that people that stayed with the company for an extended amount of time without a promotion start to get more attrition.</p>
+</section>
+</section>
+<section id="business-case-part-ii" class="level1">
+<h1>Business case (Part II)</h1>
+<div class="cell" data-hash="03_automated_maschine_learning_with_H2O_cache/html/unnamed-chunk-9_45cb5b604a5aefeae383fa90771a2b49">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>employee_attrition_tbl <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datasets-1067-1925-WA_Fn-UseC_-HR-Employee-Attrition.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1470 Columns: 35
+-- Column specification --------------------------------------------------------
+Delimiter: ","
+chr  (9): Attrition, BusinessTravel, Department, EducationField, Gender, Job...
+dbl (26): Age, DailyRate, DistanceFromHome, Education, EmployeeCount, Employ...
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>definitions_raw_tbl    <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data_definitions.xlsx"</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+* `` -&gt; `...1`
+* `` -&gt; `...2`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co">#View(definitions_raw_tbl)</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>employee_attrition_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ggplot</span>(<span class="fu">aes</span>(Education)) <span class="sc">+</span></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="03_automated_maschine_learning_with_H2O_files/figure-html/unnamed-chunk-9-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="03_automated_maschine_learning_with_H2O_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data preparation ----</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Human readable</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>definitions_tbl <span class="ot">&lt;-</span> definitions_raw_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(...<span class="dv">1</span>, <span class="at">.direction =</span> <span class="st">"down"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(...<span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(...<span class="dv">2</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"key"</span>, <span class="st">"value"</span>), <span class="at">sep =</span> <span class="st">" '"</span>, <span class="at">remove =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">column_name =</span> ...<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">key =</span> <span class="fu">as.numeric</span>(key)) <span class="sc">%&gt;%</span></span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">value =</span> value <span class="sc">%&gt;%</span> <span class="fu">str_replace</span>(<span class="at">pattern =</span> <span class="st">"'"</span>, <span class="at">replacement =</span> <span class="st">""</span>)) </span>
+<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>definitions_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 29 x 3
+   column_name               key value        
+   &lt;chr&gt;                   &lt;dbl&gt; &lt;chr&gt;        
+ 1 Education                   1 Below College
+ 2 Education                   2 College      
+ 3 Education                   3 Bachelor     
+ 4 Education                   4 Master       
+ 5 Education                   5 Doctor       
+ 6 EnvironmentSatisfaction     1 Low          
+ 7 EnvironmentSatisfaction     2 Medium       
+ 8 EnvironmentSatisfaction     3 High         
+ 9 EnvironmentSatisfaction     4 Very High    
+10 JobInvolvement              1 Low          
+# i 19 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>definitions_list <span class="ot">&lt;-</span> definitions_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Mapping over lists</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Split into multiple tibbles</span></span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(.<span class="sc">$</span>column_name) <span class="sc">%&gt;%</span></span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Remove column_name</span></span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">select</span>(., <span class="sc">-</span>column_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to factors because they are ordered an we want to maintain that order</span></span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">mutate</span>(., <span class="at">value =</span> <span class="fu">as_factor</span>(value)))</span>
+<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(definitions_list)) {</span>
+<span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a>  list_name <span class="ot">&lt;-</span> <span class="fu">names</span>(definitions_list)[i]</span>
+<span id="cb84-14"><a href="#cb84-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(definitions_list[[i]]) <span class="ot">&lt;-</span> <span class="fu">c</span>(list_name, <span class="fu">paste0</span>(list_name, <span class="st">"_value"</span>))</span>
+<span id="cb84-15"><a href="#cb84-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb84-16"><a href="#cb84-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-17"><a href="#cb84-17" aria-hidden="true" tabindex="-1"></a>definitions_list[[<span class="st">"Education"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 x 2
+  Education Education_value
+      &lt;dbl&gt; &lt;fct&gt;          
+1         1 Below College  
+2         2 College        
+3         3 Bachelor       
+4         4 Master         
+5         5 Doctor         </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>data_merged_tbl <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">HR_Data =</span> employee_attrition_tbl) <span class="sc">%&gt;%</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Join everything</span></span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">append</span>(definitions_list, <span class="at">after =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">reduce</span>(left_join) <span class="sc">%&gt;%</span></span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Remove unnecessary columns</span></span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(<span class="sc">-</span><span class="fu">one_of</span>(<span class="fu">names</span>(definitions_list))) <span class="sc">%&gt;%</span></span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Format the "_value"</span></span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">set_names</span>(<span class="fu">str_replace_all</span>(<span class="fu">names</span>(.), <span class="at">pattern =</span> <span class="st">"_value"</span>, <span class="at">replacement =</span> <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb86-13"><a href="#cb86-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Resort</span></span>
+<span id="cb86-14"><a href="#cb86-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(<span class="fu">sort</span>(<span class="fu">names</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Education)`
+Joining with `by = join_by(EnvironmentSatisfaction)`
+Joining with `by = join_by(JobInvolvement)`
+Joining with `by = join_by(JobSatisfaction)`
+Joining with `by = join_by(PerformanceRating)`
+Joining with `by = join_by(RelationshipSatisfaction)`
+Joining with `by = join_by(WorkLifeBalance)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>data_merged_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,470 x 35
+     Age Attrition BusinessTravel    DailyRate Department       DistanceFromHome
+   &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;                 &lt;dbl&gt; &lt;chr&gt;                       &lt;dbl&gt;
+ 1    41 Yes       Travel_Rarely          1102 Sales                           1
+ 2    49 No        Travel_Frequently       279 Research &amp; Deve~                8
+ 3    37 Yes       Travel_Rarely          1373 Research &amp; Deve~                2
+ 4    33 No        Travel_Frequently      1392 Research &amp; Deve~                3
+ 5    27 No        Travel_Rarely           591 Research &amp; Deve~                2
+ 6    32 No        Travel_Frequently      1005 Research &amp; Deve~                2
+ 7    59 No        Travel_Rarely          1324 Research &amp; Deve~                3
+ 8    30 No        Travel_Rarely          1358 Research &amp; Deve~               24
+ 9    38 No        Travel_Frequently       216 Research &amp; Deve~               23
+10    36 No        Travel_Rarely          1299 Research &amp; Deve~               27
+# i 1,460 more rows
+# i 29 more variables: Education &lt;fct&gt;, EducationField &lt;chr&gt;,
+#   EmployeeCount &lt;dbl&gt;, EmployeeNumber &lt;dbl&gt;, EnvironmentSatisfaction &lt;fct&gt;,
+#   Gender &lt;chr&gt;, HourlyRate &lt;dbl&gt;, JobInvolvement &lt;fct&gt;, JobLevel &lt;dbl&gt;,
+#   JobRole &lt;chr&gt;, JobSatisfaction &lt;fct&gt;, MaritalStatus &lt;chr&gt;,
+#   MonthlyIncome &lt;dbl&gt;, MonthlyRate &lt;dbl&gt;, NumCompaniesWorked &lt;dbl&gt;,
+#   Over18 &lt;chr&gt;, OverTime &lt;chr&gt;, PercentSalaryHike &lt;dbl&gt;, ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Return only unique values of BusinessTravel</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>data_merged_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(BusinessTravel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 x 1
+  BusinessTravel   
+  &lt;chr&gt;            
+1 Travel_Rarely    
+2 Travel_Frequently
+3 Non-Travel       </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>data_merged_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate_if</span>(is.character, as.factor) <span class="sc">%&gt;%</span></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,470
+Columns: 35
+$ Age                      &lt;dbl&gt; 41, 49, 37, 33, 27, 32, 59, 30, 38, 36, 35, 2~
+$ Attrition                &lt;fct&gt; Yes, No, Yes, No, No, No, No, No, No, No, No,~
+$ BusinessTravel           &lt;fct&gt; Travel_Rarely, Travel_Frequently, Travel_Rare~
+$ DailyRate                &lt;dbl&gt; 1102, 279, 1373, 1392, 591, 1005, 1324, 1358,~
+$ Department               &lt;fct&gt; Sales, Research &amp; Development, Research &amp; Dev~
+$ DistanceFromHome         &lt;dbl&gt; 1, 8, 2, 3, 2, 2, 3, 24, 23, 27, 16, 15, 26, ~
+$ Education                &lt;fct&gt; College, Below College, College, Master, Belo~
+$ EducationField           &lt;fct&gt; Life Sciences, Life Sciences, Other, Life Sci~
+$ EmployeeCount            &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
+$ EmployeeNumber           &lt;dbl&gt; 1, 2, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16,~
+$ EnvironmentSatisfaction  &lt;fct&gt; Medium, High, Very High, Very High, Low, Very~
+$ Gender                   &lt;fct&gt; Female, Male, Male, Female, Male, Male, Femal~
+$ HourlyRate               &lt;dbl&gt; 94, 61, 92, 56, 40, 79, 81, 67, 44, 94, 84, 4~
+$ JobInvolvement           &lt;fct&gt; High, Medium, Medium, High, High, High, Very ~
+$ JobLevel                 &lt;dbl&gt; 2, 2, 1, 1, 1, 1, 1, 1, 3, 2, 1, 2, 1, 1, 1, ~
+$ JobRole                  &lt;fct&gt; Sales Executive, Research Scientist, Laborato~
+$ JobSatisfaction          &lt;fct&gt; Very High, Medium, High, High, Medium, Very H~
+$ MaritalStatus            &lt;fct&gt; Single, Married, Single, Married, Married, Si~
+$ MonthlyIncome            &lt;dbl&gt; 5993, 5130, 2090, 2909, 3468, 3068, 2670, 269~
+$ MonthlyRate              &lt;dbl&gt; 19479, 24907, 2396, 23159, 16632, 11864, 9964~
+$ NumCompaniesWorked       &lt;dbl&gt; 8, 1, 6, 1, 9, 0, 4, 1, 0, 6, 0, 0, 1, 0, 5, ~
+$ Over18                   &lt;fct&gt; Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, ~
+$ OverTime                 &lt;fct&gt; Yes, No, Yes, Yes, No, No, Yes, No, No, No, N~
+$ PercentSalaryHike        &lt;dbl&gt; 11, 23, 15, 11, 12, 13, 20, 22, 21, 13, 13, 1~
+$ PerformanceRating        &lt;fct&gt; Excellent, Outstanding, Excellent, Excellent,~
+$ RelationshipSatisfaction &lt;fct&gt; Low, Very High, Medium, High, Very High, High~
+$ StandardHours            &lt;dbl&gt; 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 8~
+$ StockOptionLevel         &lt;dbl&gt; 0, 1, 0, 0, 1, 0, 3, 1, 0, 2, 1, 0, 1, 1, 0, ~
+$ TotalWorkingYears        &lt;dbl&gt; 8, 10, 7, 8, 6, 8, 12, 1, 10, 17, 6, 10, 5, 3~
+$ TrainingTimesLastYear    &lt;dbl&gt; 0, 3, 3, 3, 3, 2, 3, 2, 2, 3, 5, 3, 1, 2, 4, ~
+$ WorkLifeBalance          &lt;fct&gt; Bad, Better, Better, Better, Better, Good, Go~
+$ YearsAtCompany           &lt;dbl&gt; 6, 10, 0, 8, 2, 7, 1, 1, 9, 7, 5, 9, 5, 2, 4,~
+$ YearsInCurrentRole       &lt;dbl&gt; 4, 7, 0, 7, 2, 7, 0, 0, 7, 7, 4, 5, 2, 2, 2, ~
+$ YearsSinceLastPromotion  &lt;dbl&gt; 0, 1, 0, 3, 2, 3, 0, 0, 1, 7, 0, 0, 4, 1, 0, ~
+$ YearsWithCurrManager     &lt;dbl&gt; 5, 7, 0, 0, 2, 6, 0, 0, 8, 7, 3, 8, 3, 2, 3, ~</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>data_processed_tbl <span class="ot">&lt;-</span> data_merged_tbl <span class="sc">%&gt;%</span>        </span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate_if</span>(is.character, as.factor) <span class="sc">%&gt;%</span></span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">BusinessTravel =</span> BusinessTravel <span class="sc">%&gt;%</span> <span class="fu">fct_relevel</span>(<span class="st">"Non-Travel"</span>, </span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">"Travel_Rarely"</span>, </span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">"Travel_Frequently"</span>),</span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">MaritalStatus  =</span> MaritalStatus <span class="sc">%&gt;%</span> <span class="fu">fct_relevel</span>(<span class="st">"Single"</span>, </span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>                                                           <span class="st">"Married"</span>, </span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>                                                           <span class="st">"Divorced"</span>)</span>
+<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb94-12"><a href="#cb94-12" aria-hidden="true" tabindex="-1"></a>data_processed_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb94-13"><a href="#cb94-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.factor) <span class="sc">%&gt;%</span> </span>
+<span id="cb94-14"><a href="#cb94-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(levels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Attrition
+[1] "No"  "Yes"
+
+$BusinessTravel
+[1] "Non-Travel"        "Travel_Rarely"     "Travel_Frequently"
+
+$Department
+[1] "Human Resources"        "Research &amp; Development" "Sales"                 
+
+$Education
+[1] "Below College" "College"       "Bachelor"      "Master"       
+[5] "Doctor"       
+
+$EducationField
+[1] "Human Resources"  "Life Sciences"    "Marketing"        "Medical"         
+[5] "Other"            "Technical Degree"
+
+$EnvironmentSatisfaction
+[1] "Low"       "Medium"    "High"      "Very High"
+
+$Gender
+[1] "Female" "Male"  
+
+$JobInvolvement
+[1] "Low"       "Medium"    "High"      "Very High"
+
+$JobRole
+[1] "Healthcare Representative" "Human Resources"          
+[3] "Laboratory Technician"     "Manager"                  
+[5] "Manufacturing Director"    "Research Director"        
+[7] "Research Scientist"        "Sales Executive"          
+[9] "Sales Representative"     
+
+$JobSatisfaction
+[1] "Low"       "Medium"    "High"      "Very High"
+
+$MaritalStatus
+[1] "Single"   "Married"  "Divorced"
+
+$Over18
+[1] "Y"
+
+$OverTime
+[1] "No"  "Yes"
+
+$PerformanceRating
+[1] "Low"         "Good"        "Excellent"   "Outstanding"
+
+$RelationshipSatisfaction
+[1] "Low"       "Medium"    "High"      "Very High"
+
+$WorkLifeBalance
+[1] "Bad"    "Good"   "Better" "Best"  </code></pre>
+</div>
+</div>
+<div class="cell" data-hash="03_automated_maschine_learning_with_H2O_cache/html/unnamed-chunk-10_5f1981fa242abb16301dc18c111191b0">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>process_hr_data_readable <span class="ot">&lt;-</span> <span class="cf">function</span>(data, definitions_tbl) {</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>    definitions_list <span class="ot">&lt;-</span> definitions_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fill</span>(...<span class="dv">1</span>, <span class="at">.direction =</span> <span class="st">"down"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(...<span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">separate</span>(...<span class="dv">2</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"key"</span>, <span class="st">"value"</span>), <span class="at">sep =</span> <span class="st">" '"</span>, <span class="at">remove =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="at">column_name =</span> ...<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb96-8"><a href="#cb96-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">key =</span> <span class="fu">as.numeric</span>(key)) <span class="sc">%&gt;%</span></span>
+<span id="cb96-9"><a href="#cb96-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">value =</span> value <span class="sc">%&gt;%</span> <span class="fu">str_replace</span>(<span class="at">pattern =</span> <span class="st">"'"</span>, <span class="at">replacement =</span> <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb96-10"><a href="#cb96-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">split</span>(.<span class="sc">$</span>column_name) <span class="sc">%&gt;%</span></span>
+<span id="cb96-11"><a href="#cb96-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">select</span>(., <span class="sc">-</span>column_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb96-12"><a href="#cb96-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">mutate</span>(., <span class="at">value =</span> <span class="fu">as_factor</span>(value))) </span>
+<span id="cb96-13"><a href="#cb96-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb96-14"><a href="#cb96-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(definitions_list)) {</span>
+<span id="cb96-15"><a href="#cb96-15" aria-hidden="true" tabindex="-1"></a>        list_name <span class="ot">&lt;-</span> <span class="fu">names</span>(definitions_list)[i]</span>
+<span id="cb96-16"><a href="#cb96-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">colnames</span>(definitions_list[[i]]) <span class="ot">&lt;-</span> <span class="fu">c</span>(list_name, <span class="fu">paste0</span>(list_name, <span class="st">"_value"</span>))</span>
+<span id="cb96-17"><a href="#cb96-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb96-18"><a href="#cb96-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb96-19"><a href="#cb96-19" aria-hidden="true" tabindex="-1"></a>    data_merged_tbl <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">HR_Data =</span> data) <span class="sc">%&gt;%</span></span>
+<span id="cb96-20"><a href="#cb96-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">append</span>(definitions_list, <span class="at">after =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb96-21"><a href="#cb96-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">reduce</span>(left_join) <span class="sc">%&gt;%</span></span>
+<span id="cb96-22"><a href="#cb96-22" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(<span class="sc">-</span><span class="fu">one_of</span>(<span class="fu">names</span>(definitions_list))) <span class="sc">%&gt;%</span></span>
+<span id="cb96-23"><a href="#cb96-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">set_names</span>(<span class="fu">str_replace_all</span>(<span class="fu">names</span>(.), <span class="at">pattern =</span> <span class="st">"_value"</span>, </span>
+<span id="cb96-24"><a href="#cb96-24" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">replacement =</span> <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb96-25"><a href="#cb96-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(<span class="fu">sort</span>(<span class="fu">names</span>(.))) <span class="sc">%&gt;%</span></span>
+<span id="cb96-26"><a href="#cb96-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate_if</span>(is.character, as.factor) <span class="sc">%&gt;%</span></span>
+<span id="cb96-27"><a href="#cb96-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(</span>
+<span id="cb96-28"><a href="#cb96-28" aria-hidden="true" tabindex="-1"></a>            <span class="at">BusinessTravel =</span> BusinessTravel <span class="sc">%&gt;%</span> <span class="fu">fct_relevel</span>(<span class="st">"Non-Travel"</span>, </span>
+<span id="cb96-29"><a href="#cb96-29" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">"Travel_Rarely"</span>, </span>
+<span id="cb96-30"><a href="#cb96-30" aria-hidden="true" tabindex="-1"></a>                                                            <span class="st">"Travel_Frequently"</span>),</span>
+<span id="cb96-31"><a href="#cb96-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">MaritalStatus  =</span> MaritalStatus <span class="sc">%&gt;%</span> <span class="fu">fct_relevel</span>(<span class="st">"Single"</span>, </span>
+<span id="cb96-32"><a href="#cb96-32" aria-hidden="true" tabindex="-1"></a>                                                           <span class="st">"Married"</span>, </span>
+<span id="cb96-33"><a href="#cb96-33" aria-hidden="true" tabindex="-1"></a>                                                           <span class="st">"Divorced"</span>)</span>
+<span id="cb96-34"><a href="#cb96-34" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb96-35"><a href="#cb96-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb96-36"><a href="#cb96-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(data_merged_tbl)</span>
+<span id="cb96-37"><a href="#cb96-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb96-38"><a href="#cb96-38" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb96-39"><a href="#cb96-39" aria-hidden="true" tabindex="-1"></a><span class="fu">process_hr_data_readable</span>(employee_attrition_tbl, definitions_raw_tbl) <span class="sc">%&gt;%</span> </span>
+<span id="cb96-40"><a href="#cb96-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Education)`
+Joining with `by = join_by(EnvironmentSatisfaction)`
+Joining with `by = join_by(JobInvolvement)`
+Joining with `by = join_by(JobSatisfaction)`
+Joining with `by = join_by(PerformanceRating)`
+Joining with `by = join_by(RelationshipSatisfaction)`
+Joining with `by = join_by(WorkLifeBalance)`</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,470
+Columns: 35
+$ Age                      &lt;dbl&gt; 41, 49, 37, 33, 27, 32, 59, 30, 38, 36, 35, 2~
+$ Attrition                &lt;fct&gt; Yes, No, Yes, No, No, No, No, No, No, No, No,~
+$ BusinessTravel           &lt;fct&gt; Travel_Rarely, Travel_Frequently, Travel_Rare~
+$ DailyRate                &lt;dbl&gt; 1102, 279, 1373, 1392, 591, 1005, 1324, 1358,~
+$ Department               &lt;fct&gt; Sales, Research &amp; Development, Research &amp; Dev~
+$ DistanceFromHome         &lt;dbl&gt; 1, 8, 2, 3, 2, 2, 3, 24, 23, 27, 16, 15, 26, ~
+$ Education                &lt;fct&gt; College, Below College, College, Master, Belo~
+$ EducationField           &lt;fct&gt; Life Sciences, Life Sciences, Other, Life Sci~
+$ EmployeeCount            &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ~
+$ EmployeeNumber           &lt;dbl&gt; 1, 2, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16,~
+$ EnvironmentSatisfaction  &lt;fct&gt; Medium, High, Very High, Very High, Low, Very~
+$ Gender                   &lt;fct&gt; Female, Male, Male, Female, Male, Male, Femal~
+$ HourlyRate               &lt;dbl&gt; 94, 61, 92, 56, 40, 79, 81, 67, 44, 94, 84, 4~
+$ JobInvolvement           &lt;fct&gt; High, Medium, Medium, High, High, High, Very ~
+$ JobLevel                 &lt;dbl&gt; 2, 2, 1, 1, 1, 1, 1, 1, 3, 2, 1, 2, 1, 1, 1, ~
+$ JobRole                  &lt;fct&gt; Sales Executive, Research Scientist, Laborato~
+$ JobSatisfaction          &lt;fct&gt; Very High, Medium, High, High, Medium, Very H~
+$ MaritalStatus            &lt;fct&gt; Single, Married, Single, Married, Married, Si~
+$ MonthlyIncome            &lt;dbl&gt; 5993, 5130, 2090, 2909, 3468, 3068, 2670, 269~
+$ MonthlyRate              &lt;dbl&gt; 19479, 24907, 2396, 23159, 16632, 11864, 9964~
+$ NumCompaniesWorked       &lt;dbl&gt; 8, 1, 6, 1, 9, 0, 4, 1, 0, 6, 0, 0, 1, 0, 5, ~
+$ Over18                   &lt;fct&gt; Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, Y, ~
+$ OverTime                 &lt;fct&gt; Yes, No, Yes, Yes, No, No, Yes, No, No, No, N~
+$ PercentSalaryHike        &lt;dbl&gt; 11, 23, 15, 11, 12, 13, 20, 22, 21, 13, 13, 1~
+$ PerformanceRating        &lt;fct&gt; Excellent, Outstanding, Excellent, Excellent,~
+$ RelationshipSatisfaction &lt;fct&gt; Low, Very High, Medium, High, Very High, High~
+$ StandardHours            &lt;dbl&gt; 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 8~
+$ StockOptionLevel         &lt;dbl&gt; 0, 1, 0, 0, 1, 0, 3, 1, 0, 2, 1, 0, 1, 1, 0, ~
+$ TotalWorkingYears        &lt;dbl&gt; 8, 10, 7, 8, 6, 8, 12, 1, 10, 17, 6, 10, 5, 3~
+$ TrainingTimesLastYear    &lt;dbl&gt; 0, 3, 3, 3, 3, 2, 3, 2, 2, 3, 5, 3, 1, 2, 4, ~
+$ WorkLifeBalance          &lt;fct&gt; Bad, Better, Better, Better, Better, Good, Go~
+$ YearsAtCompany           &lt;dbl&gt; 6, 10, 0, 8, 2, 7, 1, 1, 9, 7, 5, 9, 5, 2, 4,~
+$ YearsInCurrentRole       &lt;dbl&gt; 4, 7, 0, 7, 2, 7, 0, 0, 7, 7, 4, 5, 2, 2, 2, ~
+$ YearsSinceLastPromotion  &lt;dbl&gt; 0, 1, 0, 3, 2, 3, 0, 0, 1, 7, 0, 0, 4, 1, 0, ~
+$ YearsWithCurrManager     &lt;dbl&gt; 5, 7, 0, 0, 2, 6, 0, 0, 8, 7, 3, 8, 3, 2, 3, ~</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="03_automated_maschine_learning_with_H2O_cache/html/unnamed-chunk-11_17efcd33e9d0595e63294047e1763593">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsample)</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(recipes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'recipes'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stringr':
+
+    fixed</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    step</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>employee_attrition_tbl          <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"datasets-1067-1925-WA_Fn-UseC_-HR-Employee-Attrition.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1470 Columns: 35</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Column specification --------------------------------------------------------
+Delimiter: ","
+chr  (9): Attrition, BusinessTravel, Department, EducationField, Gender, Job...
+dbl (26): Age, DailyRate, DistanceFromHome, Education, EmployeeCount, Employ...
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>definitions_raw_tbl             <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"data_definitions.xlsx"</span>, <span class="at">sheet =</span> <span class="dv">1</span>, <span class="at">col_names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+* `` -&gt; `...1`
+* `` -&gt; `...2`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>employee_attrition_readable_tbl <span class="ot">&lt;-</span> <span class="fu">process_hr_data_readable</span>(employee_attrition_tbl, definitions_raw_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(Education)`
+Joining with `by = join_by(EnvironmentSatisfaction)`
+Joining with `by = join_by(JobInvolvement)`
+Joining with `by = join_by(JobSatisfaction)`
+Joining with `by = join_by(PerformanceRating)`
+Joining with `by = join_by(RelationshipSatisfaction)`
+Joining with `by = join_by(WorkLifeBalance)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="at">seed =</span> <span class="dv">1113</span>)</span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>split_obj                       <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">initial_split</span>(employee_attrition_readable_tbl, <span class="at">prop =</span> <span class="fl">0.85</span>)</span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>train_readable_tbl              <span class="ot">&lt;-</span> <span class="fu">training</span>(split_obj)</span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>test_readable_tbl               <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_obj)</span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-6"><a href="#cb110-6" aria-hidden="true" tabindex="-1"></a>recipe_obj <span class="ot">&lt;-</span> <span class="fu">recipe</span>(Attrition <span class="sc">~</span>., <span class="at">data =</span> train_readable_tbl) <span class="sc">%&gt;%</span> </span>
+<span id="cb110-7"><a href="#cb110-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb110-8"><a href="#cb110-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">step_mutate_at</span>(JobLevel, StockOptionLevel, <span class="at">fn =</span> as.factor) <span class="sc">%&gt;%</span> </span>
+<span id="cb110-9"><a href="#cb110-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">prep</span>()</span>
+<span id="cb110-10"><a href="#cb110-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-11"><a href="#cb110-11" aria-hidden="true" tabindex="-1"></a>train_tbl <span class="ot">&lt;-</span> <span class="fu">bake</span>(recipe_obj, <span class="at">new_data =</span> train_readable_tbl)</span>
+<span id="cb110-12"><a href="#cb110-12" aria-hidden="true" tabindex="-1"></a>test_tbl  <span class="ot">&lt;-</span> <span class="fu">bake</span>(recipe_obj, <span class="at">new_data =</span> test_readable_tbl)</span>
+<span id="cb110-13"><a href="#cb110-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-14"><a href="#cb110-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Modeling</span></span>
+<span id="cb110-15"><a href="#cb110-15" aria-hidden="true" tabindex="-1"></a><span class="fu">h2o.init</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Connection successful!
+
+R is connected to the H2O cluster: 
+    H2O cluster uptime:         2 hours 41 minutes 
+    H2O cluster timezone:       Europe/Berlin 
+    H2O data parsing timezone:  UTC 
+    H2O cluster version:        3.40.0.1 
+    H2O cluster version age:    3 months and 11 days 
+    H2O cluster name:           H2O_started_from_R_Chris_yuh446 
+    H2O cluster total nodes:    1 
+    H2O cluster total memory:   3.42 GB 
+    H2O cluster total cores:    12 
+    H2O cluster allowed cores:  12 
+    H2O cluster healthy:        TRUE 
+    H2O Connection ip:          localhost 
+    H2O Connection port:        54321 
+    H2O Connection proxy:       NA 
+    H2O Internal Security:      FALSE 
+    R Version:                  R version 4.0.5 (2021-03-31) </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data into a training and a validation data frame</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting the seed is just for reproducability</span></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>split_h2o <span class="ot">&lt;-</span> <span class="fu">h2o.splitFrame</span>(<span class="fu">as.h2o</span>(train_tbl), <span class="at">ratios =</span> <span class="fu">c</span>(<span class="fl">0.85</span>), <span class="at">seed =</span> <span class="dv">1234</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>train_h2o <span class="ot">&lt;-</span> split_h2o[[<span class="dv">1</span>]]</span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>valid_h2o <span class="ot">&lt;-</span> split_h2o[[<span class="dv">2</span>]]</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>test_h2o  <span class="ot">&lt;-</span> <span class="fu">as.h2o</span>(test_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the target and predictors</span></span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="st">"Attrition"</span></span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(train_h2o), y)</span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ?h2o.automl</span></span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-7"><a href="#cb116-7" aria-hidden="true" tabindex="-1"></a>automl_models_h2o <span class="ot">&lt;-</span> <span class="fu">h2o.automl</span>(</span>
+<span id="cb116-8"><a href="#cb116-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> x,</span>
+<span id="cb116-9"><a href="#cb116-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> y,</span>
+<span id="cb116-10"><a href="#cb116-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">training_frame    =</span> train_h2o,</span>
+<span id="cb116-11"><a href="#cb116-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">validation_frame  =</span> valid_h2o,</span>
+<span id="cb116-12"><a href="#cb116-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">leaderboard_frame =</span> test_h2o,</span>
+<span id="cb116-13"><a href="#cb116-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_runtime_secs  =</span> <span class="dv">30</span>,</span>
+<span id="cb116-14"><a href="#cb116-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfolds            =</span> <span class="dv">5</span> </span>
+<span id="cb116-15"><a href="#cb116-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |====                                                                  |   6%
+16:06:39.267: User specified a validation frame with cross-validation still enabled. Please note that the models will still be validated using cross-validation only, the validation frame will be used to provide purely informative validation metrics on the trained models.
+16:06:39.269: AutoML: XGBoost is not available; skipping it.
+  |                                                                            
+  |=============                                                         |  18%
+  |                                                                            
+  |====================                                                  |  28%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |======================                                                |  32%
+  |                                                                            
+  |=============================                                         |  42%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |==================================================                    |  72%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |===============================================================       |  89%
+  |                                                                            
+  |===================================================================== |  99%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="03_automated_maschine_learning_with_H2O_cache/html/unnamed-chunk-12_d70a8dd8f2db5fd5437fdf385cbba9aa">
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(automl_models_h2o)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "S4"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slotNames</span>(automl_models_h2o)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "project_name"   "leader"         "leaderboard"    "event_log"     
+[5] "modeling_steps" "training_info" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>automl_models_h2o<span class="sc">@</span>leaderboard</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                  model_id       auc   logloss
+1             GBM_grid_1_AutoML_12_20230520_160639_model_7 0.8696713 0.3582326
+2 StackedEnsemble_BestOfFamily_5_AutoML_12_20230520_160639 0.8637648 0.3358554
+3 StackedEnsemble_BestOfFamily_4_AutoML_12_20230520_160639 0.8615819 0.3397077
+4 StackedEnsemble_BestOfFamily_2_AutoML_12_20230520_160639 0.8614535 0.3432543
+5    StackedEnsemble_AllModels_1_AutoML_12_20230520_160639 0.8606831 0.3441091
+6 StackedEnsemble_BestOfFamily_3_AutoML_12_20230520_160639 0.8604263 0.3425616
+      aucpr mean_per_class_error      rmse        mse
+1 0.7001650            0.2555855 0.3337552 0.11139251
+2 0.7248473            0.2243195 0.3160107 0.09986277
+3 0.7209287            0.2243195 0.3180124 0.10113192
+4 0.7172839            0.2299692 0.3194663 0.10205870
+5 0.7155361            0.2299692 0.3201903 0.10252185
+6 0.7197116            0.2299692 0.3181193 0.10119988
+
+[43 rows x 7 columns] </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>automl_models_h2o<span class="sc">@</span>leader</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model Details:
+==============
+
+H2OBinomialModel: gbm
+Model ID:  GBM_grid_1_AutoML_12_20230520_160639_model_7 
+Model Summary: 
+  number_of_trees number_of_internal_trees model_size_in_bytes min_depth
+1              49                       49                7652         3
+  max_depth mean_depth min_leaves max_leaves mean_leaves
+1         3    3.00000          7          8     7.79592
 
 
+H2OBinomialMetrics: gbm
+** Reported on training data. **
+
+MSE:  0.06050782
+RMSE:  0.2459834
+LogLoss:  0.2190137
+Mean Per-Class Error:  0.1272047
+AUC:  0.952312
+AUCPR:  0.8568108
+Gini:  0.904624
+R^2:  0.5138176
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error      Rate
+No     883  26 0.028603   =26/909
+Yes     35 120 0.225806   =35/155
+Totals 918 146 0.057331  =61/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.295844   0.797342 123
+2                       max f2  0.203883   0.802696 155
+3                 max f0point5  0.329361   0.839580 109
+4                 max accuracy  0.329361   0.944549 109
+5                max precision  0.912383   1.000000   0
+6                   max recall  0.036350   1.000000 360
+7              max specificity  0.912383   1.000000   0
+8             max absolute_mcc  0.322060   0.765901 112
+9   max min_per_class_accuracy  0.159277   0.872387 187
+10 max mean_per_class_accuracy  0.203883   0.886827 155
+11                     max tns  0.912383 909.000000   0
+12                     max fns  0.912383 154.000000   0
+13                     max fps  0.012478 909.000000 399
+14                     max tps  0.036350 155.000000 360
+15                     max tnr  0.912383   1.000000   0
+16                     max fnr  0.912383   0.993548   0
+17                     max fpr  0.012478   1.000000 399
+18                     max tpr  0.036350   1.000000 360
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: gbm
+** Reported on validation data. **
+
+MSE:  0.123212
+RMSE:  0.3510156
+LogLoss:  0.3882511
+Mean Per-Class Error:  0.2438238
+AUC:  0.8320802
+AUCPR:  0.6112766
+Gini:  0.6641604
+R^2:  0.2450897
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error     Rate
+No     114  33 0.224490  =33/147
+Yes     10  28 0.263158   =10/38
+Totals 124  61 0.232432  =43/185
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.150515   0.565657  60
+2                       max f2  0.102291   0.723140  89
+3                 max f0point5  0.554050   0.608108   8
+4                 max accuracy  0.554050   0.843243   8
+5                max precision  0.899038   1.000000   0
+6                   max recall  0.047906   1.000000 138
+7              max specificity  0.899038   1.000000   0
+8             max absolute_mcc  0.109157   0.450019  83
+9   max min_per_class_accuracy  0.150515   0.736842  60
+10 max mean_per_class_accuracy  0.109157   0.777300  83
+11                     max tns  0.899038 147.000000   0
+12                     max fns  0.899038  37.000000   0
+13                     max fps  0.014998 147.000000 184
+14                     max tps  0.047906  38.000000 138
+15                     max tnr  0.899038   1.000000   0
+16                     max fnr  0.899038   0.973684   0
+17                     max fpr  0.014998   1.000000 184
+18                     max tpr  0.047906   1.000000 138
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: gbm
+** Reported on cross-validation data. **
+** 5-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
+
+MSE:  0.09794426
+RMSE:  0.3129605
+LogLoss:  0.330732
+Mean Per-Class Error:  0.2654565
+AUC:  0.796799
+AUCPR:  0.5077129
+Gini:  0.5935981
+R^2:  0.2130146
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error       Rate
+No     790 119 0.130913   =119/909
+Yes     62  93 0.400000    =62/155
+Totals 852 212 0.170113  =181/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.195867   0.506812 151
+2                       max f2  0.147207   0.598706 195
+3                 max f0point5  0.263669   0.513748  99
+4                 max accuracy  0.557146   0.875000  25
+5                max precision  0.946412   1.000000   0
+6                   max recall  0.017638   1.000000 390
+7              max specificity  0.946412   1.000000   0
+8             max absolute_mcc  0.182315   0.414373 163
+9   max min_per_class_accuracy  0.132363   0.729032 212
+10 max mean_per_class_accuracy  0.147207   0.750254 195
+11                     max tns  0.946412 909.000000   0
+12                     max fns  0.946412 154.000000   0
+13                     max fps  0.009729 909.000000 399
+14                     max tps  0.017638 155.000000 390
+15                     max tnr  0.946412   1.000000   0
+16                     max fnr  0.946412   0.993548   0
+17                     max fpr  0.009729   1.000000 399
+18                     max tpr  0.017638   1.000000 390
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+Cross-Validation Metrics Summary: 
+                             mean       sd cv_1_valid cv_2_valid cv_3_valid
+accuracy                 0.838391 0.044715   0.774648   0.863850   0.812207
+auc                      0.789872 0.045835   0.728448   0.842754   0.776536
+err                      0.161609 0.044715   0.225352   0.136150   0.187793
+err_count               34.400000 9.555103  48.000000  29.000000  40.000000
+f0point5                 0.494950 0.090521   0.352697   0.572289   0.464602
+f1                       0.528944 0.071294   0.414634   0.567164   0.512195
+f2                       0.572092 0.048655   0.502959   0.562130   0.570652
+lift_top_group           6.429757 1.074968   4.896552   6.264706   6.264706
+logloss                  0.332419 0.033242   0.356348   0.319605   0.365312
+max_per_class_error      0.391551 0.040159   0.413793   0.441176   0.382353
+mcc                      0.442474 0.087369   0.309807   0.486482   0.409207
+mean_per_class_accuracy  0.743207 0.035294   0.695277   0.740306   0.733405
+mean_per_class_error     0.256793 0.035294   0.304723   0.259694   0.266595
+mse                      0.098348 0.011212   0.106450   0.096924   0.109705
+pr_auc                   0.494529 0.099452   0.325569   0.585154   0.504225
+precision                0.475893 0.101162   0.320755   0.575758   0.437500
+r2                       0.208111 0.074940   0.094918   0.277467   0.182190
+recall                   0.608449 0.040159   0.586207   0.558824   0.617647
+rmse                     0.313180 0.018242   0.326266   0.311326   0.331217
+specificity              0.877964 0.050393   0.804348   0.921788   0.849162
+                        cv_4_valid cv_5_valid
+accuracy                  0.854460   0.886792
+auc                       0.774193   0.827427
+err                       0.145540   0.113208
+err_count                31.000000  24.000000
+f0point5                  0.519126   0.566038
+f1                        0.550725   0.600000
+f2                        0.586420   0.638298
+lift_top_group            6.870968   7.851852
+logloss                   0.338992   0.281841
+max_per_class_error       0.387097   0.333333
+mcc                       0.468385   0.538486
+mean_per_class_accuracy   0.754254   0.792793
+mean_per_class_error      0.245746   0.207207
+mse                       0.097805   0.080858
+pr_auc                    0.515566   0.542129
+precision                 0.500000   0.545455
+r2                        0.213525   0.272456
+recall                    0.612903   0.666667
+rmse                      0.312737   0.284355
+specificity               0.895604   0.918919</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Depending on the algorithm, the output will be different</span></span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a><span class="fu">h2o.getModel</span>(<span class="st">"StackedEnsemble_AllModels_4_AutoML_1_20230520_153140"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model Details:
+==============
+
+H2OBinomialModel: stackedensemble
+Model ID:  StackedEnsemble_AllModels_4_AutoML_1_20230520_153140 
+Model Summary for Stacked Ensemble: 
+                                         key            value
+1                          Stacking strategy cross_validation
+2       Number of base models (used / total)             4/34
+3           # GBM base models (used / total)             1/20
+4           # GLM base models (used / total)              1/1
+5  # DeepLearning base models (used / total)             2/11
+6           # DRF base models (used / total)              0/2
+7                      Metalearner algorithm              GLM
+8         Metalearner fold assignment scheme           Random
+9                         Metalearner nfolds                5
+10                   Metalearner fold_column               NA
+11        Custom metalearner hyperparameters             None
+
+
+H2OBinomialMetrics: stackedensemble
+** Reported on training data. **
+
+MSE:  0.05099553
+RMSE:  0.2258219
+LogLoss:  0.1968109
+Mean Per-Class Error:  0.131307
+AUC:  0.9547642
+AUCPR:  0.8935755
+Gini:  0.9095284
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error      Rate
+No     899  10 0.011001   =10/909
+Yes     39 116 0.251613   =39/155
+Totals 938 126 0.046053  =49/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.411252   0.825623 107
+2                       max f2  0.251631   0.832313 162
+3                 max f0point5  0.461778   0.895522  95
+4                 max accuracy  0.411252   0.953947 107
+5                max precision  0.959785   1.000000   0
+6                   max recall  0.023109   1.000000 365
+7              max specificity  0.959785   1.000000   0
+8             max absolute_mcc  0.411252   0.805111 107
+9   max min_per_class_accuracy  0.216889   0.896774 175
+10 max mean_per_class_accuracy  0.251631   0.905156 162
+11                     max tns  0.959785 909.000000   0
+12                     max fns  0.959785 154.000000   0
+13                     max fps  0.001195 909.000000 399
+14                     max tps  0.023109 155.000000 365
+15                     max tnr  0.959785   1.000000   0
+16                     max fnr  0.959785   0.993548   0
+17                     max fpr  0.001195   1.000000 399
+18                     max tpr  0.023109   1.000000 365
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: stackedensemble
+** Reported on validation data. **
+
+MSE:  0.1062109
+RMSE:  0.3259001
+LogLoss:  0.3470929
+Mean Per-Class Error:  0.2182241
+AUC:  0.8607232
+AUCPR:  0.6981044
+Gini:  0.7214465
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error     Rate
+No     137  10 0.068027  =10/147
+Yes     14  24 0.368421   =14/38
+Totals 151  34 0.129730  =24/185
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.397164   0.666667  33
+2                       max f2  0.268551   0.703518  46
+3                 max f0point5  0.452942   0.724638  24
+4                 max accuracy  0.452942   0.875676  24
+5                max precision  0.918098   1.000000   0
+6                   max recall  0.029491   1.000000 146
+7              max specificity  0.918098   1.000000   0
+8             max absolute_mcc  0.403074   0.595848  30
+9   max min_per_class_accuracy  0.188694   0.761905  63
+10 max mean_per_class_accuracy  0.268551   0.803795  46
+11                     max tns  0.918098 147.000000   0
+12                     max fns  0.918098  37.000000   0
+13                     max fps  0.003240 147.000000 184
+14                     max tps  0.029491  38.000000 146
+15                     max tnr  0.918098   1.000000   0
+16                     max fnr  0.918098   0.973684   0
+17                     max fpr  0.003240   1.000000 184
+18                     max tpr  0.029491   1.000000 146
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: stackedensemble
+** Reported on cross-validation data. **
+** 5-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
+
+MSE:  0.08464407
+RMSE:  0.2909365
+LogLoss:  0.2976949
+Mean Per-Class Error:  0.2320522
+AUC:  0.8377693
+AUCPR:  0.6080058
+Gini:  0.6755385
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error       Rate
+No     839  70 0.077008    =70/909
+Yes     60  95 0.387097    =60/155
+Totals 899 165 0.122180  =130/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.291059   0.593750 139
+2                       max f2  0.187189   0.641618 190
+3                 max f0point5  0.508023   0.647182  70
+4                 max accuracy  0.508023   0.894737  70
+5                max precision  0.965321   1.000000   0
+6                   max recall  0.002125   1.000000 398
+7              max specificity  0.965321   1.000000   0
+8             max absolute_mcc  0.291059   0.522283 139
+9   max min_per_class_accuracy  0.131740   0.761290 232
+10 max mean_per_class_accuracy  0.187189   0.784357 190
+11                     max tns  0.965321 909.000000   0
+12                     max fns  0.965321 154.000000   0
+13                     max fps  0.001109 909.000000 399
+14                     max tps  0.002125 155.000000 398
+15                     max tnr  0.965321   1.000000   0
+16                     max fnr  0.965321   0.993548   0
+17                     max fpr  0.001109   1.000000 399
+18                     max tpr  0.002125   1.000000 398
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+Cross-Validation Metrics Summary: 
+               mean       sd cv_1_valid cv_2_valid cv_3_valid cv_4_valid
+accuracy   0.893982 0.029899   0.913706   0.880342   0.865217   0.874372
+auc        0.845190 0.030919   0.833987   0.820809   0.833419   0.838501
+err        0.106018 0.029899   0.086294   0.119658   0.134783   0.125628
+err_count 22.800000 7.563068  17.000000  28.000000  31.000000  25.000000
+f0point5   0.648896 0.131543   0.691057   0.670103   0.491329   0.558659
+          cv_5_valid
+accuracy    0.936275
+auc         0.899234
+err         0.063725
+err_count  13.000000
+f0point5    0.833333
+
+---
+                        mean        sd cv_1_valid cv_2_valid cv_3_valid
+precision           0.659169  0.170264   0.708333   0.684211   0.472222
+r2                  0.317817  0.058259   0.333599   0.310833   0.244631
+recall              0.641792  0.058347   0.629630   0.619048   0.586207
+residual_deviance 125.817780 23.411427 112.322960 164.100600 130.606870
+rmse                0.289714  0.017228   0.280742   0.318582   0.288502
+specificity         0.937130  0.038269   0.958824   0.937500   0.905473
+                  cv_4_valid cv_5_valid
+precision           0.526316   0.904762
+r2                  0.295929   0.404091
+recall              0.740741   0.633333
+residual_deviance 117.523740 104.534730
+rmse                0.287343   0.273398
+specificity         0.895349   0.988506</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracts and H2O model name by a position so can more easily use h2o.getModel()</span></span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>extract_h2o_model_name_by_position <span class="ot">&lt;-</span> <span class="cf">function</span>(h2o_leaderboard, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">verbose =</span> T) {</span>
+<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a>    model_name <span class="ot">&lt;-</span> h2o_leaderboard <span class="sc">%&gt;%</span></span>
+<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">slice</span>(n) <span class="sc">%&gt;%</span></span>
+<span id="cb128-7"><a href="#cb128-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">pull</span>(model_id)</span>
+<span id="cb128-8"><a href="#cb128-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb128-9"><a href="#cb128-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (verbose) <span class="fu">message</span>(model_name)</span>
+<span id="cb128-10"><a href="#cb128-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb128-11"><a href="#cb128-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(model_name)</span>
+<span id="cb128-12"><a href="#cb128-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb128-13"><a href="#cb128-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb128-14"><a href="#cb128-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-15"><a href="#cb128-15" aria-hidden="true" tabindex="-1"></a>automl_models_h2o<span class="sc">@</span>leaderboard <span class="sc">%&gt;%</span> </span>
+<span id="cb128-16"><a href="#cb128-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_h2o_model_name_by_position</span>(<span class="dv">6</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb128-17"><a href="#cb128-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">h2o.getModel</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `as.tibble()` was deprecated in tibble 2.0.0.
+i Please use `as_tibble()` instead.
+i The signature and semantics have changed, see `?as_tibble`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>StackedEnsemble_BestOfFamily_3_AutoML_12_20230520_160639</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model Details:
+==============
+
+H2OBinomialModel: stackedensemble
+Model ID:  StackedEnsemble_BestOfFamily_3_AutoML_12_20230520_160639 
+Model Summary for Stacked Ensemble: 
+                                         key            value
+1                          Stacking strategy cross_validation
+2       Number of base models (used / total)              3/5
+3           # GBM base models (used / total)              1/1
+4           # GLM base models (used / total)              1/1
+5           # DRF base models (used / total)              0/2
+6  # DeepLearning base models (used / total)              1/1
+7                      Metalearner algorithm              GLM
+8         Metalearner fold assignment scheme           Random
+9                         Metalearner nfolds                5
+10                   Metalearner fold_column               NA
+11        Custom metalearner hyperparameters             None
+
+
+H2OBinomialMetrics: stackedensemble
+** Reported on training data. **
+
+MSE:  0.05747188
+RMSE:  0.2397329
+LogLoss:  0.213189
+Mean Per-Class Error:  0.1454594
+AUC:  0.9299585
+AUCPR:  0.8356742
+Gini:  0.859917
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error      Rate
+No     885  24 0.026403   =24/909
+Yes     41 114 0.264516   =41/155
+Totals 926 138 0.061090  =65/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.382037   0.778157 112
+2                       max f2  0.225267   0.787260 164
+3                 max f0point5  0.519569   0.828729  79
+4                 max accuracy  0.386540   0.939850 109
+5                max precision  0.974068   1.000000   0
+6                   max recall  0.003414   1.000000 394
+7              max specificity  0.974068   1.000000   0
+8             max absolute_mcc  0.386540   0.746142 109
+9   max min_per_class_accuracy  0.188749   0.872387 184
+10 max mean_per_class_accuracy  0.225267   0.878026 164
+11                     max tns  0.974068 909.000000   0
+12                     max fns  0.974068 154.000000   0
+13                     max fps  0.000527 909.000000 399
+14                     max tps  0.003414 155.000000 394
+15                     max tnr  0.974068   1.000000   0
+16                     max fnr  0.974068   0.993548   0
+17                     max fpr  0.000527   1.000000 399
+18                     max tpr  0.003414   1.000000 394
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: stackedensemble
+** Reported on validation data. **
+
+MSE:  0.1015138
+RMSE:  0.3186123
+LogLoss:  0.3360956
+Mean Per-Class Error:  0.1923559
+AUC:  0.8687791
+AUCPR:  0.7202894
+Gini:  0.7375582
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error     Rate
+No     133  14 0.095238  =14/147
+Yes     11  27 0.289474   =11/38
+Totals 144  41 0.135135  =25/185
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.302958   0.683544  40
+2                       max f2  0.094104   0.723140  89
+3                 max f0point5  0.511139   0.714286  21
+4                 max accuracy  0.387801   0.875676  30
+5                max precision  0.932765   1.000000   0
+6                   max recall  0.015081   1.000000 146
+7              max specificity  0.932765   1.000000   0
+8             max absolute_mcc  0.302958   0.598489  40
+9   max min_per_class_accuracy  0.178994   0.789116  60
+10 max mean_per_class_accuracy  0.302958   0.807644  40
+11                     max tns  0.932765 147.000000   0
+12                     max fns  0.932765  37.000000   0
+13                     max fps  0.001134 147.000000 184
+14                     max tps  0.015081  38.000000 146
+15                     max tnr  0.932765   1.000000   0
+16                     max fnr  0.932765   0.973684   0
+17                     max fpr  0.001134   1.000000 184
+18                     max tpr  0.015081   1.000000 146
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: stackedensemble
+** Reported on cross-validation data. **
+** 5-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
+
+MSE:  0.08458036
+RMSE:  0.290827
+LogLoss:  0.3011047
+Mean Per-Class Error:  0.2101707
+AUC:  0.8404982
+AUCPR:  0.6127209
+Gini:  0.6809965
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error       Rate
+No     826  83 0.091309    =83/909
+Yes     51 104 0.329032    =51/155
+Totals 877 187 0.125940  =134/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.264435   0.608187 144
+2                       max f2  0.243052   0.649272 154
+3                 max f0point5  0.409125   0.647359  92
+4                 max accuracy  0.409125   0.895677  92
+5                max precision  0.975409   1.000000   0
+6                   max recall  0.000526   1.000000 399
+7              max specificity  0.975409   1.000000   0
+8             max absolute_mcc  0.348124   0.539616 110
+9   max min_per_class_accuracy  0.149090   0.774194 217
+10 max mean_per_class_accuracy  0.243052   0.791806 154
+11                     max tns  0.975409 909.000000   0
+12                     max fns  0.975409 154.000000   0
+13                     max fps  0.000526 909.000000 399
+14                     max tps  0.000526 155.000000 399
+15                     max tnr  0.975409   1.000000   0
+16                     max fnr  0.975409   0.993548   0
+17                     max fpr  0.000526   1.000000 399
+18                     max tpr  0.000526   1.000000 399
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+Cross-Validation Metrics Summary: 
+               mean       sd cv_1_valid cv_2_valid cv_3_valid cv_4_valid
+accuracy   0.890698 0.016969   0.897321   0.864078   0.903509   0.884058
+auc        0.838486 0.034757   0.868189   0.837681   0.864158   0.841210
+err        0.109302 0.016969   0.102679   0.135922   0.096491   0.115942
+err_count 23.200000 3.271085  23.000000  28.000000  22.000000  24.000000
+f0point5   0.623043 0.067312   0.696970   0.518293   0.652174   0.644330
+          cv_5_valid
+accuracy    0.904523
+auc         0.781190
+err         0.095477
+err_count  19.000000
+f0point5    0.603448
+
+---
+                        mean       sd cv_1_valid cv_2_valid cv_3_valid
+precision           0.616805 0.078082   0.718750   0.500000   0.631579
+r2                  0.311282 0.075556   0.373039   0.237377   0.372755
+recall              0.659478 0.077318   0.621622   0.607143   0.750000
+residual_deviance 127.246840 6.482403 131.733630 123.568474 130.466490
+rmse                0.290809 0.009947   0.294032   0.299279   0.275098
+specificity         0.929361 0.020934   0.951872   0.904494   0.928571
+                  cv_4_valid cv_5_valid
+precision           0.625000   0.608696
+r2                  0.352056   0.221183
+recall              0.735294   0.583333
+residual_deviance 132.846790 117.618810
+rmse                0.298237   0.287402
+specificity         0.913295   0.948571</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co">#h2o.getModel("StackedEnsemble_AllModels_4_AutoML_1_20230520_153140") %&gt;% </span></span>
+<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  h2o.saveModel(path = "04_Modeling/h20_models/")</span></span>
+<span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb132-4"><a href="#cb132-4" aria-hidden="true" tabindex="-1"></a><span class="fu">h2o.loadModel</span>(<span class="st">"04_Modeling/h20_models/StackedEnsemble_AllModels_4_AutoML_1_20230520_153140"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model Details:
+==============
+
+H2OBinomialModel: stackedensemble
+Model ID:  StackedEnsemble_AllModels_4_AutoML_1_20230520_153140 
+Model Summary for Stacked Ensemble: 
+                                         key            value
+1                          Stacking strategy cross_validation
+2       Number of base models (used / total)             4/34
+3           # GBM base models (used / total)             1/20
+4           # GLM base models (used / total)              1/1
+5  # DeepLearning base models (used / total)             2/11
+6           # DRF base models (used / total)              0/2
+7                      Metalearner algorithm              GLM
+8         Metalearner fold assignment scheme           Random
+9                         Metalearner nfolds                5
+10                   Metalearner fold_column               NA
+11        Custom metalearner hyperparameters             None
+
+
+H2OBinomialMetrics: stackedensemble
+** Reported on training data. **
+
+MSE:  0.05099553
+RMSE:  0.2258219
+LogLoss:  0.1968109
+Mean Per-Class Error:  0.131307
+AUC:  0.9547642
+AUCPR:  0.8935755
+Gini:  0.9095284
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error      Rate
+No     899  10 0.011001   =10/909
+Yes     39 116 0.251613   =39/155
+Totals 938 126 0.046053  =49/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.411252   0.825623 107
+2                       max f2  0.251631   0.832313 162
+3                 max f0point5  0.461778   0.895522  95
+4                 max accuracy  0.411252   0.953947 107
+5                max precision  0.959785   1.000000   0
+6                   max recall  0.023109   1.000000 365
+7              max specificity  0.959785   1.000000   0
+8             max absolute_mcc  0.411252   0.805111 107
+9   max min_per_class_accuracy  0.216889   0.896774 175
+10 max mean_per_class_accuracy  0.251631   0.905156 162
+11                     max tns  0.959785 909.000000   0
+12                     max fns  0.959785 154.000000   0
+13                     max fps  0.001195 909.000000 399
+14                     max tps  0.023109 155.000000 365
+15                     max tnr  0.959785   1.000000   0
+16                     max fnr  0.959785   0.993548   0
+17                     max fpr  0.001195   1.000000 399
+18                     max tpr  0.023109   1.000000 365
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: stackedensemble
+** Reported on validation data. **
+
+MSE:  0.1062109
+RMSE:  0.3259001
+LogLoss:  0.3470929
+Mean Per-Class Error:  0.2182241
+AUC:  0.8607232
+AUCPR:  0.6981044
+Gini:  0.7214465
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error     Rate
+No     137  10 0.068027  =10/147
+Yes     14  24 0.368421   =14/38
+Totals 151  34 0.129730  =24/185
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.397164   0.666667  33
+2                       max f2  0.268551   0.703518  46
+3                 max f0point5  0.452942   0.724638  24
+4                 max accuracy  0.452942   0.875676  24
+5                max precision  0.918098   1.000000   0
+6                   max recall  0.029491   1.000000 146
+7              max specificity  0.918098   1.000000   0
+8             max absolute_mcc  0.403074   0.595848  30
+9   max min_per_class_accuracy  0.188694   0.761905  63
+10 max mean_per_class_accuracy  0.268551   0.803795  46
+11                     max tns  0.918098 147.000000   0
+12                     max fns  0.918098  37.000000   0
+13                     max fps  0.003240 147.000000 184
+14                     max tps  0.029491  38.000000 146
+15                     max tnr  0.918098   1.000000   0
+16                     max fnr  0.918098   0.973684   0
+17                     max fpr  0.003240   1.000000 184
+18                     max tpr  0.029491   1.000000 146
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: stackedensemble
+** Reported on cross-validation data. **
+** 5-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
+
+MSE:  0.08464407
+RMSE:  0.2909365
+LogLoss:  0.2976949
+Mean Per-Class Error:  0.2320522
+AUC:  0.8377693
+AUCPR:  0.6080058
+Gini:  0.6755385
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error       Rate
+No     839  70 0.077008    =70/909
+Yes     60  95 0.387097    =60/155
+Totals 899 165 0.122180  =130/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.291059   0.593750 139
+2                       max f2  0.187189   0.641618 190
+3                 max f0point5  0.508023   0.647182  70
+4                 max accuracy  0.508023   0.894737  70
+5                max precision  0.965321   1.000000   0
+6                   max recall  0.002125   1.000000 398
+7              max specificity  0.965321   1.000000   0
+8             max absolute_mcc  0.291059   0.522283 139
+9   max min_per_class_accuracy  0.131740   0.761290 232
+10 max mean_per_class_accuracy  0.187189   0.784357 190
+11                     max tns  0.965321 909.000000   0
+12                     max fns  0.965321 154.000000   0
+13                     max fps  0.001109 909.000000 399
+14                     max tps  0.002125 155.000000 398
+15                     max tnr  0.965321   1.000000   0
+16                     max fnr  0.965321   0.993548   0
+17                     max fpr  0.001109   1.000000 399
+18                     max tpr  0.002125   1.000000 398
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+Cross-Validation Metrics Summary: 
+               mean       sd cv_1_valid cv_2_valid cv_3_valid cv_4_valid
+accuracy   0.893982 0.029899   0.913706   0.880342   0.865217   0.874372
+auc        0.845190 0.030919   0.833987   0.820809   0.833419   0.838501
+err        0.106018 0.029899   0.086294   0.119658   0.134783   0.125628
+err_count 22.800000 7.563068  17.000000  28.000000  31.000000  25.000000
+f0point5   0.648896 0.131543   0.691057   0.670103   0.491329   0.558659
+          cv_5_valid
+accuracy    0.936275
+auc         0.899234
+err         0.063725
+err_count  13.000000
+f0point5    0.833333
+
+---
+                        mean        sd cv_1_valid cv_2_valid cv_3_valid
+precision           0.659169  0.170264   0.708333   0.684211   0.472222
+r2                  0.317817  0.058259   0.333599   0.310833   0.244631
+recall              0.641792  0.058347   0.629630   0.619048   0.586207
+residual_deviance 125.817780 23.411427 112.322960 164.100600 130.606870
+rmse                0.289714  0.017228   0.280742   0.318582   0.288502
+specificity         0.937130  0.038269   0.958824   0.937500   0.905473
+                  cv_4_valid cv_5_valid
+precision           0.526316   0.904762
+r2                  0.295929   0.404091
+recall              0.740741   0.633333
+residual_deviance 117.523740 104.534730
+rmse                0.287343   0.273398
+specificity         0.895349   0.988506</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose whatever model you want</span></span>
+<span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>stacked_ensemble_h2o <span class="ot">&lt;-</span> <span class="fu">h2o.loadModel</span>(<span class="st">"04_Modeling/h20_models/StackedEnsemble_AllModels_4_AutoML_1_20230520_153140"</span>)</span>
+<span id="cb134-3"><a href="#cb134-3" aria-hidden="true" tabindex="-1"></a>stacked_ensemble_h2o</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model Details:
+==============
+
+H2OBinomialModel: stackedensemble
+Model ID:  StackedEnsemble_AllModels_4_AutoML_1_20230520_153140 
+Model Summary for Stacked Ensemble: 
+                                         key            value
+1                          Stacking strategy cross_validation
+2       Number of base models (used / total)             4/34
+3           # GBM base models (used / total)             1/20
+4           # GLM base models (used / total)              1/1
+5  # DeepLearning base models (used / total)             2/11
+6           # DRF base models (used / total)              0/2
+7                      Metalearner algorithm              GLM
+8         Metalearner fold assignment scheme           Random
+9                         Metalearner nfolds                5
+10                   Metalearner fold_column               NA
+11        Custom metalearner hyperparameters             None
+
+
+H2OBinomialMetrics: stackedensemble
+** Reported on training data. **
+
+MSE:  0.05099553
+RMSE:  0.2258219
+LogLoss:  0.1968109
+Mean Per-Class Error:  0.131307
+AUC:  0.9547642
+AUCPR:  0.8935755
+Gini:  0.9095284
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error      Rate
+No     899  10 0.011001   =10/909
+Yes     39 116 0.251613   =39/155
+Totals 938 126 0.046053  =49/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.411252   0.825623 107
+2                       max f2  0.251631   0.832313 162
+3                 max f0point5  0.461778   0.895522  95
+4                 max accuracy  0.411252   0.953947 107
+5                max precision  0.959785   1.000000   0
+6                   max recall  0.023109   1.000000 365
+7              max specificity  0.959785   1.000000   0
+8             max absolute_mcc  0.411252   0.805111 107
+9   max min_per_class_accuracy  0.216889   0.896774 175
+10 max mean_per_class_accuracy  0.251631   0.905156 162
+11                     max tns  0.959785 909.000000   0
+12                     max fns  0.959785 154.000000   0
+13                     max fps  0.001195 909.000000 399
+14                     max tps  0.023109 155.000000 365
+15                     max tnr  0.959785   1.000000   0
+16                     max fnr  0.959785   0.993548   0
+17                     max fpr  0.001195   1.000000 399
+18                     max tpr  0.023109   1.000000 365
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: stackedensemble
+** Reported on validation data. **
+
+MSE:  0.1062109
+RMSE:  0.3259001
+LogLoss:  0.3470929
+Mean Per-Class Error:  0.2182241
+AUC:  0.8607232
+AUCPR:  0.6981044
+Gini:  0.7214465
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error     Rate
+No     137  10 0.068027  =10/147
+Yes     14  24 0.368421   =14/38
+Totals 151  34 0.129730  =24/185
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.397164   0.666667  33
+2                       max f2  0.268551   0.703518  46
+3                 max f0point5  0.452942   0.724638  24
+4                 max accuracy  0.452942   0.875676  24
+5                max precision  0.918098   1.000000   0
+6                   max recall  0.029491   1.000000 146
+7              max specificity  0.918098   1.000000   0
+8             max absolute_mcc  0.403074   0.595848  30
+9   max min_per_class_accuracy  0.188694   0.761905  63
+10 max mean_per_class_accuracy  0.268551   0.803795  46
+11                     max tns  0.918098 147.000000   0
+12                     max fns  0.918098  37.000000   0
+13                     max fps  0.003240 147.000000 184
+14                     max tps  0.029491  38.000000 146
+15                     max tnr  0.918098   1.000000   0
+16                     max fnr  0.918098   0.973684   0
+17                     max fpr  0.003240   1.000000 184
+18                     max tpr  0.029491   1.000000 146
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+H2OBinomialMetrics: stackedensemble
+** Reported on cross-validation data. **
+** 5-fold cross-validation on training data (Metrics computed for combined holdout predictions) **
+
+MSE:  0.08464407
+RMSE:  0.2909365
+LogLoss:  0.2976949
+Mean Per-Class Error:  0.2320522
+AUC:  0.8377693
+AUCPR:  0.6080058
+Gini:  0.6755385
+
+Confusion Matrix (vertical: actual; across: predicted) for F1-optimal threshold:
+        No Yes    Error       Rate
+No     839  70 0.077008    =70/909
+Yes     60  95 0.387097    =60/155
+Totals 899 165 0.122180  =130/1064
+
+Maximum Metrics: Maximum metrics at their respective thresholds
+                        metric threshold      value idx
+1                       max f1  0.291059   0.593750 139
+2                       max f2  0.187189   0.641618 190
+3                 max f0point5  0.508023   0.647182  70
+4                 max accuracy  0.508023   0.894737  70
+5                max precision  0.965321   1.000000   0
+6                   max recall  0.002125   1.000000 398
+7              max specificity  0.965321   1.000000   0
+8             max absolute_mcc  0.291059   0.522283 139
+9   max min_per_class_accuracy  0.131740   0.761290 232
+10 max mean_per_class_accuracy  0.187189   0.784357 190
+11                     max tns  0.965321 909.000000   0
+12                     max fns  0.965321 154.000000   0
+13                     max fps  0.001109 909.000000 399
+14                     max tps  0.002125 155.000000 398
+15                     max tnr  0.965321   1.000000   0
+16                     max fnr  0.965321   0.993548   0
+17                     max fpr  0.001109   1.000000 399
+18                     max tpr  0.002125   1.000000 398
+
+Gains/Lift Table: Extract with `h2o.gainsLift(&lt;model&gt;, &lt;data&gt;)` or `h2o.gainsLift(&lt;model&gt;, valid=&lt;T/F&gt;, xval=&lt;T/F&gt;)`
+Cross-Validation Metrics Summary: 
+               mean       sd cv_1_valid cv_2_valid cv_3_valid cv_4_valid
+accuracy   0.893982 0.029899   0.913706   0.880342   0.865217   0.874372
+auc        0.845190 0.030919   0.833987   0.820809   0.833419   0.838501
+err        0.106018 0.029899   0.086294   0.119658   0.134783   0.125628
+err_count 22.800000 7.563068  17.000000  28.000000  31.000000  25.000000
+f0point5   0.648896 0.131543   0.691057   0.670103   0.491329   0.558659
+          cv_5_valid
+accuracy    0.936275
+auc         0.899234
+err         0.063725
+err_count  13.000000
+f0point5    0.833333
+
+---
+                        mean        sd cv_1_valid cv_2_valid cv_3_valid
+precision           0.659169  0.170264   0.708333   0.684211   0.472222
+r2                  0.317817  0.058259   0.333599   0.310833   0.244631
+recall              0.641792  0.058347   0.629630   0.619048   0.586207
+residual_deviance 125.817780 23.411427 112.322960 164.100600 130.606870
+rmse                0.289714  0.017228   0.280742   0.318582   0.288502
+specificity         0.937130  0.038269   0.958824   0.937500   0.905473
+                  cv_4_valid cv_5_valid
+precision           0.526316   0.904762
+r2                  0.295929   0.404091
+recall              0.740741   0.633333
+residual_deviance 117.523740 104.534730
+rmse                0.287343   0.273398
+specificity         0.895349   0.988506</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">h2o.predict</span>(stacked_ensemble_h2o, <span class="at">newdata =</span> <span class="fu">as.h2o</span>(test_tbl))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%
+
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(predictions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "environment"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "environment"</span></span>
+<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-3"><a href="#cb140-3" aria-hidden="true" tabindex="-1"></a>predictions_tbl <span class="ot">&lt;-</span> predictions <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>()</span>
+<span id="cb140-4"><a href="#cb140-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-5"><a href="#cb140-5" aria-hidden="true" tabindex="-1"></a>deep_learning_h2o <span class="ot">&lt;-</span> <span class="fu">h2o.loadModel</span>(<span class="st">"04_Modeling/h20_models/StackedEnsemble_AllModels_4_AutoML_1_20230520_153140"</span>)</span>
+<span id="cb140-6"><a href="#cb140-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-7"><a href="#cb140-7" aria-hidden="true" tabindex="-1"></a><span class="co"># To see all possible parameters</span></span>
+<span id="cb140-8"><a href="#cb140-8" aria-hidden="true" tabindex="-1"></a><span class="co">#?h2o.deeplearning</span></span>
+<span id="cb140-9"><a href="#cb140-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb140-10"><a href="#cb140-10" aria-hidden="true" tabindex="-1"></a><span class="co"># to get all paramteres</span></span>
+<span id="cb140-11"><a href="#cb140-11" aria-hidden="true" tabindex="-1"></a>deep_learning_h2o<span class="sc">@</span>allparameters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$model_id
+[1] "StackedEnsemble_AllModels_4_AutoML_1_20230520_153140"
+
+$training_frame
+[1] "AutoML_1_20230520_153140_training_RTMP_sid_a125_10"
+
+$base_models
+$base_models[[1]]
+$base_models[[1]]$`__meta`
+$base_models[[1]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[1]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[1]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[1]]$name
+[1] "GLM_1_AutoML_1_20230520_153140"
+
+$base_models[[1]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[1]]$URL
+NULL
+
+
+$base_models[[2]]
+$base_models[[2]]$`__meta`
+$base_models[[2]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[2]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[2]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[2]]$name
+[1] "DeepLearning_grid_1_AutoML_1_20230520_153140_model_3"
+
+$base_models[[2]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[2]]$URL
+NULL
+
+
+$base_models[[3]]
+$base_models[[3]]$`__meta`
+$base_models[[3]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[3]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[3]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[3]]$name
+[1] "DeepLearning_grid_1_AutoML_1_20230520_153140_model_2"
+
+$base_models[[3]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[3]]$URL
+NULL
+
+
+$base_models[[4]]
+$base_models[[4]]$`__meta`
+$base_models[[4]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[4]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[4]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[4]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_4"
+
+$base_models[[4]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[4]]$URL
+NULL
+
+
+$base_models[[5]]
+$base_models[[5]]$`__meta`
+$base_models[[5]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[5]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[5]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[5]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_11"
+
+$base_models[[5]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[5]]$URL
+NULL
+
+
+$base_models[[6]]
+$base_models[[6]]$`__meta`
+$base_models[[6]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[6]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[6]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[6]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_7"
+
+$base_models[[6]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[6]]$URL
+NULL
+
+
+$base_models[[7]]
+$base_models[[7]]$`__meta`
+$base_models[[7]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[7]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[7]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[7]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_3"
+
+$base_models[[7]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[7]]$URL
+NULL
+
+
+$base_models[[8]]
+$base_models[[8]]$`__meta`
+$base_models[[8]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[8]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[8]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[8]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_6"
+
+$base_models[[8]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[8]]$URL
+NULL
+
+
+$base_models[[9]]
+$base_models[[9]]$`__meta`
+$base_models[[9]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[9]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[9]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[9]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_8"
+
+$base_models[[9]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[9]]$URL
+NULL
+
+
+$base_models[[10]]
+$base_models[[10]]$`__meta`
+$base_models[[10]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[10]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[10]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[10]]$name
+[1] "DRF_1_AutoML_1_20230520_153140"
+
+$base_models[[10]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[10]]$URL
+NULL
+
+
+$base_models[[11]]
+$base_models[[11]]$`__meta`
+$base_models[[11]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[11]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[11]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[11]]$name
+[1] "GBM_2_AutoML_1_20230520_153140"
+
+$base_models[[11]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[11]]$URL
+NULL
+
+
+$base_models[[12]]
+$base_models[[12]]$`__meta`
+$base_models[[12]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[12]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[12]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[12]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_1"
+
+$base_models[[12]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[12]]$URL
+NULL
+
+
+$base_models[[13]]
+$base_models[[13]]$`__meta`
+$base_models[[13]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[13]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[13]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[13]]$name
+[1] "GBM_5_AutoML_1_20230520_153140"
+
+$base_models[[13]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[13]]$URL
+NULL
+
+
+$base_models[[14]]
+$base_models[[14]]$`__meta`
+$base_models[[14]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[14]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[14]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[14]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_2"
+
+$base_models[[14]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[14]]$URL
+NULL
+
+
+$base_models[[15]]
+$base_models[[15]]$`__meta`
+$base_models[[15]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[15]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[15]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[15]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_9"
+
+$base_models[[15]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[15]]$URL
+NULL
+
+
+$base_models[[16]]
+$base_models[[16]]$`__meta`
+$base_models[[16]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[16]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[16]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[16]]$name
+[1] "DeepLearning_grid_1_AutoML_1_20230520_153140_model_5"
+
+$base_models[[16]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[16]]$URL
+NULL
+
+
+$base_models[[17]]
+$base_models[[17]]$`__meta`
+$base_models[[17]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[17]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[17]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[17]]$name
+[1] "GBM_1_AutoML_1_20230520_153140"
+
+$base_models[[17]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[17]]$URL
+NULL
+
+
+$base_models[[18]]
+$base_models[[18]]$`__meta`
+$base_models[[18]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[18]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[18]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[18]]$name
+[1] "DeepLearning_grid_2_AutoML_1_20230520_153140_model_1"
+
+$base_models[[18]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[18]]$URL
+NULL
+
+
+$base_models[[19]]
+$base_models[[19]]$`__meta`
+$base_models[[19]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[19]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[19]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[19]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_5"
+
+$base_models[[19]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[19]]$URL
+NULL
+
+
+$base_models[[20]]
+$base_models[[20]]$`__meta`
+$base_models[[20]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[20]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[20]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[20]]$name
+[1] "GBM_3_AutoML_1_20230520_153140"
+
+$base_models[[20]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[20]]$URL
+NULL
+
+
+$base_models[[21]]
+$base_models[[21]]$`__meta`
+$base_models[[21]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[21]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[21]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[21]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_14"
+
+$base_models[[21]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[21]]$URL
+NULL
+
+
+$base_models[[22]]
+$base_models[[22]]$`__meta`
+$base_models[[22]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[22]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[22]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[22]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_10"
+
+$base_models[[22]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[22]]$URL
+NULL
+
+
+$base_models[[23]]
+$base_models[[23]]$`__meta`
+$base_models[[23]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[23]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[23]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[23]]$name
+[1] "DeepLearning_1_AutoML_1_20230520_153140"
+
+$base_models[[23]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[23]]$URL
+NULL
+
+
+$base_models[[24]]
+$base_models[[24]]$`__meta`
+$base_models[[24]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[24]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[24]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[24]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_13"
+
+$base_models[[24]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[24]]$URL
+NULL
+
+
+$base_models[[25]]
+$base_models[[25]]$`__meta`
+$base_models[[25]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[25]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[25]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[25]]$name
+[1] "XRT_1_AutoML_1_20230520_153140"
+
+$base_models[[25]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[25]]$URL
+NULL
+
+
+$base_models[[26]]
+$base_models[[26]]$`__meta`
+$base_models[[26]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[26]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[26]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[26]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_12"
+
+$base_models[[26]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[26]]$URL
+NULL
+
+
+$base_models[[27]]
+$base_models[[27]]$`__meta`
+$base_models[[27]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[27]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[27]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[27]]$name
+[1] "GBM_grid_1_AutoML_1_20230520_153140_model_15"
+
+$base_models[[27]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[27]]$URL
+NULL
+
+
+$base_models[[28]]
+$base_models[[28]]$`__meta`
+$base_models[[28]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[28]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[28]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[28]]$name
+[1] "GBM_4_AutoML_1_20230520_153140"
+
+$base_models[[28]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[28]]$URL
+NULL
+
+
+$base_models[[29]]
+$base_models[[29]]$`__meta`
+$base_models[[29]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[29]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[29]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[29]]$name
+[1] "DeepLearning_grid_2_AutoML_1_20230520_153140_model_2"
+
+$base_models[[29]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[29]]$URL
+NULL
+
+
+$base_models[[30]]
+$base_models[[30]]$`__meta`
+$base_models[[30]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[30]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[30]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[30]]$name
+[1] "DeepLearning_grid_3_AutoML_1_20230520_153140_model_2"
+
+$base_models[[30]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[30]]$URL
+NULL
+
+
+$base_models[[31]]
+$base_models[[31]]$`__meta`
+$base_models[[31]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[31]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[31]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[31]]$name
+[1] "DeepLearning_grid_1_AutoML_1_20230520_153140_model_6"
+
+$base_models[[31]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[31]]$URL
+NULL
+
+
+$base_models[[32]]
+$base_models[[32]]$`__meta`
+$base_models[[32]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[32]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[32]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[32]]$name
+[1] "DeepLearning_grid_1_AutoML_1_20230520_153140_model_4"
+
+$base_models[[32]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[32]]$URL
+NULL
+
+
+$base_models[[33]]
+$base_models[[33]]$`__meta`
+$base_models[[33]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[33]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[33]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[33]]$name
+[1] "DeepLearning_grid_1_AutoML_1_20230520_153140_model_1"
+
+$base_models[[33]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[33]]$URL
+NULL
+
+
+$base_models[[34]]
+$base_models[[34]]$`__meta`
+$base_models[[34]]$`__meta`$schema_version
+[1] 3
+
+$base_models[[34]]$`__meta`$schema_name
+[1] "KeyV3"
+
+$base_models[[34]]$`__meta`$schema_type
+[1] "Key&lt;Keyed&gt;"
+
+
+$base_models[[34]]$name
+[1] "DeepLearning_grid_3_AutoML_1_20230520_153140_model_1"
+
+$base_models[[34]]$type
+[1] "Key&lt;Keyed&gt;"
+
+$base_models[[34]]$URL
+NULL
+
+
+
+$metalearner_algorithm
+[1] "glm"
+
+$metalearner_nfolds
+[1] 5
+
+$metalearner_params
+[1] ""
+
+$metalearner_transform
+[1] "Logit"
+
+$max_runtime_secs
+[1] 0.582
+
+$seed
+[1] "5790433738836513710"
+
+$score_training_samples
+[1] 10000
+
+$keep_levelone_frame
+[1] TRUE
+
+$auc_type
+[1] "AUTO"
+
+$x
+ [1] "Age"                      "BusinessTravel"          
+ [3] "DailyRate"                "Department"              
+ [5] "DistanceFromHome"         "Education"               
+ [7] "EducationField"           "EmployeeNumber"          
+ [9] "EnvironmentSatisfaction"  "Gender"                  
+[11] "HourlyRate"               "JobInvolvement"          
+[13] "JobLevel"                 "JobRole"                 
+[15] "JobSatisfaction"          "MaritalStatus"           
+[17] "MonthlyIncome"            "MonthlyRate"             
+[19] "NumCompaniesWorked"       "OverTime"                
+[21] "PercentSalaryHike"        "PerformanceRating"       
+[23] "RelationshipSatisfaction" "StockOptionLevel"        
+[25] "TotalWorkingYears"        "TrainingTimesLastYear"   
+[27] "WorkLifeBalance"          "YearsAtCompany"          
+[29] "YearsInCurrentRole"       "YearsSinceLastPromotion" 
+[31] "YearsWithCurrManager"    
+
+$y
+[1] "Attrition"</code></pre>
+</div>
+</div>
+</section>
+<section id="challenge-part-ii" class="level1">
+<h1>Challenge (Part II)</h1>
+<div class="cell" data-hash="03_automated_maschine_learning_with_H2O_cache/html/unnamed-chunk-13_7b9894556cb3e8c74c21fb858195e3a4">
+<div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1. Load the training &amp; test dataset</span></span>
+<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>employee_attrition_tbl          <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"product_backorders.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 19053 Columns: 23
+-- Column specification --------------------------------------------------------
+Delimiter: ","
+chr  (7): potential_issue, deck_risk, oe_constraint, ppap_risk, stop_auto_bu...
+dbl (16): sku, national_inv, lead_time, in_transit_qty, forecast_3_month, fo...
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="at">seed =</span> <span class="dv">1113</span>)</span>
+<span id="cb144-2"><a href="#cb144-2" aria-hidden="true" tabindex="-1"></a>split_obj                       <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">initial_split</span>(employee_attrition_tbl, <span class="at">prop =</span> <span class="fl">0.85</span>)</span>
+<span id="cb144-3"><a href="#cb144-3" aria-hidden="true" tabindex="-1"></a>train_readable_tbl              <span class="ot">&lt;-</span> <span class="fu">training</span>(split_obj)</span>
+<span id="cb144-4"><a href="#cb144-4" aria-hidden="true" tabindex="-1"></a>test_readable_tbl               <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_obj)</span>
+<span id="cb144-5"><a href="#cb144-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb144-6"><a href="#cb144-6" aria-hidden="true" tabindex="-1"></a><span class="co">#2. Specifiy the response and predictor variables</span></span>
+<span id="cb144-7"><a href="#cb144-7" aria-hidden="true" tabindex="-1"></a>recipe_obj <span class="ot">&lt;-</span> <span class="fu">recipe</span>(went_on_backorder <span class="sc">~</span>., <span class="at">data =</span> train_readable_tbl) <span class="sc">%&gt;%</span> </span>
+<span id="cb144-8"><a href="#cb144-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">step_zv</span>(<span class="fu">all_predictors</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb144-9"><a href="#cb144-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#step_mutate_at(JobLevel, StockOptionLevel, fn = as.factor) %&gt;% </span></span>
+<span id="cb144-10"><a href="#cb144-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">prep</span>()</span>
+<span id="cb144-11"><a href="#cb144-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb144-12"><a href="#cb144-12" aria-hidden="true" tabindex="-1"></a>train_tbl <span class="ot">&lt;-</span> <span class="fu">bake</span>(recipe_obj, <span class="at">new_data =</span> train_readable_tbl)</span>
+<span id="cb144-13"><a href="#cb144-13" aria-hidden="true" tabindex="-1"></a>test_tbl  <span class="ot">&lt;-</span> <span class="fu">bake</span>(recipe_obj, <span class="at">new_data =</span> test_readable_tbl)</span>
+<span id="cb144-14"><a href="#cb144-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb144-15"><a href="#cb144-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Modeling</span></span>
+<span id="cb144-16"><a href="#cb144-16" aria-hidden="true" tabindex="-1"></a><span class="fu">h2o.init</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Connection successful!
+
+R is connected to the H2O cluster: 
+    H2O cluster uptime:         2 hours 42 minutes 
+    H2O cluster timezone:       Europe/Berlin 
+    H2O data parsing timezone:  UTC 
+    H2O cluster version:        3.40.0.1 
+    H2O cluster version age:    3 months and 11 days 
+    H2O cluster name:           H2O_started_from_R_Chris_yuh446 
+    H2O cluster total nodes:    1 
+    H2O cluster total memory:   3.41 GB 
+    H2O cluster total cores:    12 
+    H2O cluster allowed cores:  12 
+    H2O cluster healthy:        TRUE 
+    H2O Connection ip:          localhost 
+    H2O Connection port:        54321 
+    H2O Connection proxy:       NA 
+    H2O Internal Security:      FALSE 
+    R Version:                  R version 4.0.5 (2021-03-31) </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data into a training and a validation data frame</span></span>
+<span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting the seed is just for reproducability</span></span>
+<span id="cb146-3"><a href="#cb146-3" aria-hidden="true" tabindex="-1"></a>split_h2o <span class="ot">&lt;-</span> <span class="fu">h2o.splitFrame</span>(<span class="fu">as.h2o</span>(train_tbl), <span class="at">ratios =</span> <span class="fu">c</span>(<span class="fl">0.85</span>), <span class="at">seed =</span> <span class="dv">1234</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>train_h2o <span class="ot">&lt;-</span> split_h2o[[<span class="dv">1</span>]]</span>
+<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a>valid_h2o <span class="ot">&lt;-</span> split_h2o[[<span class="dv">2</span>]]</span>
+<span id="cb148-3"><a href="#cb148-3" aria-hidden="true" tabindex="-1"></a>test_h2o  <span class="ot">&lt;-</span> <span class="fu">as.h2o</span>(test_tbl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the target and predictors</span></span>
+<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="st">"went_on_backorder"</span></span>
+<span id="cb150-3"><a href="#cb150-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(train_h2o), y)</span>
+<span id="cb150-4"><a href="#cb150-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb150-5"><a href="#cb150-5" aria-hidden="true" tabindex="-1"></a><span class="co">#3. Run AutoML specifying the stopping criterion</span></span>
+<span id="cb150-6"><a href="#cb150-6" aria-hidden="true" tabindex="-1"></a>automl_models_h2o <span class="ot">&lt;-</span> <span class="fu">h2o.automl</span>(</span>
+<span id="cb150-7"><a href="#cb150-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> x,</span>
+<span id="cb150-8"><a href="#cb150-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> y,</span>
+<span id="cb150-9"><a href="#cb150-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">training_frame    =</span> train_h2o,</span>
+<span id="cb150-10"><a href="#cb150-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">validation_frame  =</span> valid_h2o,</span>
+<span id="cb150-11"><a href="#cb150-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">leaderboard_frame =</span> test_h2o,</span>
+<span id="cb150-12"><a href="#cb150-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_runtime_secs  =</span> <span class="dv">30</span>,</span>
+<span id="cb150-13"><a href="#cb150-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfolds            =</span> <span class="dv">5</span> </span>
+<span id="cb150-14"><a href="#cb150-14" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |==                                                                    |   4%
+16:07:24.670: User specified a validation frame with cross-validation still enabled. Please note that the models will still be validated using cross-validation only, the validation frame will be used to provide purely informative validation metrics on the trained models.
+16:07:24.671: AutoML: XGBoost is not available; skipping it.
+  |                                                                            
+  |=======                                                               |  11%
+  |                                                                            
+  |============                                                          |  18%
+  |                                                                            
+  |=================                                                     |  25%
+  |                                                                            
+  |======================                                                |  32%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |=====================================                                 |  52%
+  |                                                                            
+  |==========================================                            |  59%
+  |                                                                            
+  |==============================================                        |  66%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |=============================================================         |  87%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb152"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="co">#4. View the leaderboard</span></span>
+<span id="cb152-2"><a href="#cb152-2" aria-hidden="true" tabindex="-1"></a>automl_models_h2o<span class="sc">@</span>leaderboard</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                  model_id       auc   logloss
+1                          GBM_3_AutoML_13_20230520_160724 0.9499044 0.1770730
+2    StackedEnsemble_AllModels_2_AutoML_13_20230520_160724 0.9486058 0.1769352
+3                          GBM_4_AutoML_13_20230520_160724 0.9485561 0.1802068
+4    StackedEnsemble_AllModels_1_AutoML_13_20230520_160724 0.9482098 0.1773253
+5 StackedEnsemble_BestOfFamily_3_AutoML_13_20230520_160724 0.9478242 0.1760591
+6                          GBM_2_AutoML_13_20230520_160724 0.9476206 0.1807871
+      aucpr mean_per_class_error      rmse        mse
+1 0.7437243            0.1476268 0.2297593 0.05278934
+2 0.7395176            0.1321888 0.2308383 0.05328632
+3 0.7319715            0.1370083 0.2329250 0.05425408
+4 0.7414366            0.1305364 0.2310062 0.05336387
+5 0.7443698            0.1443220 0.2287742 0.05233762
+6 0.7316043            0.1394563 0.2331993 0.05438189
+
+[16 rows x 7 columns] </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracts and H2O model name by a position so can more easily use h2o.getModel()</span></span>
+<span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a>extract_h2o_model_name_by_position <span class="ot">&lt;-</span> <span class="cf">function</span>(h2o_leaderboard, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">verbose =</span> T) {</span>
+<span id="cb154-3"><a href="#cb154-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb154-4"><a href="#cb154-4" aria-hidden="true" tabindex="-1"></a>    model_name <span class="ot">&lt;-</span> h2o_leaderboard <span class="sc">%&gt;%</span></span>
+<span id="cb154-5"><a href="#cb154-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb154-6"><a href="#cb154-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">slice</span>(n) <span class="sc">%&gt;%</span></span>
+<span id="cb154-7"><a href="#cb154-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">pull</span>(model_id)</span>
+<span id="cb154-8"><a href="#cb154-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb154-9"><a href="#cb154-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (verbose) <span class="fu">message</span>(model_name)</span>
+<span id="cb154-10"><a href="#cb154-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb154-11"><a href="#cb154-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(model_name)</span>
+<span id="cb154-12"><a href="#cb154-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb154-13"><a href="#cb154-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb154-14"><a href="#cb154-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb154-15"><a href="#cb154-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Retrieve leader model</span></span>
+<span id="cb154-16"><a href="#cb154-16" aria-hidden="true" tabindex="-1"></a>leader_model <span class="ot">&lt;-</span> automl_models_h2o<span class="sc">@</span>leaderboard <span class="sc">%&gt;%</span> </span>
+<span id="cb154-17"><a href="#cb154-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">extract_h2o_model_name_by_position</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb154-18"><a href="#cb154-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">h2o.getModel</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>GBM_3_AutoML_13_20230520_160724</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="co">#5. Predicting using Leader Model</span></span>
+<span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">h2o.predict</span>(leader_model, <span class="at">newdata =</span> <span class="fu">as.h2o</span>(test_tbl))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%
+
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="co">#6. Save the leader model</span></span>
+<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>leader_model <span class="sc">%&gt;%</span> <span class="fu">h2o.saveModel</span>(<span class="at">path =</span> <span class="st">"04_Modeling/h20_models/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "D:\\Dokumente\\8gb stick\\OneDrive - tuhh.de\\Semester_VIII\\BundM\\MaschineLearning\\ss23-bdml-ginger4711\\src\\Data\\04_Modeling\\h20_models\\GBM_3_AutoML_13_20230520_160724"</code></pre>
+</div>
+</div>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -2029,7 +4511,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"loop":true,"closeEffect":"zoom","descPosition":"bottom","selector":".lightbox","openEffect":"zoom"});</script>
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","descPosition":"bottom","loop":true,"openEffect":"zoom","closeEffect":"zoom"});</script>
 
 
 
