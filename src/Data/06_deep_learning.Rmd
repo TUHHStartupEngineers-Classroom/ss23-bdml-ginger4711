@@ -6,6 +6,477 @@ output:
     toc: TRUE
     theme: united
 ---
+# Business case
+```{r}
+library(keras)
+
+fashion_mnist <- dataset_fashion_mnist()
+
+c(train_images, train_labels) %<-% fashion_mnist$train
+c(test_images, test_labels) %<-% fashion_mnist$test
+
+class_names = c("T-shirt/top",
+                "Trouser",
+                "Pullover",
+                "Dress",
+                "Coat", 
+                "Sandal",
+                "Shirt",
+                "Sneaker",
+                "Bag",
+                "Ankle boot")
+```
+## Explore the data
+```{r}
+dim(train_images)
+## [1] 60000    28    28
+dim(test_images)
+## [1] 10000    28    28
+dim(train_labels)
+## [1] 60000
+dim(test_labels)
+## [1] 10000
+
+train_labels %>% 
+          unique() %>% 
+          sort()
+## [1] 0 1 2 3 4 5 6 7 8 9
+
+train_labels[1]
+## [1] 9
+
+class_names[9 + 1]
+## [1] "Ankle boot"
+```
+## Preprocess the data 
+```{r}
+library(tidyverse)
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+library(rlang)
+
+image_1 <- train_images[1, , ] %>% 
+
+                # Convert matrix to a tibble (with unique col names)
+                as_tibble(.name_repair = "unique") %>% 
+                
+                # Set the names according to the col number
+                set_names( seq_len(ncol(.)) ) %>% 
+                
+                # Create a column for the rownumbers
+                mutate(y = seq_len(nrow(.))) %>% 
+                
+                # Make the data long, so that we have x/y value pairs
+                pivot_longer(cols = c(1:28), names_to        = "x", 
+                                             values_to       = "value", 
+                                             names_transform = list(x = as.integer))
+
+image_1 %>% ggplot(aes(x = x, y = y, fill = value)) +
+
+            # Add tiles and fill them with a white/black gradient
+            geom_tile() +
+            scale_fill_gradient(low = "white", high = "black", na.value = NA) +
+            
+            # Turn image upside down
+            scale_y_reverse() +
+            
+            # Formatting
+            theme_minimal() +
+            theme(panel.grid = element_blank()) +
+            xlab("") +
+            ylab("")
+
+train_images <- train_images / 255
+test_images  <- test_images / 255
+
+plot_image <- function(idx) {
+  
+  image_idx <- train_images[idx, , ] %>% 
+                as_tibble(.name_repair = "unique") %>% 
+                set_names(seq_len(ncol(.))) %>% 
+                mutate(y = seq_len(nrow(.))) %>% 
+                pivot_longer(cols = c(1:28), names_to        = "x", 
+                                             values_to       = "value", 
+                                             names_transform = list(x = as.integer))
+
+    g     <- image_idx %>% 
+              ggplot(aes(x = x, y = y, fill = value)) +
+              geom_tile() +
+              scale_fill_gradient(low = "white", high = "black", na.value = NA) +
+              scale_y_reverse() +
+              theme_minimal() +
+              theme(panel.grid = element_blank(),
+                    legend.position = "none",
+                    axis.text = element_blank()) + 
+                    
+              # Add the label (add 1, because it is 0-indexed)      
+              xlab(class_names[train_labels[idx] + 1]) +
+              ylab("")
+
+      return(g)
+
+}
+
+library(cowplot)
+image_lst <- map(c(1:25), plot_image)
+plot_grid(plotlist = image_lst)
+```
+
+## Build the model
+```{r}
+# Setup the layers
+model <- keras_model_sequential()
+model %>%
+  layer_flatten(input_shape = c(28, 28)) %>%
+  layer_dense(units = 128, activation = 'relu') %>%
+  layer_dense(units = 10, activation = 'softmax')
+
+# Compile the model
+model %>% compile(
+  optimizer = 'adam', 
+  loss = 'sparse_categorical_crossentropy',
+  metrics = c('accuracy')
+)
+ 
+# Train the mdoel
+model %>% fit(train_images, train_labels, epochs = 5, verbose = 2)
+
+# Evaluate accuracy
+score <- model %>% evaluate(test_images, test_labels, verbose = 0)
+score
+
+# Make Predictions
+predictions <- model %>% predict(test_images)
+predictions[1, ] %>% which.max()
+```
+## Plot predictions
+```{r}
+## 1. Create function
+plot_predictions <- function(idx) {
+  
+  # Get image in the correct format
+  image_test <- test_images[idx, , ] %>% 
+                    as_tibble(.name_repair = "unique") %>% 
+                    set_names( seq_len(ncol(.)) ) %>% 
+                    mutate(y = seq_len(nrow(.))) %>% 
+                    pivot_longer(cols = c(1:28), 
+                                 names_to        = "x", 
+                                 values_to       = "value", 
+                                 names_transform = list(x = as.integer))
+
+  # Get true and predicted labels
+  # subtract 1 as labels go from 0 to 9
+  predicted_label <- which.max(predictions[idx, ]) - 1
+  true_label      <- test_labels[idx]
+  color           <- ifelse(predicted_label == true_label, "#008800", "#bb0000")
+  
+  # Plot
+  g <- image_test %>% 
+          ggplot(aes(x = x, y = y, fill = value)) +
+          geom_tile() +
+          scale_fill_gradient(low = "white", high = "black", na.value = NA) +
+          scale_y_reverse() +
+          theme_minimal() +
+          theme(panel.grid = element_blank(),
+                legend.position = "none",
+                axis.text = element_blank(),
+                axis.title.x = element_text(color = color, face = "bold")) + 
+          xlab(paste0(
+            class_names[predicted_label + 1], 
+            " (",
+            class_names[true_label + 1], ")")) +
+          ylab("")
+  
+    return(g)
+
+}
+
+## 2. map over indices
+predictions_lst <- map(c(1:25), plot_predictions)
+
+## 3. Plot list
+plot_grid(plotlist = predictions_lst)
+```
+
+## Completly new images
+```{r}
+library(imager)
+
+img_new <- load.image("t-shirt.jpg") %>% 
+                resize(size_x = 28, size_y = 28, size_z = 1, size_c = 1) %>% 
+                imrotate(angle = -90) %>% 
+                as.array() %>% 
+                drop() %>% 
+                array(dim = c(1,28,28)) %>% 
+                subtract(1) %>% 
+                abs() 
+
+par(mfrow=c(1,2)) # set the plotting area into a 1*2 array   
+plot(as.cimg(img_new[1,,]),     main = "img_new",  axes=FALSE)
+plot(as.cimg(test_images[1,,]), main = "img_test", axes=FALSE)
+
+predictions <- model %>% predict(img_new[1, , , drop = FALSE])
+prediction  <- predictions[1, ] - 1
+which.max(prediction)
+## [1] 1
+
+class_pred <- model %>% predict(img_new) %>% which.max() - 1
+class_pred
+## [1] 0
+class_names[class_pred + 1]
+## [1] "T-shirt/top"
+```
+# Challenge
+```{r}
+# Load libraries
+library(tidyverse)
+library(keras)
+library(lime)
+library(rsample)
+library(recipes)
+library(yardstick)
+library(corrr)
+
+churn_data_raw <- read_csv("WA_Fn-UseC_-Telco-Customer-Churn.csv")
+
+glimpse(churn_data_raw)
+```
+## Preprocess data
+| Since there is no column named "Target" i left that statement commented out.
+```{r}
+churn_data_tbl <- churn_data_raw %>%
+                  select(-customerID) %>%
+                  drop_na(TotalCharges) %>%
+                  select(tenure,everything())
+
+# Split test/training sets
+set.seed(100)
+split_obj <- rsample::initial_split(churn_data_tbl, prop   = 0.80)
+train_tbl <- training(split_obj)
+test_tbl  <- testing(split_obj)
+
+churn_data_tbl %>% ggplot(aes(x = tenure)) + 
+                     geom_histogram(binwidth = 0.5, fill =  "#2DC6D6") +
+                     labs(
+                       title = "Tenure Counts Without Binning",
+                       x     = "tenure (month)"
+                       )
+
+churn_data_tbl %>% ggplot(aes(x = tenure)) + 
+  geom_histogram(bins = 6, color = "white", fill =  "#2DC6D6") +
+  labs(
+    title = "Tenure Counts With Six Bins",
+    x     = "tenure (month)"
+  )
+```
+
+## Log transformation
+```{r}
+# Determine if log transformation improves correlation 
+# between TotalCharges and Churn
+
+train_tbl %>%
+    select(Churn, TotalCharges) %>%
+    mutate(
+        Churn = Churn %>% as.factor() %>% as.numeric(),
+        LogTotalCharges = log(TotalCharges)
+        ) %>%
+    correlate() %>%
+    focus(Churn) %>%
+    fashion()
+
+churn_data_tbl %>% 
+        pivot_longer(cols      = c(Contract, InternetService, MultipleLines, PaymentMethod), 
+                     names_to  = "feature", 
+                     values_to = "category") %>% 
+        ggplot(aes(category)) +
+          geom_bar(fill = "#2DC6D6") +
+          facet_wrap(~ feature, scales = "free") +
+          labs(
+            title = "Features with multiple categories: Need to be one-hot encoded"
+          ) +
+          theme(axis.text.x = element_text(angle = 25, 
+                                           hjust = 1))
+```
+
+## 
+```{r eval=FALSE}
+rec_obj <- recipe(Churn ~ ., data = train_tbl) %>%
+    step_rm(Churn) %>% 
+    step_discretize(tenure, options = list(cuts = 6)) %>%
+    step_log(TotalCharges) %>%
+    step_dummy(all_nominal(), -all_outcomes(), one_hot = T) %>%
+    step_center(all_predictors(), -all_outcomes()) %>%
+    step_scale(all_predictors(), -all_outcomes()) %>%
+    prep(data = train_tbl)
+
+# Predictors
+x_train_tbl <- bake( rec_obj , train_tbl )
+x_test_tbl  <- bake( rec_obj , test_tbl )
+
+# Response variables for training and testing sets
+y_train_vec <- ifelse( ,, )
+y_test_vec  <- ifelse( ,, )
+```
+## Build keras model
+```{r eval=FALSE}
+# Building our Artificial Neural Network
+model_keras <- keras_model_sequential()
+
+model_keras %>% 
+    # First hidden layer
+    layer_dense(
+        units              = 16, 
+        kernel_initializer = "uniform", 
+        activation         = "relu", 
+        input_shape        = ncol(x_train_tbl)) %>% 
+    # Dropout to prevent overfitting
+    layer_dropout(rate = 0.1) %>%
+    # Second hidden layer
+    layer_dense(
+        units              = 16, 
+        kernel_initializer = "uniform", 
+        activation         = "relu") %>% 
+    # Dropout to prevent overfitting
+    layer_dropout(rate = 0.1) %>%
+    # Output layer
+    layer_dense(
+        units              = 1, 
+        kernel_initializer = "uniform", 
+        activation         = "sigmoid") %>% 
+    # Compile ANN
+    compile(
+        optimizer = 'adam',
+        loss      = 'binary_crossentropy',
+        metrics   = c('accuracy')
+    )
+model_keras
+
+# Fit the keras model to the training data
+fit_keras <- fit(
+    model_keras,
+    batch_size       = 50 , 
+    epochs           = 35 , 
+    validation_split = 0.3
+    )
+
+fit_keras
+
+# Plot the training/validation history of our Keras model
+plot(fit_keras) +
+  labs(title = "Deep Learning Training Results") +
+  theme(legend.position  = "bottom", 
+        strip.placement  = "inside",
+        strip.background = element_rect(fill = "#grey"))
+```
+## Predictions
+```{r eval=FALSE}
+# Predicted Class
+yhat_keras_class_vec <- predict_classes(object = model_keras, x = as.matrix(x_test_tbl)) %>%
+    as.vector()
+
+# Predicted Class Probability
+yhat_keras_prob_vec  <- predict_proba(object = model_keras, x = as.matrix(x_test_tbl)) %>%
+    as.vector()
+
+# Format test data and predictions for yardstick metrics
+estimates_keras_tbl <- tibble(
+    truth      = as.factor(y_test_vec) %>% fct_recode(yes = "1", no = "0"),
+    estimate   = as.factor(yhat_keras_class_vec) %>% fct_recode(yes = "1", no = "0"),
+    class_prob = yhat_keras_prob_vec
+)
+
+estimates_keras_tbl
+
+# Confusion matrix
+estimates_keras_tbl %>% conf_mat
+
+# AUC
+estimates_keras_tbl %>% roc_auc(event_level="second")
+
+# Precision
+tibble(
+    precision = estimates_keras_tbl %>% precision(),
+    recall    = estimates_keras_tbl %>% recall()
+)
+
+# F1-Statistic
+estimates_keras_tbl %>% f_meas(truth, estimate, beta = 1)
+```
+## Lime
+```{r eval=FALSE}
+class(model_keras)
+
+# Setup lime::model_type() function for keras
+model_type.keras.engine.sequential.Sequential  <- function(x, ...) {
+    return("classification")
+}
+
+# Setup lime::predict_model() function for keras
+predict_model.keras.engine.sequential.Sequential <- function(x, newdata, type, ...) {
+    pred <- predict_proba(object = x, x = as.matrix(newdata))
+    return(data.frame(Yes = pred, No = 1 - pred))
+}
+
+library(lime)
+# Test our predict_model() function
+predict_model(x = model_keras, newdata = x_test_tbl, type = 'raw') %>%
+    tibble::as_tibble()
+
+# Run lime() on training set
+explainer <- lime::lime(
+    ...            = ..., 
+    ...            = ... , 
+    bin_continuous = FALSE)
+
+explanation <- lime::explain(
+    x_test_tbl[1:10,], 
+    ...    = ..., 
+    ...    = ..., 
+    ...    = ...,
+    ...    = ...)
+```
+## Correlation analysis
+```{r eval=FALSE}
+# Feature correlations to Churn
+corrr_analysis <- x_train_tbl %>%
+    mutate(Churn = y_train_vec) %>%
+    correlate() %>%
+    focus(Churn) %>%
+    rename(feature = rowname) %>%
+    arrange(abs(Churn)) %>%
+    mutate(feature = as_factor(feature)) 
+corrr_analysis
+
+# Correlation visualization
+corrr_analysis %>%
+  ggplot(aes(x = ..., y = fct_reorder(..., desc(...)))) +
+  geom_point() +
+  
+  # Positive Correlations - Contribute to churn
+  geom_segment(aes(xend = ..., yend = ...), 
+               color = "red", 
+               data = corrr_analysis %>% filter(... > ...)) +
+  geom_point(color = "red", 
+             data = corrr_analysis %>% filter(... > ...)) +
+  
+  # Negative Correlations - Prevent churn
+  geom_segment(aes(xend = 0, yend = feature), 
+               color = "#2DC6D6", 
+               data = ... +
+  geom_point(color = "#2DC6D6", 
+             data = ... +
+  
+  # Vertical lines
+  geom_vline(xintercept = 0, color = "#f1fa8c", size = 1, linetype = 2) +
+  geom_vline( ... ) +
+  geom_vline( ... ) +
+  
+  # Aesthetics
+  labs( ... )
+```
+
 
 BDML fertig stellen
 Gucken, ob beide Webseiten online gehen
