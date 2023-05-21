@@ -1,0 +1,742 @@
+---
+title: "Automated Maschine Learning with H2O"
+author: "Christian Sühl"
+output:
+  html_document:
+    toc: TRUE
+    theme: united
+---
+
+# Business case (Part I)
+```{r}
+library(h2o)
+
+# To launch H2O locally with default initialization arguments, use the following: 
+h2o.init()
+```
+
+```{r}
+library(tidyverse)
+car_stats <- function(groupby_var, measure_var) {
+    groupby_var <- enquo(groupby_var)
+    measure_var <- enquo(measure_var)
+    ret <- mtcars %>% 
+             group_by(!!groupby_var) %>%
+             summarize(min = min(!!measure_var), max = max(!!measure_var)) %>%
+             # Optional: as_label() and "walrus operator" :=
+             mutate(measure_var = as_label(measure_var), !!measure_var := "test")
+    return(ret)
+}
+car_stats(cyl,hp)
+scatter_plot <- function(data, x_var, y_var) {
+  x_var <- enquo(x_var)
+  y_var <- enquo(y_var)
+  ret <- data %>% 
+           ggplot(aes(x = !!x_var, y = !!y_var)) + 
+           geom_point() + 
+           geom_smooth() +
+           ggtitle(str_c(as_label(y_var), " vs. ",as_label(x_var)))
+  return(ret)
+}
+scatter_plot(mtcars, cyl, hp)
+```
+
+```{r}
+library(readr)
+# Load data
+employee_attrition_tbl <- read_csv("datasets-1067-1925-WA_Fn-UseC_-HR-Employee-Attrition.csv")
+
+# Business & Data Understanding: Department and Job Role
+
+# Data subset
+dept_job_role_tbl <- employee_attrition_tbl %>%
+  select(EmployeeNumber, Department, JobRole, PerformanceRating, Attrition)
+
+dept_job_role_tbl %>%
+
+  group_by(Attrition) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  mutate(pct = n / sum(n))
+
+# Attrition by department
+dept_job_role_tbl %>%
+
+  # Block 1
+  group_by(Department, Attrition) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+
+  # Block 2: Caution: It's easy to inadvertently miss grouping when creating counts & percents within groups
+  group_by(Department) %>%
+  mutate(pct = n / sum(n))
+
+# Attrition by job role
+dept_job_role_tbl %>%
+
+  # Block 1
+  group_by(Department, JobRole, Attrition) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+
+  # Block 2
+  group_by(Department, JobRole) %>%
+  mutate(pct = n / sum(n)) %>%
+  ungroup() %>%
+
+  # Block 3
+  filter(Attrition %in% "Yes")
+```
+
+```{r}
+# Use this
+# Function to convert counts to percentages. 
+count_to_pct <- function(data, ..., col = n) {
+  # capture the dots
+  grouping_vars_expr <- quos(...)
+  col_expr <- enquo(col)
+  ret <- data %>%
+    group_by(!!! grouping_vars_expr) %>%
+    mutate(pct = (!! col_expr) / sum(!! col_expr)) %>%
+    ungroup()
+  return(ret)
+}
+
+assess_attrition <- function(data, attrition_col, attrition_value, baseline_pct) {
+
+  attrition_col_expr <- enquo(attrition_col)
+
+  data %>%
+  
+    # Use parenthesis () to give tidy eval evaluation priority
+    filter((!! attrition_col_expr) %in% attrition_value) %>%
+    arrange(desc(pct)) %>%
+    mutate(
+      # Function inputs in numeric format (e.g. baseline_pct = 0.088 don't require tidy eval)
+      above_industry_avg = case_when(
+        pct > baseline_pct ~ "Yes",
+        TRUE ~ "No"
+      )
+    )
+
+}
+
+# Function to calculate attrition cost
+calculate_attrition_cost <- function(
+
+  # Employee
+  n                    = 1,
+  salary               = 80000,
+
+  # Direct Costs
+  separation_cost      = 500,
+  vacancy_cost         = 10000,
+  acquisition_cost     = 4900,
+  placement_cost       = 3500,
+
+  # Productivity Costs
+  net_revenue_per_employee = 250000,
+  workdays_per_year        = 240,
+  workdays_position_open   = 40,
+  workdays_onboarding      = 60,
+  onboarding_efficiency    = 0.50
+
+) {
+
+  # Direct Costs
+  direct_cost <- sum(separation_cost, vacancy_cost, acquisition_cost, placement_cost)
+
+  # Lost Productivity Costs
+  productivity_cost <- net_revenue_per_employee / workdays_per_year *
+    (workdays_position_open + workdays_onboarding * onboarding_efficiency)
+
+  # Savings of Salary & Benefits (Cost Reduction)
+  salary_benefit_reduction <- salary / workdays_per_year * workdays_position_open
+
+  # Estimated Turnover Per Employee
+  cost_per_employee <- direct_cost + productivity_cost - salary_benefit_reduction
+
+  # Total Cost of Employee Turnover
+  total_cost <- n * cost_per_employee
+
+  return(total_cost)
+
+}
+
+# Function to plot attrition
+plot_attrition <- function(data, 
+                           ..., 
+                           .value,
+                           fct_reorder = TRUE,
+                           fct_rev     = FALSE,
+                           include_lbl = TRUE,
+                           color       = "#2dc6d6",
+                           units       = c("0", "K", "M")) {
+
+  ### Inputs
+  group_vars_expr   <- quos(...)
+  
+  # If the user does not supply anything, 
+  # this takes the first column of the supplied data
+  if (length(group_vars_expr) == 0) {
+    group_vars_expr <- quos(rlang::sym(colnames(data)[[1]]))
+    }
+
+  value_expr <- enquo(.value)
+
+  units_val  <- switch(units[[1]],
+                       "M" = 1e6,
+                       "K" = 1e3,
+                       "0" = 1)
+  if (units[[1]] == "0") units <- ""
+
+  # Data Manipulation
+  # This is a so called Function Factory (a function that produces a function)
+  usd <- scales::dollar_format(prefix = "$", largest_with_cents = 1e3)
+
+  # Create the axis labels and values for the plot
+  data_manipulated <- data %>%
+    mutate(name = str_c(!!! group_vars_expr, sep = ": ") %>% as_factor()) %>%
+    mutate(value_text = str_c(usd(!! value_expr / units_val),
+                              units[[1]], sep = ""))
+
+  
+  # Order the labels on the y-axis according to the input
+  if (fct_reorder) {
+    data_manipulated <- data_manipulated %>%
+      mutate(name = forcats::fct_reorder(name, !! value_expr)) %>%
+      arrange(name)
+  }
+
+  if (fct_rev) {
+    data_manipulated <- data_manipulated %>%
+      mutate(name = forcats::fct_rev(name)) %>%
+      arrange(name)
+  }
+
+  # Visualization
+  g <- data_manipulated %>%
+
+        # "name" is a column name generated by our function internally as part of the data manipulation task
+        ggplot(aes(x = (!! value_expr), y = name)) +
+        geom_segment(aes(xend = 0, yend = name), color = color) +
+        geom_point(aes(size = !! value_expr), color = color) +
+        scale_x_continuous(labels = scales::dollar) +
+        scale_size(range = c(3, 5)) +
+        theme(legend.position = "none")
+
+  # Plot labels if TRUE
+  if (include_lbl) {
+    g <- g +
+      geom_label(aes(label = value_text, size = !! value_expr),
+                 hjust = "inward", color = color)
+  }
+
+  return(g)
+
+}
+
+dept_job_role_tbl %>%
+
+  # Block 1
+  count(Department, JobRole, Attrition) %>%
+
+  # Block 2
+  count_to_pct(Department, JobRole) %>%  
+
+  # Block 3
+  assess_attrition(Attrition, attrition_value = "Yes", baseline_pct = 0.088) %>%
+
+  # Block 4. Set salaray to 80000 for now
+  mutate(
+    cost_of_attrition = calculate_attrition_cost(n = n, salary = 80000)
+  ) %>%
+
+  # Select columnns
+  plot_attrition(Department, JobRole, .value = cost_of_attrition,
+                 units = "M") +
+  labs(
+    title = "Estimated Cost of Attrition by Job Role",
+    x = "Cost of Attrition",
+    subtitle = "Looks like Sales Executive and Labaratory Technician are the biggest drivers of cost"
+  )
+```
+
+```{r}
+# Libraries 
+library(tidyverse)
+library(readxl)
+library(skimr)
+library(GGally)
+
+# Load Data data definitions
+
+path_data_definitions <- "data_definitions.xlsx"
+definitions_raw_tbl   <- read_excel(path_data_definitions, sheet = 1, col_names = FALSE)
+
+employee_attrition_tbl
+
+# Descriptive Features
+employee_attrition_tbl %>% select(Age, DistanceFromHome, Gender, MaritalStatus, NumCompaniesWorked, Over18)
+
+# Employment Features
+employee_attrition_tbl %>% select(Department, EmployeeCount, EmployeeNumber, JobInvolvement, JobLevel, JobRole, JobSatisfaction)
+
+# Compensation Features
+employee_attrition_tbl %>% select(DailyRate, HourlyRate, MonthlyIncome, MonthlyRate, PercentSalaryHike, StockOptionLevel)
+
+# Survery Results
+employee_attrition_tbl %>% select(EnvironmentSatisfaction, JobSatisfaction, RelationshipSatisfaction, WorkLifeBalance)
+
+# Performance Data
+employee_attrition_tbl %>% select(JobInvolvement, PerformanceRating)
+
+# Work-Life Features
+employee_attrition_tbl %>% select(BusinessTravel, OverTime)
+
+# Training & Education
+employee_attrition_tbl %>% select(Education, EducationField, TrainingTimesLastYear)
+
+# Time-Based Features
+employee_attrition_tbl %>% select(TotalWorkingYears, YearsAtCompany, YearsInCurrentRole, YearsSinceLastPromotion, YearsWithCurrManager)
+```
+
+```{r}
+# Step 1: Data Summarization -----
+
+skim(employee_attrition_tbl)
+
+# Character Data Type
+employee_attrition_tbl %>%
+    select_if(is.character) %>%
+    glimpse()
+
+# Get "levels"
+employee_attrition_tbl %>%
+    select_if(is.character) %>%
+    map(unique)
+
+# Proportions    
+employee_attrition_tbl %>%
+    select_if(is.character) %>%
+    map(~ table(.) %>% prop.table())
+
+# Numeric Data
+employee_attrition_tbl %>%
+    select_if(is.numeric) %>%
+    map(~ unique(.) %>% length())
+
+employee_attrition_tbl %>%
+    select_if(is.numeric) %>%
+    map_df(~ unique(.) %>% length()) %>%
+    # Select all columns
+    pivot_longer(everything()) %>%
+    arrange(value) %>%
+    filter(value <= 10)
+```
+
+```{r}
+library(GGally)
+# Step 2: Data Visualization ----
+
+# Create data tibble, to potentially debug the plot_ggpairs function (because it has a data argument)
+data <- employee_attrition_tbl %>%
+    select(Attrition, Age, Gender, MaritalStatus, NumCompaniesWorked, Over18, DistanceFromHome)
+
+plot_ggpairs <- function(data, color = NULL, density_alpha = 0.5) {
+    
+    color_expr <- enquo(color)
+    
+    if (rlang::quo_is_null(color_expr)) {
+        
+        g <- data %>%
+            ggpairs(lower = "blank") 
+        
+    } else {
+        
+        color_name <- quo_name(color_expr)
+        
+        g <- data %>%
+            ggpairs(mapping = aes_string(color = color_name), 
+                    lower = "blank", legend = 1,
+                    diag = list(continuous = wrap("densityDiag", 
+                                                  alpha = density_alpha))) +
+            theme(legend.position = "bottom")
+    }
+    
+    return(g)
+    
+}
+
+employee_attrition_tbl %>%
+    select(Attrition, Age, Gender, MaritalStatus, NumCompaniesWorked, Over18, DistanceFromHome) %>%
+    plot_ggpairs(color = Attrition)
+```
+
+```{r}
+# Explore Features by Category
+
+#   1. Descriptive features: age, gender, marital status 
+employee_attrition_tbl %>%
+    select(Attrition, Age, Gender, MaritalStatus, NumCompaniesWorked, Over18, DistanceFromHome) %>%
+    plot_ggpairs(Attrition)
+
+#   2. Employment features: department, job role, job level
+employee_attrition_tbl %>%
+    select(Attrition, contains("employee"), contains("department"), contains("job")) %>%
+    plot_ggpairs(Attrition) 
+
+#   3. Compensation features: HourlyRate, MonthlyIncome, StockOptionLevel 
+employee_attrition_tbl %>%
+    select(Attrition, contains("income"), contains("rate"), contains("salary"), contains("stock")) %>%
+    plot_ggpairs(Attrition)
+
+#   4. Survey Results: Satisfaction level, WorkLifeBalance 
+employee_attrition_tbl %>%
+    select(Attrition, contains("satisfaction"), contains("life")) %>%
+    plot_ggpairs(Attrition)
+
+#   5. Performance Data: Job Involvment, Performance Rating
+employee_attrition_tbl %>%
+    select(Attrition, contains("performance"), contains("involvement")) %>%
+    plot_ggpairs(Attrition)
+
+#   6. Work-Life Features 
+employee_attrition_tbl %>%
+    select(Attrition, contains("overtime"), contains("travel")) %>%
+    plot_ggpairs(Attrition)
+
+#   7. Training and Education 
+employee_attrition_tbl %>%
+    select(Attrition, contains("training"), contains("education")) %>%
+    plot_ggpairs(Attrition)
+
+#   8. Time-Based Features: Years at company, years in current role
+employee_attrition_tbl %>%
+    select(Attrition, contains("years")) %>%
+    plot_ggpairs(Attrition)
+```
+
+
+# Challenge (Part I)
+## Question 1 | What can you deduce about the interaction between Monthly Income and Attrition?
+| There is a big spike of people having attrition at the low end of the monthly income spectrum far greater than people having no attrition with low monthly income. This indicates that monthly income has a relatively strong affect on attrition.
+## Question 2 | What can you deduce about the interaction between Percent Salary Hike and Attrition?
+| The attrition graph depending on the percent salary hike is nearly identical for people with attrition and without. Meaning a percent salary hike has very little effect on attrition.
+## Question 3 | What can you deduce about the interaction between Stock Option Level and Attrition?
+| The attrition vs. stock option level graph shows that people having a stock option level of 1 or to a lesser extend 2 are much less likely to have high attrition, meaning there could be a positive effect between the stock option level and attrition for the employer.
+## Question 4 | What can you deduce about the interaction between Environment Satisfaction and Attrition?
+| First of all, the satisfaction levels of the survey seemed to be clumped in certain levels which is likely the result of some kind of numerical scale being used for this survey (Rate from 1 to 4 for example). Considering that, there is an upward trend in the number of people having no attrition with higher satisfaction.
+## Question 5 | What can you deduce about the interaction between Work Life Balance and Attrition
+| The work life balance seems to indicate a stronger connection with attrition, with people rating their work life balance more positively having less attrition.
+## Question 6 | What Can you deduce about the interaction between Job Involvement and Attrition?
+| People that are more involved in the job are less likely to have attrition.
+## Question 7 | What can you deduce about the interaction between Over Time and Attrition?
+| Roughly the same amount of people that have attrition do and do not perform overtime. But as a percentage, the people doing overtime are much more likely to have attrition.
+## Question 8 | What can you deduce about the interaction between Training Times Last Year and Attrition
+| There is a slight trend, that more training time results in less attrition but as far as I can tell very minor.
+## Question 9 | What can you deduce about the interaction between Years At Company and Attrition
+| Regarding years at the company for very new people the attrition is much higher than for those that are very long with the company.
+| Crucially those that stay long have very low attrition, since most likely those with high attrition left at some point, so the data is inherently somewhat skewed.
+## Question 10 | What can you deduce about the interaction between Years Since Last Promotion and Attrition?
+| Years since last promotion seem to have a rather small affect on attrition but the small bump in attrition if people are longer with the company is noteworthy, meaning that people that stayed with the company for an extended amount of time without a promotion start to get more attrition.
+
+# Business case (Part II)
+```{r}
+# Load data
+library(tidyverse)
+library(readxl)
+
+employee_attrition_tbl <- read_csv("datasets-1067-1925-WA_Fn-UseC_-HR-Employee-Attrition.csv")
+definitions_raw_tbl    <- read_excel("data_definitions.xlsx", sheet = 1, col_names = FALSE)
+#View(definitions_raw_tbl)
+
+employee_attrition_tbl %>% 
+        ggplot(aes(Education)) +
+        geom_bar()
+
+# Data preparation ----
+# Human readable
+
+definitions_tbl <- definitions_raw_tbl %>% 
+  fill(...1, .direction = "down") %>%
+  filter(!is.na(...2)) %>%
+  separate(...2, into = c("key", "value"), sep = " '", remove = TRUE) %>%
+  rename(column_name = ...1) %>%
+  mutate(key = as.numeric(key)) %>%
+  mutate(value = value %>% str_replace(pattern = "'", replacement = "")) 
+definitions_tbl
+
+definitions_list <- definitions_tbl %>% 
+  
+  # Mapping over lists
+  
+  # Split into multiple tibbles
+  split(.$column_name) %>%
+  # Remove column_name
+  map(~ select(., -column_name)) %>%
+  # Convert to factors because they are ordered an we want to maintain that order
+  map(~ mutate(., value = as_factor(value)))
+
+for (i in seq_along(definitions_list)) {
+  list_name <- names(definitions_list)[i]
+  colnames(definitions_list[[i]]) <- c(list_name, paste0(list_name, "_value"))
+}
+
+definitions_list[["Education"]]
+
+data_merged_tbl <- list(HR_Data = employee_attrition_tbl) %>%
+    
+        # Join everything
+        append(definitions_list, after = 1) %>%
+        reduce(left_join) %>%
+        
+        # Remove unnecessary columns
+        select(-one_of(names(definitions_list))) %>%
+        
+        # Format the "_value"
+        set_names(str_replace_all(names(.), pattern = "_value", replacement = "")) %>%
+        
+        # Resort
+        select(sort(names(.)))
+data_merged_tbl
+
+# Return only unique values of BusinessTravel
+data_merged_tbl %>% 
+  distinct(BusinessTravel)
+
+data_merged_tbl %>%
+        mutate_if(is.character, as.factor) %>%
+        glimpse()
+
+data_processed_tbl <- data_merged_tbl %>%        
+        mutate_if(is.character, as.factor) %>%
+        mutate(
+            BusinessTravel = BusinessTravel %>% fct_relevel("Non-Travel", 
+                                                            "Travel_Rarely", 
+                                                            "Travel_Frequently"),
+            MaritalStatus  = MaritalStatus %>% fct_relevel("Single", 
+                                                           "Married", 
+                                                           "Divorced")
+        )
+        
+data_processed_tbl %>% 
+  select_if(is.factor) %>% 
+  map(levels)
+```
+
+```{r}
+process_hr_data_readable <- function(data, definitions_tbl) {
+
+    definitions_list <- definitions_tbl %>%
+        fill(...1, .direction = "down") %>%
+        filter(!is.na(...2)) %>%
+        separate(...2, into = c("key", "value"), sep = " '", remove = TRUE) %>%
+        rename(column_name = ...1) %>%
+        mutate(key = as.numeric(key)) %>%
+        mutate(value = value %>% str_replace(pattern = "'", replacement = "")) %>%
+        split(.$column_name) %>%
+        map(~ select(., -column_name)) %>%
+        map(~ mutate(., value = as_factor(value))) 
+    
+    for (i in seq_along(definitions_list)) {
+        list_name <- names(definitions_list)[i]
+        colnames(definitions_list[[i]]) <- c(list_name, paste0(list_name, "_value"))
+    }
+    
+    data_merged_tbl <- list(HR_Data = data) %>%
+        append(definitions_list, after = 1) %>%
+        reduce(left_join) %>%
+        select(-one_of(names(definitions_list))) %>%
+        set_names(str_replace_all(names(.), pattern = "_value", 
+                                            replacement = "")) %>%
+        select(sort(names(.))) %>%
+        mutate_if(is.character, as.factor) %>%
+        mutate(
+            BusinessTravel = BusinessTravel %>% fct_relevel("Non-Travel", 
+                                                            "Travel_Rarely", 
+                                                            "Travel_Frequently"),
+            MaritalStatus  = MaritalStatus %>% fct_relevel("Single", 
+                                                           "Married", 
+                                                           "Divorced")
+        )
+    
+    return(data_merged_tbl)
+    
+}
+process_hr_data_readable(employee_attrition_tbl, definitions_raw_tbl) %>% 
+  glimpse()
+```
+
+```{r}
+library(tidyverse)
+library(rsample)
+library(recipes)
+
+employee_attrition_tbl          <- read_csv("datasets-1067-1925-WA_Fn-UseC_-HR-Employee-Attrition.csv")
+definitions_raw_tbl             <- read_excel("data_definitions.xlsx", sheet = 1, col_names = FALSE)
+employee_attrition_readable_tbl <- process_hr_data_readable(employee_attrition_tbl, definitions_raw_tbl)
+set.seed(seed = 1113)
+split_obj                       <- rsample::initial_split(employee_attrition_readable_tbl, prop = 0.85)
+train_readable_tbl              <- training(split_obj)
+test_readable_tbl               <- testing(split_obj)
+
+recipe_obj <- recipe(Attrition ~., data = train_readable_tbl) %>% 
+    step_zv(all_predictors()) %>% 
+    step_mutate_at(JobLevel, StockOptionLevel, fn = as.factor) %>% 
+    prep()
+
+train_tbl <- bake(recipe_obj, new_data = train_readable_tbl)
+test_tbl  <- bake(recipe_obj, new_data = test_readable_tbl)
+
+# Modeling
+h2o.init()
+
+# Split data into a training and a validation data frame
+# Setting the seed is just for reproducability
+split_h2o <- h2o.splitFrame(as.h2o(train_tbl), ratios = c(0.85), seed = 1234)
+train_h2o <- split_h2o[[1]]
+valid_h2o <- split_h2o[[2]]
+test_h2o  <- as.h2o(test_tbl)
+
+# Set the target and predictors
+y <- "Attrition"
+x <- setdiff(names(train_h2o), y)
+
+# ?h2o.automl
+
+automl_models_h2o <- h2o.automl(
+  x = x,
+  y = y,
+  training_frame    = train_h2o,
+  validation_frame  = valid_h2o,
+  leaderboard_frame = test_h2o,
+  max_runtime_secs  = 30,
+  nfolds            = 5 
+)
+```
+
+```{r}
+typeof(automl_models_h2o)
+slotNames(automl_models_h2o)
+automl_models_h2o@leaderboard
+automl_models_h2o@leader
+
+# Depending on the algorithm, the output will be different
+h2o.getModel("StackedEnsemble_AllModels_4_AutoML_1_20230520_153140")
+
+# Extracts and H2O model name by a position so can more easily use h2o.getModel()
+extract_h2o_model_name_by_position <- function(h2o_leaderboard, n = 1, verbose = T) {
+    
+    model_name <- h2o_leaderboard %>%
+        as.tibble() %>%
+        slice(n) %>%
+        pull(model_id)
+    
+    if (verbose) message(model_name)
+    
+    return(model_name)
+    
+}
+
+automl_models_h2o@leaderboard %>% 
+  extract_h2o_model_name_by_position(6) %>% 
+  h2o.getModel()
+
+#h2o.getModel("StackedEnsemble_AllModels_4_AutoML_1_20230520_153140") %>% 
+#  h2o.saveModel(path = "04_Modeling/h20_models/")
+
+h2o.loadModel("04_Modeling/h20_models/StackedEnsemble_AllModels_4_AutoML_1_20230520_153140")
+
+# Choose whatever model you want
+stacked_ensemble_h2o <- h2o.loadModel("04_Modeling/h20_models/StackedEnsemble_AllModels_4_AutoML_1_20230520_153140")
+stacked_ensemble_h2o
+
+predictions <- h2o.predict(stacked_ensemble_h2o, newdata = as.h2o(test_tbl))
+
+typeof(predictions)
+## [1] "environment"
+
+predictions_tbl <- predictions %>% as_tibble()
+
+deep_learning_h2o <- h2o.loadModel("04_Modeling/h20_models/StackedEnsemble_AllModels_4_AutoML_1_20230520_153140")
+
+# To see all possible parameters
+#?h2o.deeplearning
+
+# to get all paramteres
+deep_learning_h2o@allparameters
+```
+
+
+# Challenge (Part II)
+```{r}
+#1. Load the training & test dataset
+employee_attrition_tbl          <- read_csv("product_backorders.csv")
+set.seed(seed = 1113)
+split_obj                       <- rsample::initial_split(employee_attrition_tbl, prop = 0.85)
+train_readable_tbl              <- training(split_obj)
+test_readable_tbl               <- testing(split_obj)
+
+#2. Specifiy the response and predictor variables
+recipe_obj <- recipe(went_on_backorder ~., data = train_readable_tbl) %>% 
+    step_zv(all_predictors()) %>% 
+    #step_mutate_at(JobLevel, StockOptionLevel, fn = as.factor) %>% 
+    prep()
+
+train_tbl <- bake(recipe_obj, new_data = train_readable_tbl)
+test_tbl  <- bake(recipe_obj, new_data = test_readable_tbl)
+
+# Modeling
+h2o.init()
+
+# Split data into a training and a validation data frame
+# Setting the seed is just for reproducability
+split_h2o <- h2o.splitFrame(as.h2o(train_tbl), ratios = c(0.85), seed = 1234)
+train_h2o <- split_h2o[[1]]
+valid_h2o <- split_h2o[[2]]
+test_h2o  <- as.h2o(test_tbl)
+
+# Set the target and predictors
+y <- "went_on_backorder"
+x <- setdiff(names(train_h2o), y)
+
+#3. Run AutoML specifying the stopping criterion
+automl_models_h2o <- h2o.automl(
+  x = x,
+  y = y,
+  training_frame    = train_h2o,
+  validation_frame  = valid_h2o,
+  leaderboard_frame = test_h2o,
+  max_runtime_secs  = 30,
+  nfolds            = 5 
+) 
+
+#4. View the leaderboard
+automl_models_h2o@leaderboard
+
+# Extracts and H2O model name by a position so can more easily use h2o.getModel()
+extract_h2o_model_name_by_position <- function(h2o_leaderboard, n = 1, verbose = T) {
+    
+    model_name <- h2o_leaderboard %>%
+        as.tibble() %>%
+        slice(n) %>%
+        pull(model_id)
+    
+    if (verbose) message(model_name)
+    
+    return(model_name)
+    
+}
+
+#Retrieve leader model
+leader_model <- automl_models_h2o@leaderboard %>% 
+  extract_h2o_model_name_by_position() %>%
+  h2o.getModel()
+
+#5. Predicting using Leader Model
+predictions <- h2o.predict(leader_model, newdata = as.h2o(test_tbl))
+
+#6. Save the leader model
+leader_model %>% h2o.saveModel(path = "04_Modeling/h20_models/")
+```
