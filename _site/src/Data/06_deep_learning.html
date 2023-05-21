@@ -860,24 +860,25 @@ $ Churn            &lt;chr&gt; "No", "No", "Yes", "No", "Yes", "Yes", "No", "No"
 <section id="preprocess-data" class="level2">
 <h2 class="anchored" data-anchor-id="preprocess-data">Preprocess data</h2>
 <p>Since there is no column named “Target” i left that statement commented out.</p>
-<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-8_2883e94f2a78ee40bd4ea2ab83ec0b1e">
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>churn_data_tbl <span class="ot">&lt;-</span> churn_data_raw <span class="sc">%&gt;%</span></span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span>customerID) <span class="sc">%&gt;%</span></span>
-<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">drop_na</span>(TotalCharges) <span class="sc">%&gt;%</span></span>
-<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(tenure,<span class="fu">everything</span>())</span>
-<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Split test/training sets</span></span>
-<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
-<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>split_obj <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">initial_split</span>(churn_data_tbl, <span class="at">prop   =</span> <span class="fl">0.80</span>)</span>
-<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>train_tbl <span class="ot">&lt;-</span> <span class="fu">training</span>(split_obj)</span>
-<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>test_tbl  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_obj)</span>
-<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a>churn_data_tbl <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> tenure)) <span class="sc">+</span> </span>
-<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>, <span class="at">fill =</span>  <span class="st">"#2DC6D6"</span>) <span class="sc">+</span></span>
-<span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">labs</span>(</span>
-<span id="cb79-15"><a href="#cb79-15" aria-hidden="true" tabindex="-1"></a>                       <span class="at">title =</span> <span class="st">"Tenure Counts Without Binning"</span>,</span>
-<span id="cb79-16"><a href="#cb79-16" aria-hidden="true" tabindex="-1"></a>                       <span class="at">x     =</span> <span class="st">"tenure (month)"</span></span>
-<span id="cb79-17"><a href="#cb79-17" aria-hidden="true" tabindex="-1"></a>                       )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-8_19ac52bad822fd9b287e2253d78bd624">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prune the data</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>churn_data_tbl <span class="ot">&lt;-</span> churn_data_raw <span class="sc">%&gt;%</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(<span class="sc">-</span>customerID) <span class="sc">%&gt;%</span> <span class="co"># Remove customerId column</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">drop_na</span>(TotalCharges) <span class="sc">%&gt;%</span> <span class="co"># Drop Not a number from Total Charges</span></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">select</span>(Churn,<span class="fu">everything</span>())</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Split test/training sets</span></span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>split_obj <span class="ot">&lt;-</span> rsample<span class="sc">::</span><span class="fu">initial_split</span>(churn_data_tbl, <span class="at">prop   =</span> <span class="fl">0.80</span>)</span>
+<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>train_tbl <span class="ot">&lt;-</span> <span class="fu">training</span>(split_obj)</span>
+<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a>test_tbl  <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_obj)</span>
+<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a>churn_data_tbl <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> tenure)) <span class="sc">+</span> </span>
+<span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">0.5</span>, <span class="at">fill =</span>  <span class="st">"#2DC6D6"</span>) <span class="sc">+</span></span>
+<span id="cb79-15"><a href="#cb79-15" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">labs</span>(</span>
+<span id="cb79-16"><a href="#cb79-16" aria-hidden="true" tabindex="-1"></a>                       <span class="at">title =</span> <span class="st">"Tenure Counts Without Binning"</span>,</span>
+<span id="cb79-17"><a href="#cb79-17" aria-hidden="true" tabindex="-1"></a>                       <span class="at">x     =</span> <span class="st">"tenure (month)"</span></span>
+<span id="cb79-18"><a href="#cb79-18" aria-hidden="true" tabindex="-1"></a>                       )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -948,7 +949,7 @@ $ Churn            &lt;chr&gt; "No", "No", "Yes", "No", "Yes", "Yes", "No", "No"
 </section>
 <section id="section" class="level2">
 <h2 class="anchored" data-anchor-id="section"></h2>
-<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-10_9219b579b86a09715083a65d945653ed">
+<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-10_fa6760583ac4bced705c2e73159632b0">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>rec_obj <span class="ot">&lt;-</span> <span class="fu">recipe</span>(Churn <span class="sc">~</span> ., <span class="at">data =</span> train_tbl) <span class="sc">%&gt;%</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">step_rm</span>(Churn) <span class="sc">%&gt;%</span> </span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">step_discretize</span>(tenure, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">cuts =</span> <span class="dv">6</span>)) <span class="sc">%&gt;%</span></span>
@@ -963,13 +964,13 @@ $ Churn            &lt;chr&gt; "No", "No", "Yes", "No", "Yes", "Yes", "No", "No"
 <span id="cb85-12"><a href="#cb85-12" aria-hidden="true" tabindex="-1"></a>x_test_tbl  <span class="ot">&lt;-</span> <span class="fu">bake</span>( rec_obj , test_tbl )</span>
 <span id="cb85-13"><a href="#cb85-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb85-14"><a href="#cb85-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Response variables for training and testing sets</span></span>
-<span id="cb85-15"><a href="#cb85-15" aria-hidden="true" tabindex="-1"></a>y_train_vec <span class="ot">&lt;-</span> <span class="fu">ifelse</span>( ,, )</span>
-<span id="cb85-16"><a href="#cb85-16" aria-hidden="true" tabindex="-1"></a>y_test_vec  <span class="ot">&lt;-</span> <span class="fu">ifelse</span>( ,, )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb85-15"><a href="#cb85-15" aria-hidden="true" tabindex="-1"></a>y_train_vec <span class="ot">&lt;-</span> <span class="fu">ifelse</span>( train_tbl<span class="sc">$</span>Churn <span class="sc">==</span> <span class="st">"Yes"</span>,<span class="dv">1</span>,<span class="dv">0</span> )</span>
+<span id="cb85-16"><a href="#cb85-16" aria-hidden="true" tabindex="-1"></a>y_test_vec  <span class="ot">&lt;-</span> <span class="fu">ifelse</span>( test_tbl<span class="sc">$</span>Churn <span class="sc">==</span> <span class="st">"Yes"</span>,<span class="dv">1</span>,<span class="dv">0</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="build-keras-model" class="level2">
 <h2 class="anchored" data-anchor-id="build-keras-model">Build keras model</h2>
-<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-11_5a40265d1e755c8cc4fc1c83cb5b8493">
+<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-11_d02c8fc0be7570ac87576205dce11e1f">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Building our Artificial Neural Network</span></span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>model_keras <span class="ot">&lt;-</span> <span class="fu">keras_model_sequential</span>()</span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1000,140 +1001,487 @@ $ Churn            &lt;chr&gt; "No", "No", "Yes", "No", "Yes", "Yes", "No", "No"
 <span id="cb86-28"><a href="#cb86-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">loss      =</span> <span class="st">'binary_crossentropy'</span>,</span>
 <span id="cb86-29"><a href="#cb86-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">metrics   =</span> <span class="fu">c</span>(<span class="st">'accuracy'</span>)</span>
 <span id="cb86-30"><a href="#cb86-30" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb86-31"><a href="#cb86-31" aria-hidden="true" tabindex="-1"></a>model_keras</span>
-<span id="cb86-32"><a href="#cb86-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb86-33"><a href="#cb86-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the keras model to the training data</span></span>
-<span id="cb86-34"><a href="#cb86-34" aria-hidden="true" tabindex="-1"></a>fit_keras <span class="ot">&lt;-</span> <span class="fu">fit</span>(</span>
-<span id="cb86-35"><a href="#cb86-35" aria-hidden="true" tabindex="-1"></a>    model_keras,</span>
-<span id="cb86-36"><a href="#cb86-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">batch_size       =</span> <span class="dv">50</span> , </span>
-<span id="cb86-37"><a href="#cb86-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">epochs           =</span> <span class="dv">35</span> , </span>
-<span id="cb86-38"><a href="#cb86-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">validation_split =</span> <span class="fl">0.3</span></span>
-<span id="cb86-39"><a href="#cb86-39" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb86-40"><a href="#cb86-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb86-41"><a href="#cb86-41" aria-hidden="true" tabindex="-1"></a>fit_keras</span>
-<span id="cb86-42"><a href="#cb86-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb86-43"><a href="#cb86-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the training/validation history of our Keras model</span></span>
-<span id="cb86-44"><a href="#cb86-44" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_keras) <span class="sc">+</span></span>
-<span id="cb86-45"><a href="#cb86-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Deep Learning Training Results"</span>) <span class="sc">+</span></span>
-<span id="cb86-46"><a href="#cb86-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position  =</span> <span class="st">"bottom"</span>, </span>
-<span id="cb86-47"><a href="#cb86-47" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.placement  =</span> <span class="st">"inside"</span>,</span>
-<span id="cb86-48"><a href="#cb86-48" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#grey"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb86-31"><a href="#cb86-31" aria-hidden="true" tabindex="-1"></a>model_keras</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model: "sequential"
+________________________________________________________________________________
+ Layer (type)                       Output Shape                    Param #     
+================================================================================
+ dense_2 (Dense)                    (None, 16)                      816         
+ dropout_1 (Dropout)                (None, 16)                      0           
+ dense_1 (Dense)                    (None, 16)                      272         
+ dropout (Dropout)                  (None, 16)                      0           
+ dense (Dense)                      (None, 1)                       17          
+================================================================================
+Total params: 1,105
+Trainable params: 1,105
+Non-trainable params: 0
+________________________________________________________________________________</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>x_train_mtx <span class="ot">=</span> <span class="fu">as.matrix</span>(x_train_tbl)</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>y_train_mtx <span class="ot">=</span> <span class="fu">as.matrix</span>(y_train_vec)</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>x_test_mtx <span class="ot">=</span> <span class="fu">as.matrix</span>(x_test_tbl)</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>y_test_mtx <span class="ot">=</span> <span class="fu">as.matrix</span>(y_test_vec)</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the keras model to the training data</span></span>
+<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a>fit_keras <span class="ot">&lt;-</span> <span class="fu">fit</span>(</span>
+<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a>    model_keras,</span>
+<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">batch_size       =</span> <span class="dv">50</span> , </span>
+<span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">epochs           =</span> <span class="dv">35</span> , </span>
+<span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">validation_split =</span> <span class="fl">0.3</span>,</span>
+<span id="cb88-12"><a href="#cb88-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> x_train_mtx,</span>
+<span id="cb88-13"><a href="#cb88-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> y_train_mtx,</span>
+<span id="cb88-14"><a href="#cb88-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">validation_data =</span> <span class="fu">list</span>(x_test_mtx,y_test_mtx)</span>
+<span id="cb88-15"><a href="#cb88-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb88-16"><a href="#cb88-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-17"><a href="#cb88-17" aria-hidden="true" tabindex="-1"></a>fit_keras</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Final epoch (plot to see history):
+        loss: 0.3941
+    accuracy: 0.819
+    val_loss: 0.4285
+val_accuracy: 0.7903 </code></pre>
+</div>
 </div>
 </section>
 <section id="predictions" class="level2">
 <h2 class="anchored" data-anchor-id="predictions">Predictions</h2>
-<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-12_fcc40641e9c200d66a0726a37674f72b">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted Class</span></span>
-<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>yhat_keras_class_vec <span class="ot">&lt;-</span> <span class="fu">predict_classes</span>(<span class="at">object =</span> model_keras, <span class="at">x =</span> <span class="fu">as.matrix</span>(x_test_tbl)) <span class="sc">%&gt;%</span></span>
-<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.vector</span>()</span>
-<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted Class Probability</span></span>
-<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>yhat_keras_prob_vec  <span class="ot">&lt;-</span> <span class="fu">predict_proba</span>(<span class="at">object =</span> model_keras, <span class="at">x =</span> <span class="fu">as.matrix</span>(x_test_tbl)) <span class="sc">%&gt;%</span></span>
-<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.vector</span>()</span>
-<span id="cb87-8"><a href="#cb87-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-9"><a href="#cb87-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Format test data and predictions for yardstick metrics</span></span>
-<span id="cb87-10"><a href="#cb87-10" aria-hidden="true" tabindex="-1"></a>estimates_keras_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb87-11"><a href="#cb87-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth      =</span> <span class="fu">as.factor</span>(y_test_vec) <span class="sc">%&gt;%</span> <span class="fu">fct_recode</span>(<span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>),</span>
-<span id="cb87-12"><a href="#cb87-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate   =</span> <span class="fu">as.factor</span>(yhat_keras_class_vec) <span class="sc">%&gt;%</span> <span class="fu">fct_recode</span>(<span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>),</span>
-<span id="cb87-13"><a href="#cb87-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">class_prob =</span> yhat_keras_prob_vec</span>
-<span id="cb87-14"><a href="#cb87-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb87-15"><a href="#cb87-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-16"><a href="#cb87-16" aria-hidden="true" tabindex="-1"></a>estimates_keras_tbl</span>
-<span id="cb87-17"><a href="#cb87-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-18"><a href="#cb87-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion matrix</span></span>
-<span id="cb87-19"><a href="#cb87-19" aria-hidden="true" tabindex="-1"></a>estimates_keras_tbl <span class="sc">%&gt;%</span> conf_mat</span>
-<span id="cb87-20"><a href="#cb87-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-21"><a href="#cb87-21" aria-hidden="true" tabindex="-1"></a><span class="co"># AUC</span></span>
-<span id="cb87-22"><a href="#cb87-22" aria-hidden="true" tabindex="-1"></a>estimates_keras_tbl <span class="sc">%&gt;%</span> <span class="fu">roc_auc</span>(<span class="at">event_level=</span><span class="st">"second"</span>)</span>
-<span id="cb87-23"><a href="#cb87-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-24"><a href="#cb87-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Precision</span></span>
-<span id="cb87-25"><a href="#cb87-25" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
-<span id="cb87-26"><a href="#cb87-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">precision =</span> estimates_keras_tbl <span class="sc">%&gt;%</span> <span class="fu">precision</span>(),</span>
-<span id="cb87-27"><a href="#cb87-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">recall    =</span> estimates_keras_tbl <span class="sc">%&gt;%</span> <span class="fu">recall</span>()</span>
-<span id="cb87-28"><a href="#cb87-28" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb87-29"><a href="#cb87-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-30"><a href="#cb87-30" aria-hidden="true" tabindex="-1"></a><span class="co"># F1-Statistic</span></span>
-<span id="cb87-31"><a href="#cb87-31" aria-hidden="true" tabindex="-1"></a>estimates_keras_tbl <span class="sc">%&gt;%</span> <span class="fu">f_meas</span>(truth, estimate, <span class="at">beta =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-12_ecaec3a1f6b62e538839f53ec3d80cb2">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted Class</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>yhat_keras_class_vec <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="at">object =</span> model_keras, <span class="at">x =</span> <span class="fu">as.matrix</span>(x_test_tbl)) <span class="sc">%&gt;%</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.vector</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>()</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicted Class Probability</span></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>yhat_keras_prob_vec  <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="at">object =</span> model_keras, <span class="at">x =</span> <span class="fu">as.matrix</span>(x_test_tbl)) <span class="sc">%&gt;%</span></span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.vector</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">round</span>()</span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Format test data and predictions for yardstick metrics</span></span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>estimates_keras_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">truth      =</span> <span class="fu">as.factor</span>(y_test_vec) <span class="sc">%&gt;%</span> <span class="fu">fct_recode</span>(<span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>),</span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate   =</span> <span class="fu">as.factor</span>(yhat_keras_class_vec) <span class="sc">%&gt;%</span> <span class="fu">fct_recode</span>(<span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>),</span>
+<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">class_prob =</span> yhat_keras_prob_vec</span>
+<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb90-17"><a href="#cb90-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-18"><a href="#cb90-18" aria-hidden="true" tabindex="-1"></a>estimates_keras_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,407 x 3
+   truth estimate class_prob
+   &lt;fct&gt; &lt;fct&gt;         &lt;dbl&gt;
+ 1 yes   no                0
+ 2 no    no                0
+ 3 no    no                0
+ 4 no    no                0
+ 5 no    no                0
+ 6 no    no                0
+ 7 no    no                0
+ 8 no    no                0
+ 9 no    no                0
+10 yes   yes               1
+# i 1,397 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion matrix</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>confusion_matrix <span class="ot">&lt;-</span> estimates_keras_tbl <span class="sc">%&gt;%</span> <span class="fu">conf_mat</span>(truth,estimate)</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>confusion_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Truth
+Prediction  no yes
+       no  926 174
+       yes 121 186</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Accuracy</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>acc <span class="ot">&lt;-</span> estimates_keras_tbl <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(truth,estimate)</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>acc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.790</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># AUC</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>auc <span class="ot">&lt;-</span> estimates_keras_tbl <span class="sc">%&gt;%</span> <span class="fu">roc_auc</span>(truth,class_prob,<span class="at">event_level=</span><span class="st">"second"</span>)</span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>auc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 roc_auc binary         0.701</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Precision</span></span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">precision =</span> estimates_keras_tbl <span class="sc">%&gt;%</span> <span class="fu">precision</span>(truth,estimate),</span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">recall    =</span> estimates_keras_tbl <span class="sc">%&gt;%</span> <span class="fu">recall</span>(truth,estimate)</span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 2
+  precision$.metric $.estimator $.estimate recall$.metric $.estimator $.estimate
+  &lt;chr&gt;             &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;            &lt;dbl&gt;
+1 precision         binary           0.842 recall         binary           0.884</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># F1-Statistic</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>estimates_keras_tbl <span class="sc">%&gt;%</span> <span class="fu">f_meas</span>(truth, estimate, <span class="at">beta =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 f_meas  binary         0.863</code></pre>
+</div>
 </div>
 </section>
 <section id="lime" class="level2">
 <h2 class="anchored" data-anchor-id="lime">Lime</h2>
-<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-13_53da3c594b0816363c9f8713921560f7">
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(model_keras)</span>
-<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup lime::model_type() function for keras</span></span>
-<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>model_type.keras.engine.sequential.Sequential  <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
-<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"classification"</span>)</span>
-<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup lime::predict_model() function for keras</span></span>
-<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a>predict_model.keras.engine.sequential.Sequential <span class="ot">&lt;-</span> <span class="cf">function</span>(x, newdata, type, ...) {</span>
-<span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> <span class="fu">predict_proba</span>(<span class="at">object =</span> x, <span class="at">x =</span> <span class="fu">as.matrix</span>(newdata))</span>
-<span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">Yes =</span> pred, <span class="at">No =</span> <span class="dv">1</span> <span class="sc">-</span> pred))</span>
-<span id="cb88-12"><a href="#cb88-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb88-13"><a href="#cb88-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-14"><a href="#cb88-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lime)</span>
-<span id="cb88-15"><a href="#cb88-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Test our predict_model() function</span></span>
-<span id="cb88-16"><a href="#cb88-16" aria-hidden="true" tabindex="-1"></a><span class="fu">predict_model</span>(<span class="at">x =</span> model_keras, <span class="at">newdata =</span> x_test_tbl, <span class="at">type =</span> <span class="st">'raw'</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb88-17"><a href="#cb88-17" aria-hidden="true" tabindex="-1"></a>    tibble<span class="sc">::</span><span class="fu">as_tibble</span>()</span>
-<span id="cb88-18"><a href="#cb88-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-19"><a href="#cb88-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Run lime() on training set</span></span>
-<span id="cb88-20"><a href="#cb88-20" aria-hidden="true" tabindex="-1"></a>explainer <span class="ot">&lt;-</span> lime<span class="sc">::</span><span class="fu">lime</span>(</span>
-<span id="cb88-21"><a href="#cb88-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">...            =</span> ..., </span>
-<span id="cb88-22"><a href="#cb88-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">...            =</span> ... , </span>
-<span id="cb88-23"><a href="#cb88-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">bin_continuous =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb88-24"><a href="#cb88-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb88-25"><a href="#cb88-25" aria-hidden="true" tabindex="-1"></a>explanation <span class="ot">&lt;-</span> lime<span class="sc">::</span><span class="fu">explain</span>(</span>
-<span id="cb88-26"><a href="#cb88-26" aria-hidden="true" tabindex="-1"></a>    x_test_tbl[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,], </span>
-<span id="cb88-27"><a href="#cb88-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">...    =</span> ..., </span>
-<span id="cb88-28"><a href="#cb88-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">...    =</span> ..., </span>
-<span id="cb88-29"><a href="#cb88-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">...    =</span> ...,</span>
-<span id="cb88-30"><a href="#cb88-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">...    =</span> ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-13_c483031aa2330bf88b8ffddae0d81b5f">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(model_keras)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "keras.engine.sequential.Sequential"                     
+ [2] "keras.engine.functional.Functional"                     
+ [3] "keras.engine.training.Model"                            
+ [4] "keras.engine.base_layer.Layer"                          
+ [5] "tensorflow.python.module.module.Module"                 
+ [6] "tensorflow.python.trackable.autotrackable.AutoTrackable"
+ [7] "tensorflow.python.trackable.base.Trackable"             
+ [8] "keras.utils.version_utils.LayerVersionSelector"         
+ [9] "keras.utils.version_utils.ModelVersionSelector"         
+[10] "python.builtin.object"                                  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup lime::model_type() function for keras</span></span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>model_type.keras.engine.sequential.Sequential  <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"classification"</span>)</span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-6"><a href="#cb104-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup lime::predict_model() function for keras</span></span>
+<span id="cb104-7"><a href="#cb104-7" aria-hidden="true" tabindex="-1"></a>predict_model.keras.engine.sequential.Sequential <span class="ot">&lt;-</span> <span class="cf">function</span>(x, newdata, type, ...) {</span>
+<span id="cb104-8"><a href="#cb104-8" aria-hidden="true" tabindex="-1"></a>    pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="at">object =</span> x, <span class="at">x =</span> <span class="fu">as.matrix</span>(newdata))</span>
+<span id="cb104-9"><a href="#cb104-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">Yes =</span> pred, <span class="at">No =</span> <span class="dv">1</span> <span class="sc">-</span> pred))</span>
+<span id="cb104-10"><a href="#cb104-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb104-11"><a href="#cb104-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-12"><a href="#cb104-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lime)</span>
+<span id="cb104-13"><a href="#cb104-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Test our predict_model() function</span></span>
+<span id="cb104-14"><a href="#cb104-14" aria-hidden="true" tabindex="-1"></a><span class="fu">predict_model</span>(<span class="at">x =</span> model_keras, <span class="at">newdata =</span> x_test_tbl, <span class="at">type =</span> <span class="st">'raw'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb104-15"><a href="#cb104-15" aria-hidden="true" tabindex="-1"></a>    tibble<span class="sc">::</span><span class="fu">as_tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,407 x 2
+      Yes    No
+    &lt;dbl&gt; &lt;dbl&gt;
+ 1 0.275  0.725
+ 2 0.142  0.858
+ 3 0.142  0.858
+ 4 0.287  0.713
+ 5 0.0206 0.979
+ 6 0.0268 0.973
+ 7 0.0123 0.988
+ 8 0.325  0.675
+ 9 0.403  0.597
+10 0.771  0.229
+# i 1,397 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run lime() on training set</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>explainer <span class="ot">&lt;-</span> lime<span class="sc">::</span><span class="fu">lime</span>(</span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x            =</span> x_train_tbl, </span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">model            =</span> model_keras,</span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">bin_continuous =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: SeniorCitizen does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: gender_Female does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: gender_Male does not contain enough variance to use quantile binning.
+Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Partner_No does not contain enough variance to use quantile binning.
+Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Partner_Yes does not contain enough variance to use quantile binning.
+Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Dependents_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Dependents_Yes does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: tenure_bin1 does not contain enough variance to use quantile binning.
+Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: tenure_bin2 does not contain enough variance to use quantile binning.
+Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: tenure_bin3 does not contain enough variance to use quantile binning.
+Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: tenure_bin4 does not contain enough variance to use quantile binning.
+Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: tenure_bin5 does not contain enough variance to use quantile binning.
+Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: tenure_bin6 does not contain enough variance to use quantile binning.
+Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: PhoneService_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: PhoneService_Yes does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: MultipleLines_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: MultipleLines_No.phone.service does not contain enough variance to use
+quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: MultipleLines_Yes does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: InternetService_DSL does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: InternetService_Fiber.optic does not contain enough variance to use
+quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: InternetService_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: OnlineSecurity_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: OnlineSecurity_No.internet.service does not contain enough variance to
+use quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: OnlineSecurity_Yes does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: OnlineBackup_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: OnlineBackup_No.internet.service does not contain enough variance to
+use quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: OnlineBackup_Yes does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: DeviceProtection_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: DeviceProtection_No.internet.service does not contain enough variance
+to use quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: DeviceProtection_Yes does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: TechSupport_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: TechSupport_No.internet.service does not contain enough variance to
+use quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: TechSupport_Yes does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: StreamingTV_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: StreamingTV_No.internet.service does not contain enough variance to
+use quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: StreamingTV_Yes does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: StreamingMovies_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: StreamingMovies_No.internet.service does not contain enough variance
+to use quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: StreamingMovies_Yes does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Contract_Month.to.month does not contain enough variance to use
+quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Contract_One.year does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Contract_Two.year does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: PaperlessBilling_No does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: PaperlessBilling_Yes does not contain enough variance to use quantile
+binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: PaymentMethod_Bank.transfer..automatic. does not contain enough
+variance to use quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: PaymentMethod_Credit.card..automatic. does not contain enough variance
+to use quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: PaymentMethod_Electronic.check does not contain enough variance to use
+quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: PaymentMethod_Mailed.check does not contain enough variance to use
+quantile binning. Using standard binning instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>explanation <span class="ot">&lt;-</span> lime<span class="sc">::</span><span class="fu">explain</span>(</span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> x_test_tbl[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,], </span>
+<span id="cb155-3"><a href="#cb155-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">explainer    =</span> explainer, </span>
+<span id="cb155-4"><a href="#cb155-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_labels     =</span> <span class="dv">2</span>, </span>
+<span id="cb155-5"><a href="#cb155-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_features   =</span> <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plot" class="level2">
+<h2 class="anchored" data-anchor-id="plot">Plot</h2>
+<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-14_7d21a10a029309c6af7822021921ea9f">
+<div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_features</span>(explanation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="06_deep_learning_files/figure-html/unnamed-chunk-14-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="06_deep_learning_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_explanations</span>(explanation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="06_deep_learning_files/figure-html/unnamed-chunk-14-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="06_deep_learning_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
 <section id="correlation-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="correlation-analysis">Correlation analysis</h2>
-<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-14_224f2a0ca514c7fd252996beb02d2fd0">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Feature correlations to Churn</span></span>
-<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>corrr_analysis <span class="ot">&lt;-</span> x_train_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Churn =</span> y_train_vec) <span class="sc">%&gt;%</span></span>
-<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">correlate</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">focus</span>(Churn) <span class="sc">%&gt;%</span></span>
-<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">feature =</span> rowname) <span class="sc">%&gt;%</span></span>
-<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">abs</span>(Churn)) <span class="sc">%&gt;%</span></span>
-<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">feature =</span> <span class="fu">as_factor</span>(feature)) </span>
-<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a>corrr_analysis</span>
-<span id="cb89-10"><a href="#cb89-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-11"><a href="#cb89-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation visualization</span></span>
-<span id="cb89-12"><a href="#cb89-12" aria-hidden="true" tabindex="-1"></a>corrr_analysis <span class="sc">%&gt;%</span></span>
-<span id="cb89-13"><a href="#cb89-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ..., <span class="at">y =</span> <span class="fu">fct_reorder</span>(..., <span class="fu">desc</span>(...)))) <span class="sc">+</span></span>
-<span id="cb89-14"><a href="#cb89-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb89-15"><a href="#cb89-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb89-16"><a href="#cb89-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Positive Correlations - Contribute to churn</span></span>
-<span id="cb89-17"><a href="#cb89-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> ..., <span class="at">yend =</span> ...), </span>
-<span id="cb89-18"><a href="#cb89-18" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"red"</span>, </span>
-<span id="cb89-19"><a href="#cb89-19" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> corrr_analysis <span class="sc">%&gt;%</span> <span class="fu">filter</span>(... <span class="sc">&gt;</span> ...)) <span class="sc">+</span></span>
-<span id="cb89-20"><a href="#cb89-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"red"</span>, </span>
-<span id="cb89-21"><a href="#cb89-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> corrr_analysis <span class="sc">%&gt;%</span> <span class="fu">filter</span>(... <span class="sc">&gt;</span> ...)) <span class="sc">+</span></span>
-<span id="cb89-22"><a href="#cb89-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb89-23"><a href="#cb89-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Negative Correlations - Prevent churn</span></span>
-<span id="cb89-24"><a href="#cb89-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> <span class="dv">0</span>, <span class="at">yend =</span> feature), </span>
-<span id="cb89-25"><a href="#cb89-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"#2DC6D6"</span>, </span>
-<span id="cb89-26"><a href="#cb89-26" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> ... <span class="sc">+</span></span>
-<span id="cb89-27"><a href="#cb89-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#2DC6D6"</span>, </span>
-<span id="cb89-28"><a href="#cb89-28" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> ... <span class="sc">+</span></span>
-<span id="cb89-29"><a href="#cb89-29" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb89-30"><a href="#cb89-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Vertical lines</span></span>
-<span id="cb89-31"><a href="#cb89-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"#f1fa8c"</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb89-32"><a href="#cb89-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>( ... ) <span class="sc">+</span></span>
-<span id="cb89-33"><a href="#cb89-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>( ... ) <span class="sc">+</span></span>
-<span id="cb89-34"><a href="#cb89-34" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb89-35"><a href="#cb89-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Aesthetics</span></span>
-<span id="cb89-36"><a href="#cb89-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>( ... )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="feature-correlations-to-churn" class="level3">
+<h3 class="anchored" data-anchor-id="feature-correlations-to-churn">Feature correlations to Churn</h3>
+<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-15_2ea9657c829e45812ae7de3b013979d7">
+<div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a>corrr_analysis <span class="ot">&lt;-</span> x_train_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Churn =</span> y_train_vec) <span class="sc">%&gt;%</span></span>
+<span id="cb158-3"><a href="#cb158-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">correlate</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb158-4"><a href="#cb158-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">focus</span>(Churn) <span class="sc">%&gt;%</span></span>
+<span id="cb158-5"><a href="#cb158-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">feature =</span> term) <span class="sc">%&gt;%</span> <span class="co"># Changed rowname to term</span></span>
+<span id="cb158-6"><a href="#cb158-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">abs</span>(Churn)) <span class="sc">%&gt;%</span></span>
+<span id="cb158-7"><a href="#cb158-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">feature =</span> <span class="fu">as_factor</span>(feature)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Correlation computed with
+* Method: 'pearson'
+* Missing treated using: 'pairwise.complete.obs'</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb160"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a>corrr_analysis</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 50 x 2
+   feature                           Churn
+   &lt;fct&gt;                             &lt;dbl&gt;
+ 1 tenure_bin3                    -0.00179
+ 2 gender_Female                   0.00421
+ 3 gender_Male                    -0.00421
+ 4 PhoneService_No                -0.0111 
+ 5 PhoneService_Yes                0.0111 
+ 6 MultipleLines_No.phone.service -0.0111 
+ 7 MultipleLines_No               -0.0353 
+ 8 MultipleLines_Yes               0.0424 
+ 9 StreamingMovies_Yes             0.0518 
+10 StreamingTV_Yes                 0.0590 
+# i 40 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="correlation-visualization" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-visualization">Correlation visualization</h3>
+<div class="cell" data-hash="06_deep_learning_cache/html/unnamed-chunk-16_8f67d2137be0f0ecda9aad9115ce983d">
+<div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a>corrr_analysis <span class="sc">%&gt;%</span></span>
+<span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Churn, <span class="at">y =</span> <span class="fu">fct_reorder</span>(feature, <span class="fu">desc</span>(Churn)))) <span class="sc">+</span></span>
+<span id="cb162-3"><a href="#cb162-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb162-4"><a href="#cb162-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb162-5"><a href="#cb162-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Positive Correlations - Contribute to churn</span></span>
+<span id="cb162-6"><a href="#cb162-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> <span class="dv">0</span>, <span class="at">yend =</span> feature), </span>
+<span id="cb162-7"><a href="#cb162-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"red"</span>, </span>
+<span id="cb162-8"><a href="#cb162-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> corrr_analysis <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Churn <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb162-9"><a href="#cb162-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"red"</span>, </span>
+<span id="cb162-10"><a href="#cb162-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> corrr_analysis <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Churn <span class="sc">&gt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb162-11"><a href="#cb162-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb162-12"><a href="#cb162-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Negative Correlations - Prevent churn</span></span>
+<span id="cb162-13"><a href="#cb162-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> <span class="dv">0</span>, <span class="at">yend =</span> feature), </span>
+<span id="cb162-14"><a href="#cb162-14" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"#2DC6D6"</span>, </span>
+<span id="cb162-15"><a href="#cb162-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> corrr_analysis <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Churn <span class="sc">&lt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb162-16"><a href="#cb162-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#2DC6D6"</span>, </span>
+<span id="cb162-17"><a href="#cb162-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> corrr_analysis <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Churn <span class="sc">&lt;</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb162-18"><a href="#cb162-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb162-19"><a href="#cb162-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Vertical lines</span></span>
+<span id="cb162-20"><a href="#cb162-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"#f1fa8c"</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb162-21"><a href="#cb162-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">0.25</span>, <span class="at">color =</span> <span class="st">"#f1fa8c"</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb162-22"><a href="#cb162-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="fl">0.25</span>, <span class="at">color =</span> <span class="st">"#f1fa8c"</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb162-23"><a href="#cb162-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb162-24"><a href="#cb162-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Aesthetics</span></span>
+<span id="cb162-25"><a href="#cb162-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Churn"</span>, <span class="at">y =</span> <span class="st">"Feature Importance"</span>, <span class="at">title =</span> <span class="st">"Churn Correlation Analysis</span><span class="sc">\n</span><span class="st">Positive Correlations (contribute to churn), Negative Correlations (prevent Churn)"</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+i Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="06_deep_learning_files/figure-html/unnamed-chunk-16-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="06_deep_learning_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
 </div>
 <p>BDML fertig stellen Gucken, ob beide Webseiten online gehen Gucken, ob das Password für beide funktioniert Beide Formulare neu ausfüllen</p>
 
 
+</section>
 </section>
 </section>
 
@@ -1387,7 +1735,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":true,"openEffect":"zoom","descPosition":"bottom","closeEffect":"zoom"});</script>
+<script>var lightboxQuarto = GLightbox({"loop":true,"descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom","selector":".lightbox"});</script>
 
 
 

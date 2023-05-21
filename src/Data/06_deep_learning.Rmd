@@ -245,10 +245,11 @@ glimpse(churn_data_raw)
 ## Preprocess data
 | Since there is no column named "Target" i left that statement commented out.
 ```{r}
+# Prune the data
 churn_data_tbl <- churn_data_raw %>%
-                  select(-customerID) %>%
-                  drop_na(TotalCharges) %>%
-                  select(tenure,everything())
+                  select(-customerID) %>% # Remove customerId column
+                  drop_na(TotalCharges) %>% # Drop Not a number from Total Charges
+                  select(Churn,everything())
 
 # Split test/training sets
 set.seed(100)
@@ -301,7 +302,7 @@ churn_data_tbl %>%
 ```
 
 ## 
-```{r eval=FALSE}
+```{r}
 rec_obj <- recipe(Churn ~ ., data = train_tbl) %>%
     step_rm(Churn) %>% 
     step_discretize(tenure, options = list(cuts = 6)) %>%
@@ -316,11 +317,11 @@ x_train_tbl <- bake( rec_obj , train_tbl )
 x_test_tbl  <- bake( rec_obj , test_tbl )
 
 # Response variables for training and testing sets
-y_train_vec <- ifelse( ,, )
-y_test_vec  <- ifelse( ,, )
+y_train_vec <- ifelse( train_tbl$Churn == "Yes",1,0 )
+y_test_vec  <- ifelse( test_tbl$Churn == "Yes",1,0 )
 ```
 ## Build keras model
-```{r eval=FALSE}
+```{r}
 # Building our Artificial Neural Network
 model_keras <- keras_model_sequential()
 
@@ -353,32 +354,35 @@ model_keras %>%
     )
 model_keras
 
+x_train_mtx = as.matrix(x_train_tbl)
+y_train_mtx = as.matrix(y_train_vec)
+x_test_mtx = as.matrix(x_test_tbl)
+y_test_mtx = as.matrix(y_test_vec)
+
 # Fit the keras model to the training data
 fit_keras <- fit(
     model_keras,
     batch_size       = 50 , 
     epochs           = 35 , 
-    validation_split = 0.3
+    validation_split = 0.3,
+    x = x_train_mtx,
+    y = y_train_mtx,
+    validation_data = list(x_test_mtx,y_test_mtx)
     )
 
 fit_keras
-
-# Plot the training/validation history of our Keras model
-plot(fit_keras) +
-  labs(title = "Deep Learning Training Results") +
-  theme(legend.position  = "bottom", 
-        strip.placement  = "inside",
-        strip.background = element_rect(fill = "#grey"))
 ```
 ## Predictions
-```{r eval=FALSE}
+```{r}
 # Predicted Class
-yhat_keras_class_vec <- predict_classes(object = model_keras, x = as.matrix(x_test_tbl)) %>%
-    as.vector()
+yhat_keras_class_vec <- predict(object = model_keras, x = as.matrix(x_test_tbl)) %>%
+    as.vector() %>%
+    round()
 
 # Predicted Class Probability
-yhat_keras_prob_vec  <- predict_proba(object = model_keras, x = as.matrix(x_test_tbl)) %>%
-    as.vector()
+yhat_keras_prob_vec  <- predict(object = model_keras, x = as.matrix(x_test_tbl)) %>%
+    as.vector() %>%
+    round()
 
 # Format test data and predictions for yardstick metrics
 estimates_keras_tbl <- tibble(
@@ -390,22 +394,28 @@ estimates_keras_tbl <- tibble(
 estimates_keras_tbl
 
 # Confusion matrix
-estimates_keras_tbl %>% conf_mat
+confusion_matrix <- estimates_keras_tbl %>% conf_mat(truth,estimate)
+confusion_matrix
+
+# Accuracy
+acc <- estimates_keras_tbl %>% accuracy(truth,estimate)
+acc
 
 # AUC
-estimates_keras_tbl %>% roc_auc(event_level="second")
+auc <- estimates_keras_tbl %>% roc_auc(truth,class_prob,event_level="second")
+auc
 
 # Precision
 tibble(
-    precision = estimates_keras_tbl %>% precision(),
-    recall    = estimates_keras_tbl %>% recall()
+    precision = estimates_keras_tbl %>% precision(truth,estimate),
+    recall    = estimates_keras_tbl %>% recall(truth,estimate)
 )
 
 # F1-Statistic
 estimates_keras_tbl %>% f_meas(truth, estimate, beta = 1)
 ```
 ## Lime
-```{r eval=FALSE}
+```{r}
 class(model_keras)
 
 # Setup lime::model_type() function for keras
@@ -415,7 +425,7 @@ model_type.keras.engine.sequential.Sequential  <- function(x, ...) {
 
 # Setup lime::predict_model() function for keras
 predict_model.keras.engine.sequential.Sequential <- function(x, newdata, type, ...) {
-    pred <- predict_proba(object = x, x = as.matrix(newdata))
+    pred <- predict(object = x, x = as.matrix(newdata))
     return(data.frame(Yes = pred, No = 1 - pred))
 }
 
@@ -426,55 +436,60 @@ predict_model(x = model_keras, newdata = x_test_tbl, type = 'raw') %>%
 
 # Run lime() on training set
 explainer <- lime::lime(
-    ...            = ..., 
-    ...            = ... , 
+    x            = x_train_tbl, 
+    model            = model_keras,
     bin_continuous = FALSE)
 
 explanation <- lime::explain(
-    x_test_tbl[1:10,], 
-    ...    = ..., 
-    ...    = ..., 
-    ...    = ...,
-    ...    = ...)
+    x = x_test_tbl[1:10,], 
+    explainer    = explainer, 
+    n_labels     = 2, 
+    n_features   = 50)
+```
+## Plot
+```{r}
+plot_features(explanation)
+plot_explanations(explanation)
 ```
 ## Correlation analysis
-```{r eval=FALSE}
-# Feature correlations to Churn
+### Feature correlations to Churn
+```{r}
 corrr_analysis <- x_train_tbl %>%
     mutate(Churn = y_train_vec) %>%
     correlate() %>%
     focus(Churn) %>%
-    rename(feature = rowname) %>%
+    rename(feature = term) %>% # Changed rowname to term
     arrange(abs(Churn)) %>%
     mutate(feature = as_factor(feature)) 
 corrr_analysis
-
-# Correlation visualization
+```
+### Correlation visualization
+```{r}
 corrr_analysis %>%
-  ggplot(aes(x = ..., y = fct_reorder(..., desc(...)))) +
+  ggplot(aes(x = Churn, y = fct_reorder(feature, desc(Churn)))) +
   geom_point() +
   
   # Positive Correlations - Contribute to churn
-  geom_segment(aes(xend = ..., yend = ...), 
+  geom_segment(aes(xend = 0, yend = feature), 
                color = "red", 
-               data = corrr_analysis %>% filter(... > ...)) +
+               data = corrr_analysis %>% filter(Churn > 0)) +
   geom_point(color = "red", 
-             data = corrr_analysis %>% filter(... > ...)) +
+             data = corrr_analysis %>% filter(Churn > 0)) +
   
   # Negative Correlations - Prevent churn
   geom_segment(aes(xend = 0, yend = feature), 
                color = "#2DC6D6", 
-               data = ... +
+               data = corrr_analysis %>% filter(Churn < 0)) +
   geom_point(color = "#2DC6D6", 
-             data = ... +
+             data = corrr_analysis %>% filter(Churn < 0)) +
   
   # Vertical lines
   geom_vline(xintercept = 0, color = "#f1fa8c", size = 1, linetype = 2) +
-  geom_vline( ... ) +
-  geom_vline( ... ) +
+  geom_vline(xintercept = 0.25, color = "#f1fa8c", size = 0.5, linetype = 2) +
+  geom_vline(xintercept = -0.25, color = "#f1fa8c", size = 0.5, linetype = 2) +
   
   # Aesthetics
-  labs( ... )
+  labs(x = "Churn", y = "Feature Importance", title = "Churn Correlation Analysis\nPositive Correlations (contribute to churn), Negative Correlations (prevent Churn)",)
 ```
 
 
